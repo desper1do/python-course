@@ -1,0 +1,72 @@
+:root { --bg:#0f1117; --panel:#161a23; --panel2:#1d222e; --line:#2c3344; --text:#e8ebf2; --muted:#b4bdd0; --accent:#8b7cff; --ok:#3ddc97; --err:#ff6b6b; --warn:#ffcc66; --ui:20px; --theory:22px; --code:24px }
+* { box-sizing: border-box }
+html, body, #root { height: 100%; margin: 0 }
+body { background: var(--bg); color: var(--text); font: 400 var(--ui)/1.6 Inter, system-ui, sans-serif }
+a { color: inherit; text-decoration: none }
+.app { height: 100%; display: flex; flex-direction: column }
+.top { display: flex; align-items: center; gap: 10px; padding: 8px 20px; background: var(--panel); border-bottom: 1px solid var(--line) }
+.brand { font-weight: 700; font-size: 1.1em }
+.spacer { flex: 1 }
+main { flex: 1; min-height: 0 }
+.pad { padding: 20px }
+.muted { color: var(--muted) }
+.btn { display: inline-flex; align-items: center; gap: 8px; background: var(--panel2); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 8px 16px; font: 600 var(--ui) Inter, sans-serif; cursor: pointer }
+.btn:hover:not(:disabled) { border-color: var(--accent) }
+.btn:focus-visible { outline: 3px solid var(--accent) }
+.btn:disabled { opacity: .45; cursor: default }
+.btn.sm { padding: 4px 12px; font-size: .8em }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #0b0b14 }
+.btn.ok { background: var(--ok); border-color: var(--ok); color: #06140d }
+.btn.danger { color: var(--err); border-color: var(--err) }
+.home { max-width: 1000px; margin: 0 auto; padding: 24px; overflow: auto; height: 100% }
+.home h2 { color: var(--accent); margin-top: 32px }
+.lesson-row { display: flex; align-items: center; gap: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 20px; margin: 8px 0 }
+.lesson-row:hover { border-color: var(--accent) }
+.lesson-row .num { font: 700 1em 'JetBrains Mono', monospace; color: var(--accent) }
+.grow { flex: 1 }
+.pill { padding: 2px 12px; border-radius: 99px; border: 1px solid var(--line); font-size: .85em }
+.pill.done { color: var(--ok); border-color: var(--ok) } .pill.progress { color: var(--warn); border-color: var(--warn) }
+.lesson { display: grid; grid-template-columns: 42% 58%; height: 100% }
+.left, .right { display: flex; flex-direction: column; min-height: 0; min-width: 0 }
+.left { border-right: 1px solid var(--line); background: var(--panel) }
+.lhead { padding: 12px 24px 4px } .lhead h1 { margin: 0; font-size: 1.3em }
+.tabs, .btabs { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px 16px 0; border-bottom: 1px solid var(--line) }
+.tabs button, .btabs button { background: none; border: 0; border-bottom: 3px solid transparent; color: var(--muted); font: 600 var(--ui) Inter, sans-serif; padding: 6px 14px; cursor: pointer }
+.tabs button.on, .btabs button.on { color: var(--text); border-bottom-color: var(--accent) }
+.tabs button.solved { color: var(--ok) }
+.lscroll { flex: 1; overflow: auto; padding: 8px 24px 40px; font-size: var(--theory) }
+.lscroll h2 { font-size: 1.3em } .lscroll h3 { font-size: 1.1em; margin-bottom: 4px }
+.md table { border-collapse: collapse } .md th, .md td { border: 1px solid var(--line); padding: 4px 12px }
+.md code { font: 500 .9em 'JetBrains Mono', monospace; background: var(--panel2); padding: 1px 6px; border-radius: 6px }
+.md details { background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 16px; margin: 12px 0 }
+.md summary { cursor: pointer; font-weight: 600; color: var(--accent) }
+.md blockquote { margin: 12px 0; padding: 4px 16px; border-left: 4px solid var(--warn); background: var(--panel2) }
+.codeblock { margin: 12px 0; position: relative }
+.codebar { display: flex; gap: 8px; margin-bottom: 4px }
+.codeblock pre, .example pre, .tests pre { margin: 0; background: #0b0d13; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; overflow: auto; font: 500 calc(var(--theory) - 2px)/1.5 'JetBrains Mono', monospace }
+.codeblock pre.out { border-style: dashed; color: var(--ok) }
+.example { margin: 12px 0 } .exhead { display: flex; justify-content: space-between; align-items: center }
+.excols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+.hint { background: var(--panel2); border-left: 4px solid var(--warn); padding: 4px 16px; margin: 12px 0 }
+.hint p { margin: 4px 0 }
+.nav { display: flex; gap: 8px; margin: 24px 0 }
+.toolbar { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--panel); border-bottom: 1px solid var(--line) }
+.file { font: 500 .9em 'JetBrains Mono', monospace; margin-right: auto; color: var(--muted) }
+.editor-wrap { flex: 55 1 0; min-height: 0; background: #0b0d13; overflow: hidden }
+.editor, .editor .cm-editor { height: 100% }
+.cm-editor { background: #0b0d13; color: var(--text); font: 500 var(--code)/1.6 'JetBrains Mono', monospace }
+.cm-editor.cm-focused { outline: none }
+.cm-scroller { overflow: auto; font-family: inherit }
+.cm-gutters { background: #0b0d13; color: #8e99b3; border: 0 }
+.cm-activeLine { background: #ffffff0d } .cm-activeLineGutter { background: transparent; color: var(--text) }
+.cm-cursor { border-left: 3px solid var(--accent) !important }
+.cm-selectionBackground { background: #8b7cff55 !important }
+.btabs { background: var(--panel); border-top: 1px solid var(--line) }
+.bottom { flex: 40 1 0; min-height: 0; background: #0b0d13; display: flex; flex-direction: column }
+.fill { flex: 1; display: flex !important; flex-direction: column; min-height: 0 }
+.console { flex: 1; min-height: 0; padding: 8px 12px }
+.errcard { margin: 8px; padding: 8px 16px; border: 2px solid var(--err); border-radius: 10px; background: #2a1518 }
+.tests { overflow: auto; padding: 12px 20px }
+.test { padding: 6px 0; font-weight: 600 } .test.ok { color: var(--ok) } .test.wrong, .test.error, .test.timeout { color: var(--err) }
+.test pre { color: var(--text); font-weight: 500 }
+.banner.ok { background: var(--ok); color: #06140d; padding: 8px 16px; border-radius: 10px; font-weight: 700; margin-bottom: 8px }

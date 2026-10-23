@@ -1,0 +1,2 @@
+blocks: [{id: b, title: Тест}]
+lessons: [{id: 00-fixture, block: b, title: Тестовый урок, minutes: 5, mcko: [], unknown_key: 1}]

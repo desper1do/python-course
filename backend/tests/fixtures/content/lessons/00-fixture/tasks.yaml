@@ -1,0 +1,11 @@
+- id: fx-1
+  type: code
+  title: Эхо
+  statement: Выведите введённую строку.
+  starter: "print()\n"
+  examples: [{input: "a", output: "a"}]
+  tests:
+    - {input: "a", output: "a"}
+    - {input: "b", output: "b"}
+    - {input: "c", output: "c", hidden: true}
+  solution: "print(input())\n"
