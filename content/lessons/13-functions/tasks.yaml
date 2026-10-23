@@ -1,0 +1,538 @@
+- id: l13-t1
+  type: code
+  title: Квадрат
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Напишите функцию `square(x)`, которая возвращает квадрат числа. Программа читает число n и выводит `square(n)`.
+  input_format: Одна строка — целое число n.
+  output_format: Одно число.
+  starter: |
+    def square(x):
+        # верни квадрат x
+        pass
+
+    n = int(input())
+    print(square(n))
+  examples:
+  - &id001 {input: '3', output: '9'}
+  - &id002 {input: '0', output: '0'}
+  tests:
+  - *id001
+  - *id002
+  - {input: '-4', output: '16', hidden: true}
+  - {input: '10', output: '100', hidden: true}
+  - {input: '1', output: '1', hidden: true}
+  - {input: '25', output: '625', hidden: true}
+  checker: exact
+  hints:
+  - 'Внутри функции: return x * x.'
+  - Заготовку менять нужно только в теле функции.
+  solution: |
+    def square(x):
+        return x * x
+
+    n = int(input())
+    print(square(n))
+  explanation: |
+    Копия примера из теории. Уберите `pass` и поставьте `return`.
+- id: l13-t2
+  type: code
+  title: Чётное ли число
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Напишите функцию `is_even(n)`, которая возвращает `True` для чётного числа и `False` для нечётного. Программа читает число и выводит «Да» или «Нет», используя эту функцию в `if`.
+  input_format: Одна строка — целое число.
+  output_format: «Да» или «Нет».
+  starter: |
+    def is_even(n):
+        # верни True или False
+        pass
+
+    n = int(input())
+    # вызови is_even в if
+  examples:
+  - &id003 {input: '4', output: Да}
+  - &id004 {input: '7', output: Нет}
+  tests:
+  - *id003
+  - *id004
+  - {input: '0', output: Да, hidden: true}
+  - {input: '100', output: Да, hidden: true}
+  - {input: '13', output: Нет, hidden: true}
+  - {input: '-2', output: Да, hidden: true}
+  checker: exact
+  hints:
+  - 'Тело функции: return n % 2 == 0.'
+  - 'if is_even(n): print("Да") else: print("Нет")'
+  solution: |
+    def is_even(n):
+        return n % 2 == 0
+
+    n = int(input())
+    if is_even(n):
+        print("Да")
+    else:
+        print("Нет")
+  explanation: |
+    Функция, возвращающая True/False, прямо в условии.
+- id: l13-t3
+  type: code
+  title: Большее из двух
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Напишите функцию `bigger(a, b)`, которая возвращает большее из двух чисел. Не используйте `max`. Программа читает два числа и выводит `bigger(a, b)`.
+  input_format: Две строки — целые числа a и b.
+  output_format: Одно число.
+  starter: |
+    def bigger(a, b):
+        # верни большее
+        pass
+
+    a = int(input())
+    b = int(input())
+    print(bigger(a, b))
+  examples:
+  - &id005 {input: '3
+
+      8', output: '8'}
+  - &id006 {input: '10
+
+      -4', output: '10'}
+  tests:
+  - *id005
+  - *id006
+  - {input: '5
+
+      5', output: '5', hidden: true}
+  - {input: '-7
+
+      -2', output: '-2', hidden: true}
+  - {input: '0
+
+      0', output: '0', hidden: true}
+  - {input: '100
+
+      99', output: '100', hidden: true}
+  checker: exact
+  hints:
+  - 'Внутри функции подойдёт if a > b: ...'
+  - В каждой ветке свой return.
+  solution: |
+    def bigger(a, b):
+        if a > b:
+            return a
+        return b
+
+    a = int(input())
+    b = int(input())
+    print(bigger(a, b))
+  explanation: |
+    Две ветки с `return`: после первого функция заканчивается.
+- id: l13-t4
+  type: code
+  title: Сумма цифр
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Напишите функцию `digit_sum(n)`, которая возвращает сумму цифр числа. Программа читает число и выводит результат функции.
+  input_format: Одна строка — целое число n ≥ 0.
+  output_format: Одно число.
+  starter: |
+    def digit_sum(n):
+        total = 0
+        # разбери число по цифрам
+        return total
+
+    n = int(input())
+    print(digit_sum(n))
+  examples:
+  - &id007 {input: '482', output: '14'}
+  - &id008 {input: '0', output: '0'}
+  tests:
+  - *id007
+  - *id008
+  - {input: '7', output: '7', hidden: true}
+  - {input: '1000', output: '1', hidden: true}
+  - {input: '99999', output: '45', hidden: true}
+  - {input: '123456789', output: '45', hidden: true}
+  checker: exact
+  hints:
+  - 'Цикл из урока 7: while n > 0.'
+  - total += n % 10; n //= 10.
+  solution: |
+    def digit_sum(n):
+        total = 0
+        while n > 0:
+            total += n % 10
+            n //= 10
+        return total
+
+    n = int(input())
+    print(digit_sum(n))
+  explanation: |
+    Задача 6 урока 7, но в виде функции.
+- id: l13-t5
+  type: code
+  title: Простое ли (функция)
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Напишите функцию `is_prime(n)`, которая возвращает `True`, если число простое, иначе `False`. Программа выводит «Да» или «Нет».
+  input_format: Одна строка — целое число n (1 ≤ n ≤ 100000).
+  output_format: «Да» или «Нет».
+  starter: |
+    def is_prime(n):
+        if n < 2:
+            return False
+        # проверь делители
+        return True
+
+    n = int(input())
+    if is_prime(n):
+        print("Да")
+    else:
+        print("Нет")
+  examples:
+  - &id009 {input: '2', output: Да}
+  - &id010 {input: '97', output: Да}
+  tests:
+  - *id009
+  - *id010
+  - {input: '1', output: Нет, hidden: true}
+  - {input: '4', output: Нет, hidden: true}
+  - {input: '91', output: Нет, hidden: true}
+  - {input: '99991', output: Да, hidden: true}
+  - {input: '100000', output: Нет, hidden: true}
+  checker: exact
+  hints:
+  - Перебирай d от 2 до n - 1.
+  - 'Если n % d == 0, число составное: return False.'
+  - Если цикл закончился без находки — return True (уже в заготовке).
+  solution: |
+    def is_prime(n):
+        if n < 2:
+            return False
+        for d in range(2, n):
+            if n % d == 0:
+                return False
+        return True
+
+    n = int(input())
+    if is_prime(n):
+        print("Да")
+    else:
+        print("Нет")
+  explanation: |
+    Ранний `return` внутри цикла.
+- id: l13-t6
+  type: code
+  title: Простые числа на отрезке
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите все простые числа от a до b включительно, каждое на своей строке. Если простых нет, выведите «Нет». Функция `is_prime` уже написана.
+  input_format: Две строки — целые числа a и b (1 ≤ a ≤ b ≤ 5000).
+  output_format: Столбец чисел или «Нет».
+  starter: |
+    def is_prime(n):
+        if n < 2:
+            return False
+        for d in range(2, n):
+            if n % d == 0:
+                return False
+        return True
+
+    a = int(input())
+    b = int(input())
+    # перебери числа от a до b
+  examples:
+  - &id011 {input: '1
+
+      10', output: '2
+
+      3
+
+      5
+
+      7'}
+  - &id012 {input: '14
+
+      16', output: Нет}
+  tests:
+  - *id011
+  - *id012
+  - {input: '2
+
+      2', output: '2', hidden: true}
+  - {input: '90
+
+      100', output: '97', hidden: true}
+  - {input: '1
+
+      1', output: Нет, hidden: true}
+  - {input: '4990
+
+      5000', output: '4993
+
+      4999', hidden: true}
+  checker: exact
+  hints:
+  - Цикл for x in range(a, b + 1).
+  - 'Если is_prime(x): выведи x и увеличь счётчик found.'
+  - 'После цикла: если found == 0, выведи «Нет».'
+  solution: |
+    def is_prime(n):
+        if n < 2:
+            return False
+        for d in range(2, n):
+            if n % d == 0:
+                return False
+        return True
+
+    a = int(input())
+    b = int(input())
+    found = 0
+    for x in range(a, b + 1):
+        if is_prime(x):
+            print(x)
+            found += 1
+    if found == 0:
+        print("Нет")
+  explanation: |
+    Вызов функции-помощника в цикле. Счётчик для случая «ничего не найдено».
+- id: l13-t7
+  type: code
+  title: Числа с заданной суммой цифр
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Сколько чисел от a до b включительно имеют сумму цифр, равную s? Напишите функцию `digit_sum` и используйте её.
+  input_format: Три строки — a, b, s.
+  output_format: Одно число.
+  starter: |
+    def digit_sum(n):
+        # твоя функция
+        pass
+
+    a = int(input())
+    b = int(input())
+    s = int(input())
+    # посчитай подходящие числа
+  examples:
+  - &id013 {input: '1
+
+      100
+
+      10', output: '9'}
+  - &id014 {input: '10
+
+      99
+
+      9', output: '9'}
+  tests:
+  - *id013
+  - *id014
+  - {input: '1
+
+      10
+
+      1', output: '2', hidden: true}
+  - {input: '100
+
+      999
+
+      27', output: '1', hidden: true}
+  - {input: '5
+
+      5
+
+      5', output: '1', hidden: true}
+  - {input: '1
+
+      1000
+
+      1', output: '4', hidden: true}
+  - {input: '1
+
+      50
+
+      20', output: '0', hidden: true}
+  checker: exact
+  hints:
+  - Напиши digit_sum, как в задаче 4.
+  - Перебирай числа от a до b и считай те, где digit_sum(x) == s.
+  solution: |
+    def digit_sum(n):
+        total = 0
+        while n > 0:
+            total += n % 10
+            n //= 10
+        return total
+
+    a = int(input())
+    b = int(input())
+    s = int(input())
+    count = 0
+    for x in range(a, b + 1):
+        if digit_sum(x) == s:
+            count += 1
+    print(count)
+  explanation: |
+    Связываем функцию и счётчик: типичный шаблон МЦКО.
+- id: l13-t8
+  type: code
+  title: НОД и НОК
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Напишите функцию `gcd(a, b)` — наибольший общий делитель (алгоритм Евклида: пока b не 0, заменяем пару (a, b) на (b, a % b)). Выведите НОД, а на следующей строке НОК (наименьшее общее кратное: a * b // НОД).
+  input_format: Две строки — натуральные числа a и b.
+  output_format: 'Две строки: НОД и НОК.'
+  starter: |
+    def gcd(a, b):
+        # алгоритм Евклида
+        pass
+
+    a = int(input())
+    b = int(input())
+    # выведи НОД и НОК
+  examples:
+  - &id015 {input: '12
+
+      18', output: '6
+
+      36'}
+  - &id016 {input: '7
+
+      5', output: '1
+
+      35'}
+  tests:
+  - *id015
+  - *id016
+  - {input: '10
+
+      10', output: '10
+
+      10', hidden: true}
+  - {input: '100
+
+      75', output: '25
+
+      300', hidden: true}
+  - {input: '1
+
+      1000', output: '1
+
+      1000', hidden: true}
+  - {input: '48
+
+      36', output: '12
+
+      144', hidden: true}
+  - {input: '17
+
+      34', output: '17
+
+      34', hidden: true}
+  checker: exact
+  hints:
+  - 'Пока b != 0: пара меняется на (b, a % b). Для замены нужна временная переменная.'
+  - Когда b стало 0, ответ лежит в a. Верни его через return.
+  - НОК = a * b // gcd(a, b).
+  solution: |
+    def gcd(a, b):
+        while b != 0:
+            r = a % b
+            a = b
+            b = r
+        return a
+
+    a = int(input())
+    b = int(input())
+    d = gcd(a, b)
+    print(d)
+    print(a * b // d)
+  explanation: |
+    Алгоритм Евклида: while и обмен значений из урока 1. Внимание: после вызова gcd внешние a и b не изменились — параметры функции локальные.
+- id: l13-t9
+  type: code
+  title: Числа-палиндромы
+  level: 4
+  required: false
+  homework: true
+  mcko: []
+  statement: |
+    Напишите функцию `reverse_number(n)`, возвращающую число, записанное теми же цифрами в обратном порядке. Сколько чисел от a до b включительно не меняются при развороте (палиндромы)?
+  input_format: Две строки — a и b (1 ≤ a ≤ b ≤ 100000).
+  output_format: Одно число.
+  starter: |
+    def reverse_number(n):
+        # цифры в обратном порядке
+        pass
+
+    a = int(input())
+    b = int(input())
+    # посчитай палиндромы
+  examples:
+  - &id017 {input: '1
+
+      100', output: '18'}
+  - &id018 {input: '10
+
+      99', output: '9'}
+  tests:
+  - *id017
+  - *id018
+  - {input: '100
+
+      200', output: '10', hidden: true}
+  - {input: '1
+
+      9', output: '9', hidden: true}
+  - {input: '12321
+
+      12321', output: '1', hidden: true}
+  - {input: '1
+
+      10000', output: '198', hidden: true}
+  checker: exact
+  hints:
+  - 'Разворот числа цифрами: result = result * 10 + n % 10 в цикле (задача 9 урока 7).'
+  - Число x — палиндром, если reverse_number(x) == x.
+  solution: |
+    def reverse_number(n):
+        result = 0
+        while n > 0:
+            result = result * 10 + n % 10
+            n //= 10
+        return result
+
+    a = int(input())
+    b = int(input())
+    count = 0
+    for x in range(a, b + 1):
+        if reverse_number(x) == x:
+            count += 1
+    print(count)
+  explanation: |
+    Звёздочка: собираем функцию из урока 7 и перебор. Можно также через строки (урок 9).

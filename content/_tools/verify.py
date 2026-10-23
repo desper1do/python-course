@@ -97,12 +97,51 @@ def input_prompts(code):
     return False
 
 
+# с какого урока можно использовать конструкцию (словарь курса, раздел 10 ТЗ)
+NODE_FROM = {"If": 4, "BoolOp": 5, "While": 7, "For": 8, "Subscript": 9, "List": 12,
+             "ListComp": 12, "Dict": 12, "Set": 12, "FunctionDef": 13, "Return": 13,
+             "With": 19, "Lambda": 99, "GeneratorExp": 12, "Tuple": 12, "Slice": 9,
+             "AugAssign": 7, "Try": 99, "Break": 7, "Continue": 7}
+NAME_FROM = {"max": 3, "range": 8, "sum": 10, "min": 10, "abs": 10, "sorted": 12,
+             "list": 12, "set": 12, "bin": 14, "enumerate": 17, "open": 19,
+             "round": 99, "float": 1, "print": 1, "input": 1, "int": 1, "str": 3,
+             "len": 3, "reversed": 12, "zip": 99, "map": 99, "chr": 99, "ord": 99}
+ATTR_FROM = {"count": 9, "find": 9, "upper": 9, "lower": 9, "append": 12, "split": 12,
+             "join": 12, "read": 19, "index": 12, "add": 12, "sort": 12,
+             "strip": 9, "replace": 9, "startswith": 9, "endswith": 9, "isdigit": 9,
+             "format": 99}
+# разрешённые «дополнительные» имена/атрибуты по урокам вводятся здесь же
+EXTRA_NAME = {}
+
+
+def vocab_errors(code, lesson_no):
+    out = set()
+    try:
+        tree = ast.parse(code)
+    except SyntaxError as e:
+        return {f"SyntaxError: {e}"}
+    imported = imports_of(code)
+    for n in ast.walk(tree):
+        k = type(n).__name__
+        if k == "Tuple" and isinstance(getattr(n, "ctx", None), ast.Store):
+            k = "Tuple"
+        if k in NODE_FROM and NODE_FROM[k] > lesson_no:
+            out.add(f"конструкция {k} с урока {NODE_FROM[k]}")
+        if isinstance(n, ast.Name) and n.id in NAME_FROM and NAME_FROM[n.id] > lesson_no:
+            out.add(f"{n.id}() с урока {NAME_FROM[n.id]}")
+        if isinstance(n, ast.Attribute) and n.attr in ATTR_FROM and ATTR_FROM[n.attr] > lesson_no:
+            if not (isinstance(n.value, ast.Name) and n.value.id in imported):
+                out.add(f".{n.attr}() с урока {ATTR_FROM[n.attr]}")
+    return out
+
+
 REQ = ["id", "type", "title", "level", "required", "mcko", "statement",
        "input_format", "output_format", "starter", "examples", "tests",
        "checker", "hints", "solution", "explanation"]
 
 
 def check_task(lid, t, idx, allowed, seen_ids, stats):
+    lesson_no = int(lid[:2])
     where = f"{lid}/tasks.yaml[{idx}]"
     if not isinstance(t, dict):
         return err(where, "задача не словарь")
@@ -152,6 +191,8 @@ def check_task(lid, t, idx, allowed, seen_ids, stats):
     for m in imports_of(t.get("starter") or "") - allowed:
         err(where, f"starter импортирует {m}, не разрешено")
     for field in ("solution", "starter"):
+        for v in vocab_errors(t.get(field) or "", lesson_no):
+            err(where, f"{field}: {v}")
         if input_prompts(t.get(field) or ""):
             err(where, f"{field}: подсказка в input() запрещена")
     if re.search(r"^:::|\$\$", t.get("statement") or "", re.M):
@@ -212,14 +253,17 @@ def check_lesson(lesson, allowed, stats):
                 err(lid, f"lesson.md: import {m} не разрешён")
             if input_prompts(code):
                 warn(lid, "lesson.md: input() с подсказкой в примере")
+            for v in vocab_errors(code, int(lid[:2])):
+                err(lid, f"lesson.md: {v}")
     tasks = load_yaml(os.path.join(d, "tasks.yaml")) or []
     if not isinstance(tasks, list):
         return err(lid, "tasks.yaml должен быть списком")
     for i, t in enumerate(tasks):
         check_task(lid, t, i, allowed, SEEN_IDS, stats)
     n = len(tasks)
-    if not 7 <= n <= 10:
-        warn(lid, f"задач {n} (нужно 7–10)")
+    top = 13 if int(lid[:2]) >= 21 else 12 if int(lid[:2]) >= 16 else 10
+    if not 7 <= n <= top:
+        warn(lid, f"задач {n} (нужно 7–{top})")
     levels = [t.get("level") for t in tasks if isinstance(t, dict)]
     if levels != sorted(levels):
         warn(lid, "level должен идти по нарастанию")

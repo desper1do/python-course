@@ -1,0 +1,515 @@
+- id: l07-t1
+  type: code
+  title: Счёт до n
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите числа от 1 до n, каждое на своей строке.
+  input_format: Одна строка — целое число n (n ≥ 1).
+  output_format: n строк.
+  starter: |
+    n = int(input())
+    i = 1
+    # пока i не больше n: выведи i и увеличь i
+  examples:
+  - &id001 {input: '5', output: '1
+
+      2
+
+      3
+
+      4
+
+      5'}
+  - &id002 {input: '1', output: '1'}
+  tests:
+  - *id001
+  - *id002
+  - {input: '3', output: '1
+
+      2
+
+      3', hidden: true}
+  - {input: '10', output: '1
+
+      2
+
+      3
+
+      4
+
+      5
+
+      6
+
+      7
+
+      8
+
+      9
+
+      10', hidden: true}
+  - {input: '2', output: '1
+
+      2', hidden: true}
+  - {input: '7', output: '1
+
+      2
+
+      3
+
+      4
+
+      5
+
+      6
+
+      7', hidden: true}
+  checker: exact
+  hints:
+  - 'Условие цикла: i <= n.'
+  - 'Внутри: print(i), потом i += 1.'
+  solution: |
+    n = int(input())
+    i = 1
+    while i <= n:
+        print(i)
+        i += 1
+  explanation: |
+    Копия примера из теории. Если забыли `i += 1` — цикл бесконечный, покажите кнопку «Стоп».
+- id: l07-t2
+  type: code
+  title: Обратный отсчёт
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите числа от n до 1, каждое на своей строке, а затем слово «Пуск!».
+  input_format: Одна строка — целое число n (n ≥ 1).
+  output_format: n+1 строка.
+  starter: |
+    n = int(input())
+    # считай от n вниз
+  examples:
+  - &id003 {input: '3', output: '3
+
+      2
+
+      1
+
+      Пуск!'}
+  - &id004 {input: '1', output: '1
+
+      Пуск!'}
+  tests:
+  - *id003
+  - *id004
+  - {input: '5', output: '5
+
+      4
+
+      3
+
+      2
+
+      1
+
+      Пуск!', hidden: true}
+  - {input: '10', output: '10
+
+      9
+
+      8
+
+      7
+
+      6
+
+      5
+
+      4
+
+      3
+
+      2
+
+      1
+
+      Пуск!', hidden: true}
+  - {input: '2', output: '2
+
+      1
+
+      Пуск!', hidden: true}
+  - {input: '4', output: '4
+
+      3
+
+      2
+
+      1
+
+      Пуск!', hidden: true}
+  checker: exact
+  hints:
+  - 'Счётчик начинается с n и уменьшается: i -= 1.'
+  - 'Условие: i >= 1 (или i > 0). После цикла — print("Пуск!").'
+  solution: |
+    n = int(input())
+    i = n
+    while i >= 1:
+        print(i)
+        i -= 1
+    print("Пуск!")
+  explanation: |
+    Счётчик идёт вниз. `i -= 1` — по аналогии с `+=`.
+- id: l07-t3
+  type: code
+  title: Сумма от 1 до n
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Найдите сумму всех целых чисел от 1 до n.
+  input_format: Одна строка — целое число n (n ≥ 1).
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    total = 0
+    i = 1
+    # добавляй i к total
+  examples:
+  - &id005 {input: '5', output: '15'}
+  - &id006 {input: '1', output: '1'}
+  tests:
+  - *id005
+  - *id006
+  - {input: '100', output: '5050', hidden: true}
+  - {input: '10', output: '55', hidden: true}
+  - {input: '2', output: '3', hidden: true}
+  - {input: '1000', output: '500500', hidden: true}
+  checker: exact
+  hints:
+  - total += i внутри цикла.
+  - Не забудь i += 1.
+  solution: |
+    n = int(input())
+    total = 0
+    i = 1
+    while i <= n:
+        total += i
+        i += 1
+    print(total)
+  explanation: |
+    Пример из теории. Сверьте с формулой n * (n + 1) // 2 для проверки.
+- id: l07-t4
+  type: code
+  title: Степени двойки
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите все степени двойки (1, 2, 4, 8, …), которые не больше n, каждую на своей строке.
+  input_format: Одна строка — целое число n (n ≥ 1).
+  output_format: Столбец чисел.
+  starter: |
+    n = int(input())
+    p = 1
+    # пока p не больше n: выведи p и удвой p
+  examples:
+  - &id007 {input: '10', output: '1
+
+      2
+
+      4
+
+      8'}
+  - &id008 {input: '1', output: '1'}
+  tests:
+  - *id007
+  - *id008
+  - {input: '100', output: '1
+
+      2
+
+      4
+
+      8
+
+      16
+
+      32
+
+      64', hidden: true}
+  - {input: '2', output: '1
+
+      2', hidden: true}
+  - {input: '64', output: '1
+
+      2
+
+      4
+
+      8
+
+      16
+
+      32
+
+      64', hidden: true}
+  - {input: '1000', output: '1
+
+      2
+
+      4
+
+      8
+
+      16
+
+      32
+
+      64
+
+      128
+
+      256
+
+      512', hidden: true}
+  checker: exact
+  hints:
+  - Начни с p = 1.
+  - 'Пока p <= n: print(p), потом p *= 2.'
+  solution: |
+    n = int(input())
+    p = 1
+    while p <= n:
+        print(p)
+        p *= 2
+  explanation: |
+    Умножение в теле цикла. Это пригодится для информации (степени двойки) и систем счисления.
+- id: l07-t5
+  type: code
+  title: Сколько цифр
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Дано натуральное число. Определите, сколько в нём цифр. Решите циклом, не используя `len`.
+  input_format: Одна строка — целое число n (n ≥ 1).
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    count = 0
+    # отрезай по цифре, пока число не станет 0
+  examples:
+  - &id009 {input: '482', output: '3'}
+  - &id010 {input: '5', output: '1'}
+  tests:
+  - *id009
+  - *id010
+  - {input: '10', output: '2', hidden: true}
+  - {input: '12345', output: '5', hidden: true}
+  - {input: '999999', output: '6', hidden: true}
+  - {input: '100', output: '3', hidden: true}
+  - {input: '1000000000', output: '10', hidden: true}
+  checker: exact
+  hints:
+  - Каждый раз делай n //= 10 и увеличивай счётчик на 1.
+  - 'Цикл: while n > 0.'
+  solution: |
+    n = int(input())
+    count = 0
+    while n > 0:
+        count += 1
+        n //= 10
+    print(count)
+  explanation: |
+    Первое использование цикла по цифрам.
+- id: l07-t6
+  type: code
+  title: Сумма цифр
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Найдите сумму цифр неотрицательного числа.
+  input_format: Одна строка — целое число n (n ≥ 0).
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    total = 0
+    # складывай последние цифры
+  examples:
+  - &id011 {input: '482', output: '14'}
+  - &id012 {input: '0', output: '0'}
+  tests:
+  - *id011
+  - *id012
+  - {input: '7', output: '7', hidden: true}
+  - {input: '1000', output: '1', hidden: true}
+  - {input: '99999', output: '45', hidden: true}
+  - {input: '123456789', output: '45', hidden: true}
+  - {input: '101', output: '2', hidden: true}
+  checker: exact
+  hints:
+  - Последняя цифра — n % 10; добавь её к total.
+  - 'Потом отрежь цифру: n //= 10.'
+  solution: |
+    n = int(input())
+    total = 0
+    while n > 0:
+        total += n % 10
+        n //= 10
+    print(total)
+  explanation: |
+    Классика. Для 0 цикл не выполнится, и ответ 0 — это верно.
+- id: l07-t7
+  type: code
+  title: Сумма до нуля
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Вводятся целые числа по одному в строке. Ввод заканчивается числом 0 (его в сумму не включать). Выведите сумму введённых чисел.
+  input_format: Несколько строк — целые числа, последняя строка 0.
+  output_format: Одно число.
+  starter: |
+    x = int(input())
+    total = 0
+    # пока x не 0: добавь x и считай следующее
+  examples:
+  - &id013 {input: '5
+
+      3
+
+      0', output: '8'}
+  - &id014 {input: '0', output: '0'}
+  tests:
+  - *id013
+  - *id014
+  - {input: '1
+
+      2
+
+      3
+
+      4
+
+      0', output: '10', hidden: true}
+  - {input: '-5
+
+      5
+
+      0', output: '0', hidden: true}
+  - {input: '100
+
+      0', output: '100', hidden: true}
+  - {input: '7
+
+      -3
+
+      10
+
+      0', output: '14', hidden: true}
+  checker: exact
+  hints:
+  - 'Условие цикла: x != 0.'
+  - 'Внутри: добавь x в total и снова x = int(input()).'
+  - Первое число прочитано до цикла.
+  solution: |
+    x = int(input())
+    total = 0
+    while x != 0:
+        total += x
+        x = int(input())
+    print(total)
+  explanation: |
+    Цикл «читаем, пока не 0». Нужно прочитать первое число до цикла и следующее — в конце тела.
+- id: l07-t8
+  type: code
+  title: Делится на 2
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Сколько раз можно поделить число на 2 нацело, пока оно чётное?
+  input_format: Одна строка — целое число n (n ≥ 1).
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    count = 0
+    # пока n чётное: дели и считай
+  examples:
+  - &id015 {input: '8', output: '3'}
+  - &id016 {input: '12', output: '2'}
+  tests:
+  - *id015
+  - *id016
+  - {input: '7', output: '0', hidden: true}
+  - {input: '1', output: '0', hidden: true}
+  - {input: '1024', output: '10', hidden: true}
+  - {input: '96', output: '5', hidden: true}
+  - {input: '80', output: '4', hidden: true}
+  checker: exact
+  hints:
+  - 'Условие цикла: n % 2 == 0.'
+  - Внутри n //= 2 и count += 1.
+  solution: |
+    n = int(input())
+    count = 0
+    while n % 2 == 0:
+        n //= 2
+        count += 1
+    print(count)
+  explanation: |
+    Условие цикла — не счётчик, а свойство числа. Пригодится в системах счисления и разложении на множители.
+- id: l07-t9
+  type: code
+  title: Число наоборот
+  level: 4
+  required: false
+  homework: true
+  mcko: []
+  statement: |
+    Выведите число, записанное теми же цифрами в обратном порядке (нули в начале пропадают: из 1200 получится 21). Решите циклом.
+  input_format: Одна строка — целое число n (n ≥ 0).
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    result = 0
+    # вынимай цифры с конца и дописывай в result
+  examples:
+  - &id017 {input: '123', output: '321'}
+  - &id018 {input: '1200', output: '21'}
+  tests:
+  - *id017
+  - *id018
+  - {input: '5', output: '5', hidden: true}
+  - {input: '100000', output: '1', hidden: true}
+  - {input: '907', output: '709', hidden: true}
+  - {input: '1000000007', output: '7000000001', hidden: true}
+  - {input: '0', output: '0', hidden: true}
+  checker: exact
+  hints:
+  - Цифру с конца берём как n % 10.
+  - 'Дописать цифру к result справа: result = result * 10 + digit.'
+  - Потом n //= 10.
+  solution: |
+    n = int(input())
+    result = 0
+    while n > 0:
+        result = result * 10 + n % 10
+        n //= 10
+    print(result)
+  explanation: |
+    Звёздочка: идея «сдвигаем result и дописываем цифру». Сравните с задачей 7 из урока 2.

@@ -14,7 +14,7 @@ scripts/verify_content.py   docs/   Dockerfile docker-compose.yml Makefile
 ```
 
 ## API
-- `GET /api/curriculum` — блоки, уроки, статусы, карта МЦКО
+- `GET /api/curriculum` — блоки, уроки, статусы, карта МЦКО (позже)
 - `GET /api/lessons/{id}` — lesson.md + задачи (без solution/answer/скрытых тестов)
 - `GET /api/teacher/{id}` — teacher.md + решения (только по запросу пульта)
 - `GET/PUT /api/code/{key}` — код (key = `task:<id>` | `sandbox:<lesson>`)

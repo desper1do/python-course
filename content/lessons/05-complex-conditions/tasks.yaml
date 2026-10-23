@@ -1,0 +1,488 @@
+- id: l05-t1
+  type: code
+  title: Двузначное число
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите «Да», если число двузначное (от 10 до 99 включительно), иначе «Нет». Число неотрицательное.
+  input_format: Одна строка — целое число n.
+  output_format: «Да» или «Нет».
+  starter: |
+    n = int(input())
+    # проверь диапазон через and
+  examples:
+  - &id001 {input: '10', output: Да}
+  - &id002 {input: '99', output: Да}
+  tests:
+  - *id001
+  - *id002
+  - {input: '9', output: Нет, hidden: true}
+  - {input: '100', output: Нет, hidden: true}
+  - {input: '50', output: Да, hidden: true}
+  - {input: '0', output: Нет, hidden: true}
+  - {input: '1000', output: Нет, hidden: true}
+  checker: exact
+  hints:
+  - 'Нужны две проверки сразу: n >= 10 и n <= 99.'
+  - Соедини их через and.
+  solution: |
+    n = int(input())
+    if n >= 10 and n <= 99:
+        print("Да")
+    else:
+        print("Нет")
+  explanation: |
+    Прямое применение and. Граничные 9, 10, 99, 100.
+- id: l05-t2
+  type: code
+  title: Выходной день
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Дни недели пронумерованы от 1 (понедельник) до 7 (воскресенье). Выведите «Выходной» для субботы и воскресенья и «Будний» для остальных дней.
+  input_format: Одна строка — номер дня от 1 до 7.
+  output_format: «Выходной» или «Будний».
+  starter: |
+    day = int(input())
+    # 6 и 7 — выходные
+  examples:
+  - &id003 {input: '6', output: Выходной}
+  - &id004 {input: '1', output: Будний}
+  tests:
+  - *id003
+  - *id004
+  - {input: '7', output: Выходной, hidden: true}
+  - {input: '5', output: Будний, hidden: true}
+  - {input: '3', output: Будний, hidden: true}
+  - {input: '2', output: Будний, hidden: true}
+  - {input: '4', output: Будний, hidden: true}
+  checker: exact
+  hints:
+  - Выходной, если день равен 6 или день равен 7.
+  - 'if day == 6 or day == 7:'
+  solution: |
+    day = int(input())
+    if day == 6 or day == 7:
+        print("Выходной")
+    else:
+        print("Будний")
+  explanation: |
+    Первое or. Напомните: пишем `day == 6 or day == 7`, не `day == 6 or 7`.
+- id: l05-t3
+  type: code
+  title: Кратно трём и пяти
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите «Да», если число делится и на 3, и на 5 без остатка, иначе «Нет».
+  input_format: Одна строка — целое неотрицательное число.
+  output_format: «Да» или «Нет».
+  starter: |
+    n = int(input())
+    # две проверки остатка
+  examples:
+  - &id005 {input: '15', output: Да}
+  - &id006 {input: '30', output: Да}
+  tests:
+  - *id005
+  - *id006
+  - {input: '9', output: Нет, hidden: true}
+  - {input: '10', output: Нет, hidden: true}
+  - {input: '0', output: Да, hidden: true}
+  - {input: '7', output: Нет, hidden: true}
+  - {input: '45', output: Да, hidden: true}
+  - {input: '14', output: Нет, hidden: true}
+  checker: exact
+  hints:
+  - 'Делится на 3: n % 3 == 0. Делится на 5: n % 5 == 0.'
+  - Соедини через and.
+  solution: |
+    n = int(input())
+    if n % 3 == 0 and n % 5 == 0:
+        print("Да")
+    else:
+        print("Нет")
+  explanation: |
+    0 делится на всё, ответ «Да». Хороший повод для вопроса «почему?».
+- id: l05-t4
+  type: code
+  title: Високосный год
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Год високосный, если он делится на 4 и не делится на 100, либо делится на 400. Выведите «Високосный» или «Обычный».
+  input_format: Одна строка — номер года.
+  output_format: «Високосный» или «Обычный».
+  starter: |
+    year = int(input())
+    # условие из трёх частей
+  examples:
+  - &id007 {input: '2024', output: Високосный}
+  - &id008 {input: '1900', output: Обычный}
+  tests:
+  - *id007
+  - *id008
+  - {input: '2000', output: Високосный, hidden: true}
+  - {input: '2023', output: Обычный, hidden: true}
+  - {input: '2100', output: Обычный, hidden: true}
+  - {input: '2400', output: Високосный, hidden: true}
+  - {input: '1996', output: Високосный, hidden: true}
+  checker: exact
+  hints:
+  - 'Разбей правило: (делится на 4 и не делится на 100) или (делится на 400).'
+  - 'Не делится на 100: year % 100 != 0.'
+  - Поставь скобки вокруг первой части.
+  solution: |
+    year = int(input())
+    if (year % 4 == 0 and year % 100 != 0) or year % 400 == 0:
+        print("Високосный")
+    else:
+        print("Обычный")
+  explanation: |
+    Сложное условие со скобками. Проверьте 1900 и 2000 — классические ловушки.
+- id: l05-t5
+  type: code
+  title: Существует ли треугольник
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны три длины сторон. Треугольник существует, если каждая сторона меньше суммы двух других. Выведите «Существует» или «Не существует».
+  input_format: Три строки — целые положительные числа a, b, c.
+  output_format: «Существует» или «Не существует».
+  starter: |
+    a = int(input())
+    b = int(input())
+    c = int(input())
+    # три условия через and
+  examples:
+  - &id009 {input: '3
+
+      4
+
+      5', output: Существует}
+  - &id010 {input: '1
+
+      2
+
+      3', output: Не существует}
+  tests:
+  - *id009
+  - *id010
+  - {input: '5
+
+      5
+
+      5', output: Существует, hidden: true}
+  - {input: '10
+
+      1
+
+      1', output: Не существует, hidden: true}
+  - {input: '2
+
+      2
+
+      3', output: Существует, hidden: true}
+  - {input: '1
+
+      1
+
+      1', output: Существует, hidden: true}
+  - {input: '7
+
+      3
+
+      4', output: Не существует, hidden: true}
+  checker: exact
+  hints:
+  - 'Нужны три проверки: a < b + c, b < a + c, c < a + b.'
+  - 'Все три должны быть верны одновременно: and.'
+  - 'Сторона, равная сумме двух других, не годится: 1, 2, 3 не треугольник.'
+  solution: |
+    a = int(input())
+    b = int(input())
+    c = int(input())
+    if a < b + c and b < a + c and c < a + b:
+        print("Существует")
+    else:
+        print("Не существует")
+  explanation: |
+    Три условия через and. Вырожденный случай 1, 2, 3 — важная граница.
+- id: l05-t6
+  type: code
+  title: Аттракцион
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    На аттракцион пускают с ростом от 120 до 200 см включительно и только с 8 лет. Выведите «Можно» или «Нельзя».
+  input_format: Две строки — рост и возраст.
+  output_format: «Можно» или «Нельзя».
+  starter: |
+    height = int(input())
+    age = int(input())
+    # три сравнения через and
+  examples:
+  - &id011 {input: '150
+
+      10', output: Можно}
+  - &id012 {input: '119
+
+      10', output: Нельзя}
+  tests:
+  - *id011
+  - *id012
+  - {input: '120
+
+      8', output: Можно, hidden: true}
+  - {input: '200
+
+      7', output: Нельзя, hidden: true}
+  - {input: '201
+
+      20', output: Нельзя, hidden: true}
+  - {input: '160
+
+      8', output: Можно, hidden: true}
+  - {input: '130
+
+      7', output: Нельзя, hidden: true}
+  checker: exact
+  hints:
+  - 'Рост: height >= 120 and height <= 200.'
+  - 'Ещё возраст: age >= 8. Соедини всё через and.'
+  - Проверь границы 119, 120, 200, 201 и 7, 8.
+  solution: |
+    height = int(input())
+    age = int(input())
+    if height >= 120 and height <= 200 and age >= 8:
+        print("Можно")
+    else:
+        print("Нельзя")
+  explanation: |
+    Три части через and. Следить за скобками не нужно: and объединяет всё.
+- id: l05-t7
+  type: code
+  title: Четверть координатной плоскости
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны координаты точки x и y. Выведите номер координатной четверти (1, 2, 3 или 4). Если точка лежит на оси (x или y равен 0), выведите «Ось». Решите вложенными `if`.
+  input_format: Две строки — целые числа x и y.
+  output_format: Номер четверти или слово «Ось».
+  starter: |
+    x = int(input())
+    y = int(input())
+    # сначала проверь оси, потом знаки
+  examples:
+  - &id013 {input: '3
+
+      4', output: '1'}
+  - &id014 {input: '-3
+
+      4', output: '2'}
+  tests:
+  - *id013
+  - *id014
+  - {input: '-3
+
+      -4', output: '3', hidden: true}
+  - {input: '3
+
+      -4', output: '4', hidden: true}
+  - {input: '0
+
+      5', output: Ось, hidden: true}
+  - {input: '5
+
+      0', output: Ось, hidden: true}
+  - {input: '0
+
+      0', output: Ось, hidden: true}
+  checker: exact
+  hints:
+  - 'Сначала отдельная проверка: x == 0 or y == 0 — это ось.'
+  - Иначе смотрим знак x, и внутри — знак y.
+  - 'Первая четверть: x > 0, y > 0; вторая: x < 0, y > 0; третья: x < 0, y < 0; четвёртая: x > 0, y < 0.'
+  solution: |
+    x = int(input())
+    y = int(input())
+    if x == 0 or y == 0:
+        print("Ось")
+    else:
+        if x > 0:
+            if y > 0:
+                print(1)
+            else:
+                print(4)
+        else:
+            if y > 0:
+                print(2)
+            else:
+                print(3)
+  explanation: |
+    Вложенные if в чистом виде. Нарисуйте оси и подпишите четверти.
+- id: l05-t8
+  type: code
+  title: Значение выражения
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны три целых числа a, b, c. Выведите значение логического выражения `not (a > b) or (c == 0 and a > 0)`: «True» или «False».
+  input_format: Три строки — целые числа a, b, c.
+  output_format: «True» или «False».
+  starter: |
+    a = int(input())
+    b = int(input())
+    c = int(input())
+    # выведи значение выражения
+  examples:
+  - &id015 {input: '2
+
+      5
+
+      0', output: 'True'}
+  - &id016 {input: '7
+
+      3
+
+      0', output: 'True'}
+  tests:
+  - *id015
+  - *id016
+  - {input: '7
+
+      3
+
+      1', output: 'False', hidden: true}
+  - {input: '0
+
+      0
+
+      0', output: 'True', hidden: true}
+  - {input: '-1
+
+      -5
+
+      0', output: 'False', hidden: true}
+  - {input: '5
+
+      5
+
+      5', output: 'True', hidden: true}
+  - {input: '9
+
+      1
+
+      0', output: 'True', hidden: true}
+  - {input: '3
+
+      8
+
+      9', output: 'True', hidden: true}
+  checker: exact
+  hints:
+  - 'Переведи выражение в Python буква в букву: print(not (a > b) or (c == 0 and a > 0)).'
+  - print умеет выводить результат любого выражения, даже логического.
+  - 'Проверь на бумаге набор 7, 3, 1: получится False.'
+  solution: |
+    a = int(input())
+    b = int(input())
+    c = int(input())
+    print(not (a > b) or (c == 0 and a > 0))
+  explanation: |
+    Сначала вручную по шагам из теории для 2–3 наборов, потом проверка программой. Так же в МЦКО-5 считают таблицы.
+- id: l05-t9
+  type: code
+  title: Какой треугольник
+  level: 4
+  required: false
+  homework: true
+  mcko: []
+  statement: |
+    Даны три стороны. Выведите: «Не существует», если треугольника нет; «Равносторонний», если все стороны равны; «Равнобедренный», если ровно две стороны равны; иначе «Разносторонний».
+  input_format: Три строки — целые положительные числа.
+  output_format: Одна фраза.
+  starter: |
+    a = int(input())
+    b = int(input())
+    c = int(input())
+    # сначала проверь существование
+  examples:
+  - &id017 {input: '3
+
+      3
+
+      3', output: Равносторонний}
+  - &id018 {input: '3
+
+      3
+
+      5', output: Равнобедренный}
+  tests:
+  - *id017
+  - *id018
+  - {input: '3
+
+      4
+
+      5', output: Разносторонний, hidden: true}
+  - {input: '1
+
+      2
+
+      3', output: Не существует, hidden: true}
+  - {input: '5
+
+      3
+
+      5', output: Равнобедренный, hidden: true}
+  - {input: '2
+
+      5
+
+      5', output: Равнобедренный, hidden: true}
+  - {input: '10
+
+      1
+
+      1', output: Не существует, hidden: true}
+  - {input: '3
+
+      5
+
+      3', output: Равнобедренный, hidden: true}
+  checker: exact
+  hints:
+  - Сначала проверь существование, как в задаче 5.
+  - 'Равносторонний: a == b and b == c.'
+  - 'Равнобедренный: хотя бы одна пара равна (a == b or b == c or a == c).'
+  solution: |
+    a = int(input())
+    b = int(input())
+    c = int(input())
+    if not (a < b + c and b < a + c and c < a + b):
+        print("Не существует")
+    elif a == b and b == c:
+        print("Равносторонний")
+    elif a == b or b == c or a == c:
+        print("Равнобедренный")
+    else:
+        print("Разносторонний")
+  explanation: |
+    Порядок проверок: от частного к общему. Равносторонний нужно проверять раньше равнобедренного.

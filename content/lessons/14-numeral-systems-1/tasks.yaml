@@ -1,0 +1,434 @@
+- id: l14-t1
+  type: code
+  title: Из двоичной в десятичную
+  level: 1
+  required: true
+  homework: false
+  mcko:
+  - 3
+  statement: |
+    Дано число в двоичной системе. Переведите в десятичную.
+  input_format: Одна строка — число из нулей и единиц.
+  output_format: Одно число.
+  starter: |
+    s = input()
+    # переведи через int(s, 2)
+  examples:
+  - &id001 {input: '1011', output: '11'}
+  - &id002 {input: '0', output: '0'}
+  tests:
+  - *id001
+  - *id002
+  - {input: '1', output: '1', hidden: true}
+  - {input: '11111111', output: '255', hidden: true}
+  - {input: '100000', output: '32', hidden: true}
+  - {input: '101010', output: '42', hidden: true}
+  checker: exact
+  hints:
+  - Функция int принимает второй аргумент — основание системы.
+  - print(int(s, 2))
+  solution: |
+    s = input()
+    print(int(s, 2))
+  explanation: |
+    Проверьте несколько ответов вручную по весам разрядов, а потом программой.
+- id: l14-t2
+  type: code
+  title: Из десятичной в двоичную
+  level: 1
+  required: true
+  homework: false
+  mcko:
+  - 3
+  statement: |
+    Дано десятичное число. Выведите его двоичную запись без префикса.
+  input_format: Одна строка — целое число n ≥ 0.
+  output_format: Двоичная запись.
+  starter: |
+    n = int(input())
+    # bin(n) даёт '0b...'
+  examples:
+  - &id003 {input: '11', output: '1011'}
+  - &id004 {input: '0', output: '0'}
+  tests:
+  - *id003
+  - *id004
+  - {input: '1', output: '1', hidden: true}
+  - {input: '255', output: '11111111', hidden: true}
+  - {input: '32', output: '100000', hidden: true}
+  - {input: '1000', output: '1111101000', hidden: true}
+  checker: exact
+  hints:
+  - bin(n) начинается с '0b'. Отрежь два символа срезом.
+  - print(bin(n)[2:])
+  solution: |
+    n = int(input())
+    print(bin(n)[2:])
+  explanation: |
+    Срез из урока 9 убирает префикс.
+- id: l14-t3
+  type: code
+  title: Единицы в двоичной записи
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Сколько единиц в двоичной записи числа?
+  input_format: Одна строка — целое число n ≥ 0.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    # запись + count
+  examples:
+  - &id005 {input: '11', output: '3'}
+  - &id006 {input: '0', output: '0'}
+  tests:
+  - *id005
+  - *id006
+  - {input: '255', output: '8', hidden: true}
+  - {input: '1024', output: '1', hidden: true}
+  - {input: '1023', output: '10', hidden: true}
+  - {input: '1000', output: '6', hidden: true}
+  checker: exact
+  hints:
+  - Получи строку bin(n), потом посчитай единицы методом count.
+  - print(bin(n).count("1"))
+  solution: |
+    n = int(input())
+    print(bin(n).count("1"))
+  explanation: |
+    `count` из урока 9. В префиксе `0b` единиц нет, ошибки не будет.
+- id: l14-t4
+  type: code
+  title: Системы до десятичной (основание до 9)
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 3
+  statement: |
+    Переведите число n в систему счисления с основанием b (2 ≤ b ≤ 9) делением с остатком. Для нуля выведите 0.
+  input_format: Две строки — n и b.
+  output_format: Запись числа.
+  starter: |
+    n = int(input())
+    b = int(input())
+    result = ""
+    # дели и дописывай остатки слева
+  examples:
+  - &id007 {input: '10
+
+      2', output: '1010'}
+  - &id008 {input: '255
+
+      8', output: '377'}
+  tests:
+  - *id007
+  - *id008
+  - {input: '0
+
+      5', output: '0', hidden: true}
+  - {input: '100
+
+      5', output: '400', hidden: true}
+  - {input: '15
+
+      2', output: '1111', hidden: true}
+  - {input: '7
+
+      3', output: '21', hidden: true}
+  - {input: '1000
+
+      9', output: '1331', hidden: true}
+  checker: exact
+  hints:
+  - 'Остаток: n % b. Его нужно превратить в строку: str(n % b).'
+  - 'Дописывай слева: result = str(n % b) + result, затем n //= b.'
+  - 'Ноль обработай отдельно: если n == 0, выведи 0.'
+  solution: |
+    n = int(input())
+    b = int(input())
+    result = ""
+    if n == 0:
+        result = "0"
+    while n > 0:
+        result = str(n % b) + result
+        n //= b
+    print(result)
+  explanation: |
+    Сначала разберите вручную 13 → 1101₂, потом код. Отдельный случай n = 0.
+- id: l14-t5
+  type: code
+  title: Любая система до 16-ричной
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 3
+  statement: |
+    Переведите число n в систему счисления с основанием b (2 ≤ b ≤ 16). Цифры больше 9 пишите заглавными буквами A–F. Для нуля выведите 0.
+  input_format: Две строки — n и b.
+  output_format: Запись числа.
+  starter: |
+    digits = "0123456789ABCDEF"
+    n = int(input())
+    b = int(input())
+    result = ""
+    # остаток — индекс в digits
+  examples:
+  - &id009 {input: '255
+
+      16', output: FF}
+  - &id010 {input: '10
+
+      16', output: A}
+  tests:
+  - *id009
+  - *id010
+  - {input: '4095
+
+      16', output: FFF, hidden: true}
+  - {input: '0
+
+      16', output: '0', hidden: true}
+  - {input: '100
+
+      12', output: '84', hidden: true}
+  - {input: '31
+
+      2', output: '11111', hidden: true}
+  - {input: '1000
+
+      15', output: 46A, hidden: true}
+  checker: exact
+  hints:
+  - 'Цифру берём из строки: digits[n % b].'
+  - 'Дописывай слева: result = digits[n % b] + result.'
+  - Для 0 выведи 0.
+  solution: |
+    digits = "0123456789ABCDEF"
+    n = int(input())
+    b = int(input())
+    result = ""
+    if n == 0:
+        result = "0"
+    while n > 0:
+        result = digits[n % b] + result
+        n //= b
+    print(result)
+  explanation: |
+    Строка `digits` — таблица цифр. Это пригодится для основания 12.
+- id: l14-t6
+  type: code
+  title: В десятичную своими руками
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 3
+  statement: |
+    Даны число s в системе с основанием b (2 ≤ b ≤ 16) и это основание. Переведите в десятичную систему без `int(s, b)`: идите по цифрам слева направо.
+  input_format: Две строки — число s и основание b.
+  output_format: Одно число.
+  starter: |
+    digits = "0123456789ABCDEF"
+    s = input()
+    b = int(input())
+    result = 0
+    # перебери цифры слева направо
+  examples:
+  - &id011 {input: 'FF
+
+      16', output: '255'}
+  - &id012 {input: '1011
+
+      2', output: '11'}
+  tests:
+  - *id011
+  - *id012
+  - {input: '377
+
+      8', output: '255', hidden: true}
+  - {input: '46A
+
+      15', output: '1000', hidden: true}
+  - {input: 'A
+
+      11', output: '10', hidden: true}
+  - {input: '0
+
+      5', output: '0', hidden: true}
+  - {input: '1000
+
+      7', output: '343', hidden: true}
+  checker: exact
+  hints:
+  - 'Значение цифры — её позиция в строке digits: digits.find(ch).'
+  - 'Правило: result = result * b + значение цифры.'
+  - Идём по s циклом for ch in s.
+  solution: |
+    digits = "0123456789ABCDEF"
+    s = input()
+    b = int(input())
+    result = 0
+    for ch in s:
+        result = result * b + digits.find(ch)
+    print(result)
+  explanation: |
+    Схема Горнера: каждый шаг сдвигает накопленное число на разряд.
+- id: l14-t7
+  type: code
+  title: Сложение в разных системах
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 3
+  statement: |
+    Даны два числа: первое в двоичной системе, второе в восьмеричной. Сложите их и выведите сумму в шестнадцатеричной системе (заглавные буквы, без префикса).
+  input_format: Две строки — двоичное и восьмеричное числа.
+  output_format: Шестнадцатеричная запись суммы.
+  starter: |
+    a = input()
+    b = input()
+    # переведи в десятичные, сложи, переведи в 16-ричную
+  examples:
+  - &id013 {input: '1011
+
+      17', output: 1A}
+  - &id014 {input: '11111111
+
+      377', output: 1FE}
+  tests:
+  - *id013
+  - *id014
+  - {input: '0
+
+      0', output: '0', hidden: true}
+  - {input: '1
+
+      1', output: '2', hidden: true}
+  - {input: '101
+
+      7', output: C, hidden: true}
+  - {input: '1000000000
+
+      1000', output: '400', hidden: true}
+  - {input: '1111
+
+      1', output: '10', hidden: true}
+  checker: exact
+  hints:
+  - 'Переведи каждое число: int(a, 2) и int(b, 8).'
+  - 'Сумму переведи в 16-ричную: hex(...)[2:].'
+  - 'Буквы нужны заглавные: метод upper().'
+  solution: |
+    a = input()
+    b = input()
+    total = int(a, 2) + int(b, 8)
+    print(hex(total)[2:].upper())
+  explanation: |
+    Типичное МЦКО-3: привести к одной системе, посчитать, вернуть. Сначала вручную.
+- id: l14-t8
+  type: code
+  title: Какое основание возможно
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 11
+  statement: |
+    Число записано цифрами 0–9 и буквами A–Z (A = 10, …, Z = 35). Найдите наименьшее основание системы счисления, в которой такая запись возможна (основание не меньше 2).
+  input_format: Одна строка — запись числа.
+  output_format: Одно число.
+  starter: |
+    digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    s = input()
+    # найди наибольшую цифру
+  examples:
+  - &id015 {input: '1011', output: '2'}
+  - &id016 {input: '377', output: '8'}
+  tests:
+  - *id015
+  - *id016
+  - {input: FF, output: '16', hidden: true}
+  - {input: '0', output: '2', hidden: true}
+  - {input: 1A, output: '11', hidden: true}
+  - {input: Z, output: '36', hidden: true}
+  - {input: '100', output: '2', hidden: true}
+  - {input: '9', output: '10', hidden: true}
+  checker: exact
+  hints:
+  - Основание должно быть больше любой цифры.
+  - 'Найди наибольшее значение цифры: digits.find(ch) для каждого символа.'
+  - Ответ — максимум плюс 1, но не меньше 2.
+  solution: |
+    digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    s = input()
+    biggest = 0
+    for ch in s:
+        value = digits.find(ch)
+        if value > biggest:
+            biggest = value
+    answer = biggest + 1
+    if answer < 2:
+        answer = 2
+    print(answer)
+  explanation: |
+    Подготовка к МЦКО-11 (системы с основанием больше 10). Ловушка: запись `0` и `1011`.
+- id: l14-t9
+  type: code
+  title: Числа с k единицами
+  level: 4
+  required: false
+  homework: true
+  mcko: []
+  statement: |
+    Сколько чисел от 1 до n включительно содержат в двоичной записи ровно k единиц?
+  input_format: Две строки — n и k.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    k = int(input())
+    # перебери числа
+  examples:
+  - &id017 {input: '10
+
+      2', output: '5'}
+  - &id018 {input: '1
+
+      1', output: '1'}
+  tests:
+  - *id017
+  - *id018
+  - {input: '100
+
+      3', output: '33', hidden: true}
+  - {input: '7
+
+      3', output: '1', hidden: true}
+  - {input: '1000
+
+      1', output: '10', hidden: true}
+  - {input: '255
+
+      8', output: '1', hidden: true}
+  - {input: '16
+
+      5', output: '0', hidden: true}
+  checker: exact
+  hints:
+  - Перебери i от 1 до n.
+  - 'Единицы в записи: bin(i).count("1").'
+  - Если их ровно k, увеличивай счётчик.
+  solution: |
+    n = int(input())
+    k = int(input())
+    count = 0
+    for i in range(1, n + 1):
+        if bin(i).count("1") == k:
+            count += 1
+    print(count)
+  explanation: |
+    Звёздочка: перебор + двоичная запись. Типичный стиль МЦКО-2.

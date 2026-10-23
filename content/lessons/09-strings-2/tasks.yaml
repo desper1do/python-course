@@ -1,0 +1,427 @@
+- id: l09-t1
+  type: code
+  title: Первая и последняя
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите первую букву строки, а на следующей строке последнюю.
+  input_format: Одна строка (не пустая).
+  output_format: Две строки.
+  starter: |
+    s = input()
+    # первая и последняя буквы
+  examples:
+  - &id001 {input: Python, output: 'P
+
+      n'}
+  - &id002 {input: a, output: 'a
+
+      a'}
+  tests:
+  - *id001
+  - *id002
+  - {input: дом, output: 'д
+
+      м', hidden: true}
+  - {input: Привет мир, output: 'П
+
+      р', hidden: true}
+  - {input: '12345', output: '1
+
+      5', hidden: true}
+  - {input: Zz, output: 'Z
+
+      z', hidden: true}
+  checker: exact
+  hints:
+  - Первая буква — s[0].
+  - Последняя — s[-1].
+  solution: |
+    s = input()
+    print(s[0])
+    print(s[-1])
+  explanation: |
+    Индексы 0 и -1. Для строки из одной буквы обе равны.
+- id: l09-t2
+  type: code
+  title: Первые три буквы
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите первые три символа строки. Если символов меньше трёх, выведите всю строку.
+  input_format: Одна строка.
+  output_format: Одна строка.
+  starter: |
+    s = input()
+    # срез
+  examples:
+  - &id003 {input: Python, output: Pyt}
+  - &id004 {input: программа, output: про}
+  tests:
+  - *id003
+  - *id004
+  - {input: ab, output: ab, hidden: true}
+  - {input: a, output: a, hidden: true}
+  - {input: abc, output: abc, hidden: true}
+  - {input: '12345678', output: '123', hidden: true}
+  checker: exact
+  hints:
+  - Срез s[:3] берёт символы с 0-го по 2-й.
+  - Если строка короче, срез просто возьмёт всё, что есть.
+  solution: |
+    s = input()
+    print(s[:3])
+  explanation: |
+    Срез не вызывает ошибку, даже если строка короткая.
+- id: l09-t3
+  type: code
+  title: Буквы в столбик
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите буквы строки по одной, каждую на своей строке.
+  input_format: Одна строка без пробелов.
+  output_format: Столбец букв.
+  starter: |
+    s = input()
+    # for letter in s:
+  examples:
+  - &id005 {input: дом, output: 'д
+
+      о
+
+      м'}
+  - &id006 {input: a, output: a}
+  tests:
+  - *id005
+  - *id006
+  - {input: Python, output: 'P
+
+      y
+
+      t
+
+      h
+
+      o
+
+      n', hidden: true}
+  - {input: мама, output: 'м
+
+      а
+
+      м
+
+      а', hidden: true}
+  - {input: '12345', output: '1
+
+      2
+
+      3
+
+      4
+
+      5', hidden: true}
+  - {input: abcd, output: 'a
+
+      b
+
+      c
+
+      d', hidden: true}
+  checker: exact
+  hints:
+  - 'Цикл for умеет перебирать строку: for letter in s.'
+  - Внутри print(letter).
+  solution: |
+    s = input()
+    for letter in s:
+        print(letter)
+  explanation: |
+    Пример из теории. Первый цикл по строке.
+- id: l09-t4
+  type: code
+  title: Сколько раз буква
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны слово и одна буква. Выведите, сколько раз буква встречается в слове (регистр учитывается).
+  input_format: Две строки — слово и буква.
+  output_format: Одно число.
+  starter: |
+    word = input()
+    letter = input()
+    # сколько раз letter встречается в word
+  examples:
+  - &id007 {input: 'banana
+
+      a', output: '3'}
+  - &id008 {input: 'мама
+
+      м', output: '2'}
+  tests:
+  - *id007
+  - *id008
+  - {input: 'hello
+
+      z', output: '0', hidden: true}
+  - {input: 'aaaa
+
+      a', output: '4', hidden: true}
+  - {input: 'Привет
+
+      п', output: '0', hidden: true}
+  - {input: 'Mississippi
+
+      s', output: '4', hidden: true}
+  checker: exact
+  hints:
+  - Для подсчёта есть метод count.
+  - word.count(letter)
+  solution: |
+    word = input()
+    letter = input()
+    print(word.count(letter))
+  explanation: |
+    Метод count. Обратите внимание, что П и п — разные буквы.
+- id: l09-t5
+  type: code
+  title: Есть ли буква
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны слово и буква. Выведите «Да», если буква есть в слове, иначе «Нет».
+  input_format: Две строки — слово и буква.
+  output_format: «Да» или «Нет».
+  starter: |
+    word = input()
+    letter = input()
+    # используй in
+  examples:
+  - &id009 {input: 'python
+
+      y', output: Да}
+  - &id010 {input: 'кот
+
+      а', output: Нет}
+  tests:
+  - *id009
+  - *id010
+  - {input: 'hello
+
+      l', output: Да, hidden: true}
+  - {input: 'a
+
+      a', output: Да, hidden: true}
+  - {input: 'Мир
+
+      м', output: Нет, hidden: true}
+  - {input: 'абвгд
+
+      д', output: Да, hidden: true}
+  checker: exact
+  hints:
+  - 'Проверка: letter in word.'
+  - 'if letter in word: print("Да") и else.'
+  solution: |
+    word = input()
+    letter = input()
+    if letter in word:
+        print("Да")
+    else:
+        print("Нет")
+  explanation: |
+    Оператор in в условии.
+- id: l09-t6
+  type: code
+  title: Гласные
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Дан текст из строчных русских букв и пробелов. Посчитайте количество гласных (а, е, ё, и, о, у, ы, э, ю, я).
+  input_format: Одна строка.
+  output_format: Одно число.
+  starter: |
+    text = input()
+    count = 0
+    # перебери буквы
+  examples:
+  - &id011 {input: привет мир, output: '3'}
+  - &id012 {input: программирование, output: '7'}
+  tests:
+  - *id011
+  - *id012
+  - {input: ъь, output: '0', hidden: true}
+  - {input: я, output: '1', hidden: true}
+  - {input: сто лет тому назад, output: '6', hidden: true}
+  - {input: шшш, output: '0', hidden: true}
+  checker: exact
+  hints:
+  - 'Перебирай буквы: for letter in text.'
+  - Гласная, если letter in "аеёиоуыэюя".
+  - При каждой гласной count += 1.
+  solution: |
+    text = input()
+    count = 0
+    for letter in text:
+        if letter in "аеёиоуыэюя":
+            count += 1
+    print(count)
+  explanation: |
+    Цикл по строке + in со строкой-набором.
+- id: l09-t7
+  type: code
+  title: Палиндром
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Палиндром читается одинаково слева направо и справа налево. Выведите «Да», если строка палиндром, иначе «Нет». Регистр учитывается.
+  input_format: Одна строка без пробелов.
+  output_format: «Да» или «Нет».
+  starter: |
+    s = input()
+    # сравни строку с её разворотом
+  examples:
+  - &id013 {input: шалаш, output: Да}
+  - &id014 {input: кот, output: Нет}
+  tests:
+  - *id013
+  - *id014
+  - {input: а, output: Да, hidden: true}
+  - {input: abba, output: Да, hidden: true}
+  - {input: abcd, output: Нет, hidden: true}
+  - {input: Анна, output: Нет, hidden: true}
+  - {input: анна, output: Да, hidden: true}
+  checker: exact
+  hints:
+  - 'Развернуть строку: s[::-1].'
+  - Сравни s == s[::-1].
+  solution: |
+    s = input()
+    if s == s[::-1]:
+        print("Да")
+    else:
+        print("Нет")
+  explanation: |
+    Срез с шагом -1. Строка из одной буквы — палиндром.
+- id: l09-t8
+  type: code
+  title: Фамилия и инициалы
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны фамилия, имя и отчество на трёх строках. Выведите в виде «Иванова А.С.» (фамилия, пробел, инициалы с точками).
+  input_format: Три строки.
+  output_format: Одна строка.
+  starter: |
+    last = input()
+    first = input()
+    middle = input()
+    # собери строку
+  examples:
+  - &id015 {input: 'Иванова
+
+      Анна
+
+      Сергеевна', output: Иванова А.С.}
+  - &id016 {input: 'Петров
+
+      Максим
+
+      Олегович', output: Петров М.О.}
+  tests:
+  - *id015
+  - *id016
+  - {input: 'Ли
+
+      Ян
+
+      Юрьевич', output: Ли Я.Ю., hidden: true}
+  - {input: 'Сидорова
+
+      Елена
+
+      Андреевна', output: Сидорова Е.А., hidden: true}
+  - {input: 'Смирнов
+
+      Иван
+
+      Иванович', output: Смирнов И.И., hidden: true}
+  - {input: 'Белых
+
+      Юлия
+
+      Викторовна', output: Белых Ю.В., hidden: true}
+  checker: exact
+  hints:
+  - 'Первая буква имени: first[0].'
+  - 'Собери: last + " " + first[0] + "." + middle[0] + "."'
+  - 'Или f-строка: f"{last} {first[0]}.{middle[0]}."'
+  solution: |
+    last = input()
+    first = input()
+    middle = input()
+    print(f"{last} {first[0]}.{middle[0]}.")
+  explanation: |
+    Индексы внутри f-строки.
+- id: l09-t9
+  type: code
+  title: Сжатие строки
+  level: 4
+  required: false
+  homework: true
+  mcko: []
+  statement: |
+    Сожмите строку: каждую группу одинаковых подряд идущих символов замените на символ и длину группы. Например, aaabcc превращается в a3b1c2.
+  input_format: Одна строка (не пустая).
+  output_format: Сжатая строка.
+  starter: |
+    s = input()
+    result = ""
+    # сравнивай каждый символ с предыдущим
+  examples:
+  - &id017 {input: aaabcc, output: a3b1c2}
+  - &id018 {input: abc, output: a1b1c1}
+  tests:
+  - *id017
+  - *id018
+  - {input: aaaa, output: a4, hidden: true}
+  - {input: a, output: a1, hidden: true}
+  - {input: aabbaa, output: a2b2a2, hidden: true}
+  - {input: zzzxyyy, output: z3x1y3, hidden: true}
+  - {input: xxxxxxxxxxxy, output: x11y1, hidden: true}
+  checker: exact
+  hints:
+  - Заведи счётчик группы count = 1 и иди по индексам от 1.
+  - Если s[i] == s[i - 1], count += 1. Иначе допиши в result предыдущий символ и счётчик, а count снова 1.
+  - После цикла допиши последнюю группу.
+  solution: |
+    s = input()
+    result = ""
+    count = 1
+    for i in range(1, len(s)):
+        if s[i] == s[i - 1]:
+            count += 1
+        else:
+            result += s[i - 1] + str(count)
+            count = 1
+    result += s[-1] + str(count)
+    print(result)
+  explanation: |
+    Звёздочка: последняя группа дописывается после цикла — типичная ошибка.

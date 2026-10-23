@@ -1,0 +1,438 @@
+- id: l04-t1
+  type: code
+  title: Чётное или нечётное
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Дано целое неотрицательное число. Выведите «Чётное», если оно делится на 2 без остатка, иначе «Нечётное».
+  input_format: Одна строка — целое число n.
+  output_format: Слово «Чётное» или «Нечётное».
+  starter: |
+    n = int(input())
+    # проверь остаток от деления на 2
+  examples:
+  - &id001 {input: '4', output: Чётное}
+  - &id002 {input: '7', output: Нечётное}
+  tests:
+  - *id001
+  - *id002
+  - {input: '0', output: Чётное, hidden: true}
+  - {input: '100', output: Чётное, hidden: true}
+  - {input: '13', output: Нечётное, hidden: true}
+  - {input: '2', output: Чётное, hidden: true}
+  - {input: '99999', output: Нечётное, hidden: true}
+  checker: exact
+  hints:
+  - Остаток от деления на 2 даёт n % 2.
+  - Чётное, если n % 2 == 0. Не забудь двойное равно и двоеточие.
+  solution: |
+    n = int(input())
+    if n % 2 == 0:
+        print("Чётное")
+    else:
+        print("Нечётное")
+  explanation: |
+    Ветвление по остатку: повторение урока 2. Следите за `==` и отступом.
+- id: l04-t2
+  type: code
+  title: Пароль
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Программа получает введённый пароль. Верный пароль — `python`. Выведите «Доступ разрешён», если пароль верный, иначе «Доступ запрещён».
+  input_format: Одна строка — введённый пароль.
+  output_format: Одна фраза.
+  starter: |
+    password = input()
+    # сравни с верным паролем
+  examples:
+  - &id003 {input: python, output: Доступ разрешён}
+  - &id004 {input: qwerty, output: Доступ запрещён}
+  tests:
+  - *id003
+  - *id004
+  - {input: Python, output: Доступ запрещён, hidden: true}
+  - {input: py, output: Доступ запрещён, hidden: true}
+  - {input: pythons, output: Доступ запрещён, hidden: true}
+  - {input: '123456', output: Доступ запрещён, hidden: true}
+  checker: exact
+  hints:
+  - 'Строки сравнивают так же, как числа: password == "python".'
+  - Не забудь ветку else.
+  solution: |
+    password = input()
+    if password == "python":
+        print("Доступ разрешён")
+    else:
+        print("Доступ запрещён")
+  explanation: |
+    Сравнение строк. Заглавная P — уже другой пароль.
+- id: l04-t3
+  type: code
+  title: Зачёт
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Для зачёта нужно набрать не меньше 70 баллов. Выведите «Зачёт» или «Незачёт».
+  input_format: Одна строка — число баллов.
+  output_format: Слово «Зачёт» или «Незачёт».
+  starter: |
+    score = int(input())
+    # проверь, набрано ли 70 баллов
+  examples:
+  - &id005 {input: '85', output: Зачёт}
+  - &id006 {input: '40', output: Незачёт}
+  tests:
+  - *id005
+  - *id006
+  - {input: '70', output: Зачёт, hidden: true}
+  - {input: '69', output: Незачёт, hidden: true}
+  - {input: '0', output: Незачёт, hidden: true}
+  - {input: '100', output: Зачёт, hidden: true}
+  - {input: '71', output: Зачёт, hidden: true}
+  checker: exact
+  hints:
+  - Не меньше 70 — это score >= 70.
+  - Граница 70 тоже даёт зачёт.
+  solution: |
+    score = int(input())
+    if score >= 70:
+        print("Зачёт")
+    else:
+        print("Незачёт")
+  explanation: |
+    Граничные значения 69 / 70: объясните разницу между `>` и `>=`.
+- id: l04-t4
+  type: code
+  title: Больше из двух
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны два целых числа. Выведите большее из них, не используя `max`. Если числа равны, выведите это число.
+  input_format: Две строки — целые числа a и b.
+  output_format: Одно число.
+  starter: |
+    a = int(input())
+    b = int(input())
+    # выведи большее
+  examples:
+  - &id007 {input: '3
+
+      8', output: '8'}
+  - &id008 {input: '10
+
+      -4', output: '10'}
+  tests:
+  - *id007
+  - *id008
+  - {input: '5
+
+      5', output: '5', hidden: true}
+  - {input: '-7
+
+      -2', output: '-2', hidden: true}
+  - {input: '0
+
+      0', output: '0', hidden: true}
+  - {input: '100
+
+      99', output: '100', hidden: true}
+  - {input: '-1
+
+      0', output: '0', hidden: true}
+  checker: exact
+  hints:
+  - 'Сравни: a > b.'
+  - Если a > b, выведи a, иначе выведи b. При равенстве подойдёт любое.
+  solution: |
+    a = int(input())
+    b = int(input())
+    if a > b:
+        print(a)
+    else:
+        print(b)
+  explanation: |
+    Классика. Равные числа попадают в else — и это нормально.
+- id: l04-t5
+  type: code
+  title: Знак числа
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите «Положительное», если число больше нуля, «Отрицательное», если меньше, и «Ноль», если оно равно нулю.
+  input_format: Одна строка — целое число.
+  output_format: Одно слово.
+  starter: |
+    n = int(input())
+    # выбери одну из трёх веток
+  examples:
+  - &id009 {input: '5', output: Положительное}
+  - &id010 {input: '-3', output: Отрицательное}
+  tests:
+  - *id009
+  - *id010
+  - {input: '0', output: Ноль, hidden: true}
+  - {input: '1', output: Положительное, hidden: true}
+  - {input: '-1', output: Отрицательное, hidden: true}
+  - {input: '1000', output: Положительное, hidden: true}
+  - {input: '-1000', output: Отрицательное, hidden: true}
+  checker: exact
+  hints:
+  - Три варианта — нужны if, elif и else.
+  - 'if n > 0 ... elif n < 0 ... else: остаётся ноль.'
+  solution: |
+    n = int(input())
+    if n > 0:
+        print("Положительное")
+    elif n < 0:
+        print("Отрицательное")
+    else:
+        print("Ноль")
+  explanation: |
+    Первое знакомство с elif.
+- id: l04-t6
+  type: code
+  title: Оценка по баллам
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    По числу баллов выведите оценку: от 85 — «5», от 70 — «4», от 50 — «3», меньше 50 — «2».
+  input_format: Одна строка — число баллов (от 0 до 100).
+  output_format: Одна цифра — оценка.
+  starter: |
+    score = int(input())
+    # выведи оценку
+  examples:
+  - &id011 {input: '90', output: '5'}
+  - &id012 {input: '55', output: '3'}
+  tests:
+  - *id011
+  - *id012
+  - {input: '85', output: '5', hidden: true}
+  - {input: '84', output: '4', hidden: true}
+  - {input: '70', output: '4', hidden: true}
+  - {input: '69', output: '3', hidden: true}
+  - {input: '50', output: '3', hidden: true}
+  - {input: '49', output: '2', hidden: true}
+  - {input: '0', output: '2', hidden: true}
+  checker: exact
+  hints:
+  - 'Начни с самого строгого условия: score >= 85.'
+  - Дальше elif score >= 70, elif score >= 50, а остальное — else.
+  - Проверь границы 49, 50, 69, 70, 84, 85.
+  solution: |
+    score = int(input())
+    if score >= 85:
+        print(5)
+    elif score >= 70:
+        print(4)
+    elif score >= 50:
+        print(3)
+    else:
+        print(2)
+  explanation: |
+    Порядок условий. Нарисуйте числовую ось с границами 50, 70, 85.
+- id: l04-t7
+  type: code
+  title: Наибольшее из трёх
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны три целых числа. Выведите наибольшее. Не используйте `max`: найдите его по шагам, как в теории.
+  input_format: Три строки — целые числа a, b, c.
+  output_format: Одно число.
+  starter: |
+    a = int(input())
+    b = int(input())
+    c = int(input())
+    # найди наибольшее по шагам
+  examples:
+  - &id013 {input: '1
+
+      5
+
+      3', output: '5'}
+  - &id014 {input: '7
+
+      2
+
+      9', output: '9'}
+  tests:
+  - *id013
+  - *id014
+  - {input: '4
+
+      4
+
+      4', output: '4', hidden: true}
+  - {input: '-5
+
+      -2
+
+      -9', output: '-2', hidden: true}
+  - {input: '0
+
+      0
+
+      1', output: '1', hidden: true}
+  - {input: '9
+
+      3
+
+      2', output: '9', hidden: true}
+  - {input: '5
+
+      9
+
+      9', output: '9', hidden: true}
+  checker: exact
+  hints:
+  - Заведи переменную biggest = a и по очереди сравнивай с ней b и c.
+  - Если b > biggest, запиши biggest = b. То же для c.
+  - Два отдельных if подряд, не elif.
+  solution: |
+    a = int(input())
+    b = int(input())
+    c = int(input())
+    biggest = a
+    if b > biggest:
+        biggest = b
+    if c > biggest:
+        biggest = c
+    print(biggest)
+  explanation: |
+    Первое накопление максимума — основа задач урока 10. Два отдельных `if`, потому что проверять нужно оба числа.
+- id: l04-t8
+  type: code
+  title: Скидка по сумме
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    В магазине скидка: на покупку от 1000 до 4999 рублей — 5%, от 5000 рублей — 10%, на меньшую сумму скидки нет. Выведите, сколько рублей нужно заплатить. Если получилась дробь, отбросьте дробную часть (используйте `//`).
+  input_format: Одна строка — сумма покупки в рублях.
+  output_format: Одно целое число.
+  starter: |
+    total = int(input())
+    # выбери скидку и выведи итог
+  examples:
+  - &id015 {input: '999', output: '999'}
+  - &id016 {input: '1000', output: '950'}
+  tests:
+  - *id015
+  - *id016
+  - {input: '5000', output: '4500', hidden: true}
+  - {input: '4999', output: '4749', hidden: true}
+  - {input: '1234', output: '1172', hidden: true}
+  - {input: '10000', output: '9000', hidden: true}
+  - {input: '0', output: '0', hidden: true}
+  checker: exact
+  hints:
+  - 'Три случая: меньше 1000, от 1000 до 4999, от 5000.'
+  - 'Начни с самого большого порога: if total >= 5000.'
+  - Цена после скидки 5% — это total * 95 // 100.
+  solution: |
+    total = int(input())
+    if total >= 5000:
+        print(total * 90 // 100)
+    elif total >= 1000:
+        print(total * 95 // 100)
+    else:
+        print(total)
+  explanation: |
+    Умножаем до деления, чтобы остаться в целых числах. Порядок условий от большего порога.
+- id: l04-t9
+  type: code
+  title: Три числа по возрастанию
+  level: 4
+  required: false
+  homework: true
+  mcko: []
+  statement: |
+    Даны три целых числа. Выведите их в порядке возрастания в одной строке через пробел.
+  input_format: Три строки — целые числа a, b, c.
+  output_format: Одна строка с тремя числами через пробел.
+  starter: |
+    a = int(input())
+    b = int(input())
+    c = int(input())
+    # расставь по возрастанию
+    print(a, b, c)
+  examples:
+  - &id017 {input: '3
+
+      1
+
+      2', output: 1 2 3}
+  - &id018 {input: '1
+
+      2
+
+      3', output: 1 2 3}
+  tests:
+  - *id017
+  - *id018
+  - {input: '3
+
+      2
+
+      1', output: 1 2 3, hidden: true}
+  - {input: '5
+
+      5
+
+      1', output: 1 5 5, hidden: true}
+  - {input: '-1
+
+      0
+
+      -5', output: -5 -1 0, hidden: true}
+  - {input: '7
+
+      7
+
+      7', output: 7 7 7, hidden: true}
+  - {input: '2
+
+      9
+
+      4', output: 2 4 9, hidden: true}
+  checker: exact
+  hints:
+  - 'Метод пузырька: сравни a и b, если a > b, поменяй их местами через третью переменную.'
+  - Затем так же сравни b и c, потом ещё раз a и b.
+  - 'Три сравнения: (a, b), (b, c), (a, b).'
+  solution: |
+    a = int(input())
+    b = int(input())
+    c = int(input())
+    if a > b:
+        t = a
+        a = b
+        b = t
+    if b > c:
+        t = b
+        b = c
+        c = t
+    if a > b:
+        t = a
+        a = b
+        b = t
+    print(a, b, c)
+  explanation: |
+    Звёздочка: вспоминаем обмен значений (урок 1). Три сравнения достаточно: самое большое «всплывает» в конец.

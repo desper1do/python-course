@@ -1,0 +1,1170 @@
+- id: l20-t1
+  type: code
+  title: Куда смотрит Черепаха
+  level: 1
+  required: true
+  homework: false
+  mcko:
+  - 10
+  statement: |
+    Дана последовательность поворотов. Черепаха смотрит вверх (угол 0). «Направо a» прибавляет a к углу, «Налево a» вычитает. Выведите итоговый угол от 0 до 359.
+  input_format: Первая строка — n, затем n строк «Направо a» или «Налево a».
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    angle = 0
+    # обрабатывай команды по одной
+  examples:
+  - &id001 {input: '1
+
+      Направо 270', output: '270'}
+  - &id002 {input: '2
+
+      Направо 90
+
+      Направо 180', output: '270'}
+  tests:
+  - *id001
+  - *id002
+  - {input: '3
+
+      Направо 270
+
+      Направо 180
+
+      Налево 270', output: '180', hidden: true}
+  - {input: '4
+
+      Направо 180
+
+      Направо 270
+
+      Налево 180
+
+      Направо 90', output: '0', hidden: true}
+  - {input: '5
+
+      Налево 270
+
+      Налево 270
+
+      Направо 180
+
+      Направо 270
+
+      Направо 90', output: '0', hidden: true}
+  - {input: '6
+
+      Направо 180
+
+      Налево 90
+
+      Направо 90
+
+      Налево 270
+
+      Налево 180
+
+      Направо 180', output: '270', hidden: true}
+  - {input: '3
+
+      Налево 90
+
+      Налево 270
+
+      Направо 90', output: '90', hidden: true}
+  checker: exact
+  hints:
+  - 'Прочитай команду: parts = input().split(); parts[0] — слово, parts[1] — число.'
+  - 'Направо: angle += число, Налево: angle -= число.'
+  - 'В конце приведи к диапазону: angle % 360.'
+  solution: |
+    n = int(input())
+    angle = 0
+    for i in range(n):
+        parts = input().split()
+        value = int(parts[1])
+        if parts[0] == "Направо":
+            angle += value
+        else:
+            angle -= value
+    print(angle % 360)
+  explanation: |
+    Остаток от деления на 360 работает и для отрицательных углов.
+- id: l20-t2
+  type: code
+  title: Где окажется Черепаха
+  level: 1
+  required: true
+  homework: false
+  mcko:
+  - 10
+  statement: |
+    Черепаха стартует в (0, 0), смотрит вверх. Выполните команды «Вперёд n», «Назад n», «Направо a», «Налево a» (a кратно 90). Выведите итоговые x и y через пробел.
+  input_format: Первая строка — n, затем n команд.
+  output_format: Два числа через пробел.
+  starter: |
+    n = int(input())
+    x = 0
+    y = 0
+    angle = 0
+    dx = [0, 1, 0, -1]
+    dy = [1, 0, -1, 0]
+    # выполняй команды
+  examples:
+  - &id003 {input: '2
+
+      Налево 270
+
+      Налево 180', output: 0 0}
+  - &id004 {input: '4
+
+      Налево 180
+
+      Налево 270
+
+      Налево 180
+
+      Назад 7', output: -7 0}
+  tests:
+  - *id003
+  - *id004
+  - {input: '5
+
+      Направо 180
+
+      Налево 270
+
+      Назад 4
+
+      Налево 90
+
+      Назад 3', output: 4 3, hidden: true}
+  - {input: '6
+
+      Вперёд 9
+
+      Назад 5
+
+      Налево 180
+
+      Направо 270
+
+      Вперёд 8
+
+      Направо 180', output: 8 4, hidden: true}
+  - {input: '8
+
+      Назад 1
+
+      Направо 270
+
+      Вперёд 3
+
+      Назад 1
+
+      Вперёд 3
+
+      Налево 180
+
+      Назад 2
+
+      Направо 180', output: -7 -1, hidden: true}
+  - {input: '10
+
+      Направо 180
+
+      Налево 180
+
+      Налево 90
+
+      Налево 90
+
+      Налево 270
+
+      Налево 180
+
+      Назад 4
+
+      Вперёд 5
+
+      Направо 180
+
+      Налево 90', output: 1 0, hidden: true}
+  - {input: '12
+
+      Направо 180
+
+      Направо 180
+
+      Направо 90
+
+      Налево 270
+
+      Направо 270
+
+      Направо 90
+
+      Вперёд 4
+
+      Налево 270
+
+      Налево 180
+
+      Направо 180
+
+      Налево 270
+
+      Налево 180', output: 0 -4, hidden: true}
+  checker: tokens
+  hints:
+  - 'Для «Вперёд v»: x += dx[angle // 90] * v, y += dy[angle // 90] * v. Для «Назад» умножай на -v.'
+  - 'Для поворота: angle = (angle + v) % 360 или (angle - v) % 360.'
+  - Выведи print(x, y).
+  solution: |
+    n = int(input())
+    x = 0
+    y = 0
+    angle = 0
+    dx = [0, 1, 0, -1]
+    dy = [1, 0, -1, 0]
+    for i in range(n):
+        parts = input().split()
+        value = int(parts[1])
+        if parts[0] == "Вперёд":
+            x += dx[angle // 90] * value
+            y += dy[angle // 90] * value
+        elif parts[0] == "Назад":
+            x -= dx[angle // 90] * value
+            y -= dy[angle // 90] * value
+        elif parts[0] == "Направо":
+            angle = (angle + value) % 360
+        else:
+            angle = (angle - value) % 360
+    print(x, y)
+  explanation: |
+    Главная задача урока: трассировка. Сначала на бумаге для первого примера.
+- id: l20-t3
+  type: code
+  title: Сколько клеток на пути
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 10
+  statement: |
+    Программа записана одной строкой: пары «команда число» через пробел, без повторов (только Вперёд, Назад, Направо, Налево). Сколько различных точек с целыми координатами лежит на пути Черепахи, включая стартовую точку?
+  input_format: Одна строка с программой.
+  output_format: Одно число.
+  starter: |
+    tokens = input().split()
+    x = 0
+    y = 0
+    angle = 0
+    dx = [0, 1, 0, -1]
+    dy = [1, 0, -1, 0]
+    visited = {(0, 0)}
+    # двигайся по одной клетке
+  examples:
+  - &id005 {input: Вперёд 3 Направо 90 Вперёд 2, output: '6'}
+  - &id006 {input: Вперёд 2 Назад 2, output: '3'}
+  tests:
+  - *id005
+  - *id006
+  - {input: Вперёд 2 Направо 90 Вперёд 2 Направо 90 Вперёд 2 Направо 90 Вперёд 2, output: '8', hidden: true}
+  - {input: Вперёд 1, output: '2', hidden: true}
+  - {input: Направо 90 Вперёд 3 Налево 90 Вперёд 1, output: '5', hidden: true}
+  - {input: Вперёд 3 Назад 1 Налево 90 Вперёд 2 Налево 90 Вперёд 2, output: '8', hidden: true}
+  - {input: Назад 3 Налево 90 Направо 90 Вперёд 2 Вперёд 3 Направо 90 Направо 270, output: '6', hidden: true}
+  checker: exact
+  hints:
+  - 'Для Вперёд v делай v шагов по одной клетке: for step in range(v).'
+  - 'После каждого шага добавляй точку: visited.add((x, y)).'
+  - Ответ — len(visited). Назад — шаг в противоположную сторону.
+  solution: |
+    tokens = input().split()
+    x = 0
+    y = 0
+    angle = 0
+    dx = [0, 1, 0, -1]
+    dy = [1, 0, -1, 0]
+    visited = {(0, 0)}
+    i = 0
+    while i < len(tokens):
+        command = tokens[i]
+        value = int(tokens[i + 1])
+        if command == "Направо":
+            angle = (angle + value) % 360
+        elif command == "Налево":
+            angle = (angle - value) % 360
+        else:
+            sign = 1
+            if command == "Назад":
+                sign = -1
+            for step in range(value):
+                x += dx[angle // 90] * sign
+                y += dy[angle // 90] * sign
+                visited.add((x, y))
+        i += 2
+    print(len(visited))
+  explanation: |
+    Множество пар-кортежей. Оно само убирает повторные точки.
+- id: l20-t4
+  type: code
+  title: Границы нарисованного
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 10
+  statement: |
+    Программа Черепахи записана в одной строке (может содержать Повтори, Поднять хвост, Опустить хвост). Хвост в начале опущен. Найдите наименьшие и наибольшие координаты, до которых Черепаха дошла с опущенным хвостом: x_min, y_min, x_max, y_max. Функция `expand` (разворачивает «Повтори») уже написана. Рисунок существует.
+  input_format: Одна строка с программой. Токены разделены пробелами; скобки тоже.
+  output_format: Четыре числа через пробел.
+  starter: |
+    def expand(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        return expanded
+
+    line = input()
+    tokens = expand(line)
+    # выполни команды, запоминая точки при опущенном хвосте
+  examples:
+  - &id007 {input: 'Поднять хвост Назад 2 Направо 90 Вперёд 4 Налево 90 Опустить хвост Повтори 2 [ Вперёд 4 Направо 90 Вперёд 10 Направо 90 ]', output: 4 -2 14 2}
+  - &id008 {input: 'Поднять хвост Назад 2 Направо 90 Назад 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 8 Направо 90 Вперёд 3 Направо 90 ]', output: -1 -2 2 6}
+  tests:
+  - *id007
+  - *id008
+  - {input: Назад 3 Опустить хвост Поднять хвост Опустить хвост Поднять хвост Поднять хвост Налево 90 Вперёд 4, output: 0 -3 0 0, hidden: true}
+  - {input: Опустить хвост Вперёд 4 Опустить хвост Назад 1 Вперёд 2 Поднять хвост Налево 90 Направо 90, output: 0 0 0 5, hidden: true}
+  - {input: 'Повтори 4 [ Вперёд 2 Направо 90 ]', output: 0 0 2 2, hidden: true}
+  - {input: Поднять хвост Вперёд 3 Опустить хвост Вперёд 2, output: 0 3 0 5, hidden: true}
+  - {input: Налево 90 Назад 3 Вперёд 2 Опустить хвост Поднять хвост Вперёд 3 Налево 90, output: 0 0 3 0, hidden: true}
+  checker: tokens
+  hints:
+  - Заведи списки xs и ys. Перед и после каждого Вперёд/Назад при pen == True добавляй текущие x и y.
+  - Поднять — pen = False, Опустить — pen = True. Токены идут парами, поэтому шаг цикла i += 2.
+  - 'Ответ: min(xs), min(ys), max(xs), max(ys).'
+  solution: |
+    def expand(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        return expanded
+
+    line = input()
+    tokens = expand(line)
+    x = 0
+    y = 0
+    angle = 0
+    pen = True
+    dx = [0, 1, 0, -1]
+    dy = [1, 0, -1, 0]
+    xs = []
+    ys = []
+    i = 0
+    while i < len(tokens):
+        command = tokens[i]
+        value = tokens[i + 1]
+        if command == "Поднять":
+            pen = False
+        elif command == "Опустить":
+            pen = True
+        elif command == "Направо":
+            angle = (angle + int(value)) % 360
+        elif command == "Налево":
+            angle = (angle - int(value)) % 360
+        else:
+            step = int(value)
+            if command == "Назад":
+                step = -step
+            if pen:
+                xs.append(x)
+                ys.append(y)
+            x += dx[angle // 90] * step
+            y += dy[angle // 90] * step
+            if pen:
+                xs.append(x)
+                ys.append(y)
+        i += 2
+    print(min(xs), min(ys), max(xs), max(ys))
+  explanation: |
+    Эта функция потом в `bounding_box` для следующих задач. Команды «Поднять хвост» — две лексемы: команда и слово «хвост».
+- id: l20-t5
+  type: code
+  title: Повтори
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 10
+  statement: |
+    Программа Черепахи содержит команду «Повтори k [ ... ]». Выведите итоговые x, y и угол (0, 90, 180 или 270). Функция `expand` уже написана.
+  input_format: Одна строка с программой.
+  output_format: Три числа через пробел.
+  starter: |
+    def expand(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        return expanded
+
+    line = input()
+    tokens = expand(line)
+    # выполни развёрнутую программу
+  examples:
+  - &id009 {input: 'Вперёд 3 Повтори 2 [ Вперёд 2 Направо 90 Назад 2 ]', output: 0 7 180}
+  - &id010 {input: 'Вперёд 1 Повтори 2 [ Вперёд 2 Направо 90 Назад 2 ] Налево 90', output: 0 5 90}
+  tests:
+  - *id009
+  - *id010
+  - {input: 'Вперёд 3 Повтори 3 [ Вперёд 2 Направо 180 Назад 1 ]', output: 0 6 180, hidden: true}
+  - {input: 'Вперёд 2 Повтори 2 [ Вперёд 3 Направо 180 Назад 2 ] Налево 90', output: 0 2 270, hidden: true}
+  - {input: 'Вперёд 3 Вперёд 2 Повтори 2 [ Вперёд 2 Направо 90 Назад 1 ]', output: 1 8 180, hidden: true}
+  - {input: 'Вперёд 2 Повтори 4 [ Вперёд 1 Направо 90 Назад 1 ]', output: 0 2 0, hidden: true}
+  - {input: 'Вперёд 1 Вперёд 2 Повтори 2 [ Вперёд 1 Направо 90 Назад 2 ]', output: -1 6 180, hidden: true}
+  checker: tokens
+  hints:
+  - 'Развёрнутый список tokens состоит из пар: команда, число.'
+  - Выполняй как в задаче 2, шаг i += 2.
+  - Выведи print(x, y, angle).
+  solution: |
+    def expand(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        return expanded
+
+    line = input()
+    tokens = expand(line)
+    x = 0
+    y = 0
+    angle = 0
+    dx = [0, 1, 0, -1]
+    dy = [1, 0, -1, 0]
+    i = 0
+    while i < len(tokens):
+        command = tokens[i]
+        value = int(tokens[i + 1])
+        if command == "Вперёд":
+            x += dx[angle // 90] * value
+            y += dy[angle // 90] * value
+        elif command == "Назад":
+            x -= dx[angle // 90] * value
+            y -= dy[angle // 90] * value
+        elif command == "Направо":
+            angle = (angle + value) % 360
+        else:
+            angle = (angle - value) % 360
+        i += 2
+    print(x, y, angle)
+  explanation: |
+    Показать, как работает `expand`: читаем до «[» и копируем тело k раз.
+- id: l20-t6
+  type: code
+  title: Точки внутри фигуры
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 10
+  statement: |
+    Программа рисует прямоугольник. Сколько точек с целыми координатами лежит строго внутри него? Функция `bounding_box(line)` возвращает x_min, y_min, x_max, y_max нарисованного (используйте её).
+  input_format: Одна строка с программой.
+  output_format: Одно число.
+  starter: |
+    def bounding_box(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        x = 0
+        y = 0
+        angle = 0
+        pen = True
+        dx = [0, 1, 0, -1]
+        dy = [1, 0, -1, 0]
+        xs = []
+        ys = []
+        i = 0
+        while i < len(expanded):
+            command = expanded[i]
+            value = expanded[i + 1]
+            if command == "Поднять":
+                pen = False
+            elif command == "Опустить":
+                pen = True
+            elif command == "Направо":
+                angle = (angle + int(value)) % 360
+            elif command == "Налево":
+                angle = (angle - int(value)) % 360
+            else:
+                step = int(value)
+                if command == "Назад":
+                    step = -step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+                x += dx[angle // 90] * step
+                y += dy[angle // 90] * step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+            i += 2
+        return min(xs), min(ys), max(xs), max(ys)
+
+    line = input()
+    x1, y1, x2, y2 = bounding_box(line)
+    # сколько точек строго внутри?
+  examples:
+  - &id011 {input: 'Поднять хвост Назад 3 Направо 90 Вперёд 2 Налево 90 Опустить хвост Повтори 2 [ Вперёд 9 Налево 90 Вперёд 4 Налево 90 ]', output: '24'}
+  - &id012 {input: 'Поднять хвост Вперёд 4 Направо 90 Назад 2 Налево 90 Опустить хвост Повтори 2 [ Вперёд 7 Направо 90 Вперёд 10 Направо 90 ]', output: '54'}
+  tests:
+  - *id011
+  - *id012
+  - {input: 'Поднять хвост Назад 3 Направо 90 Вперёд 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 7 Налево 90 Вперёд 4 Налево 90 ]', output: '18', hidden: true}
+  - {input: 'Поднять хвост Вперёд 2 Направо 90 Назад 2 Налево 90 Опустить хвост Повтори 2 [ Вперёд 3 Налево 90 Вперёд 3 Налево 90 ]', output: '4', hidden: true}
+  - {input: 'Поднять хвост Назад 5 Направо 90 Назад 2 Налево 90 Опустить хвост Повтори 2 [ Вперёд 8 Направо 90 Вперёд 5 Направо 90 ]', output: '28', hidden: true}
+  - {input: 'Поднять хвост Вперёд 4 Направо 90 Вперёд 0 Налево 90 Опустить хвост Повтори 2 [ Вперёд 2 Направо 90 Вперёд 3 Направо 90 ]', output: '2', hidden: true}
+  - {input: 'Поднять хвост Вперёд 2 Направо 90 Назад 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 10 Налево 90 Вперёд 10 Налево 90 ]', output: '81', hidden: true}
+  checker: exact
+  hints:
+  - 'Внутри строго между границами: ширина минус 1, высота минус 1.'
+  - (x2 - x1 - 1) * (y2 - y1 - 1)
+  - 'Если одна из сторон равна 1, внутри нет точек: ответ 0.'
+  solution: |
+    def bounding_box(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        x = 0
+        y = 0
+        angle = 0
+        pen = True
+        dx = [0, 1, 0, -1]
+        dy = [1, 0, -1, 0]
+        xs = []
+        ys = []
+        i = 0
+        while i < len(expanded):
+            command = expanded[i]
+            value = expanded[i + 1]
+            if command == "Поднять":
+                pen = False
+            elif command == "Опустить":
+                pen = True
+            elif command == "Направо":
+                angle = (angle + int(value)) % 360
+            elif command == "Налево":
+                angle = (angle - int(value)) % 360
+            else:
+                step = int(value)
+                if command == "Назад":
+                    step = -step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+                x += dx[angle // 90] * step
+                y += dy[angle // 90] * step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+            i += 2
+        return min(xs), min(ys), max(xs), max(ys)
+
+    line = input()
+    x1, y1, x2, y2 = bounding_box(line)
+    print((x2 - x1 - 1) * (y2 - y1 - 1))
+  explanation: |
+    Здесь используем готовую функцию. Разберите, как она работает: это ваш код из задач 4–5.
+- id: l20-t7
+  type: code
+  title: Пересечение двух фигур
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 10
+  statement: |
+    Две программы (на двух строках) рисуют два прямоугольника. Сколько целых точек лежит строго внутри обоих? Используйте `bounding_box`.
+  input_format: Две строки — по программе.
+  output_format: Одно число.
+  starter: |
+    def bounding_box(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        x = 0
+        y = 0
+        angle = 0
+        pen = True
+        dx = [0, 1, 0, -1]
+        dy = [1, 0, -1, 0]
+        xs = []
+        ys = []
+        i = 0
+        while i < len(expanded):
+            command = expanded[i]
+            value = expanded[i + 1]
+            if command == "Поднять":
+                pen = False
+            elif command == "Опустить":
+                pen = True
+            elif command == "Направо":
+                angle = (angle + int(value)) % 360
+            elif command == "Налево":
+                angle = (angle - int(value)) % 360
+            else:
+                step = int(value)
+                if command == "Назад":
+                    step = -step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+                x += dx[angle // 90] * step
+                y += dy[angle // 90] * step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+            i += 2
+        return min(xs), min(ys), max(xs), max(ys)
+
+    first = input()
+    second = input()
+    # границы обеих фигур, потом пересечение
+  examples:
+  - &id013 {input: 'Поднять хвост Назад 5 Направо 90 Назад 2 Налево 90 Опустить хвост Повтори 2 [ Вперёд 2 Налево 90 Вперёд 4 Налево 90 ]
+
+      Поднять хвост Назад 1 Направо 90 Назад 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 9 Налево 90 Вперёд 4 Налево 90 ]', output: '0'}
+  - &id014 {input: 'Поднять хвост Назад 4 Направо 90 Вперёд 0 Налево 90 Опустить хвост Повтори 2 [ Вперёд 8 Налево 90 Вперёд 2 Налево 90 ]
+
+      Поднять хвост Вперёд 0 Направо 90 Вперёд 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 6 Направо 90 Вперёд 9 Направо 90 ]', output: '0'}
+  tests:
+  - *id013
+  - *id014
+  - {input: 'Поднять хвост Вперёд 1 Направо 90 Вперёд 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 9 Налево 90 Вперёд 8 Налево 90 ]
+
+      Поднять хвост Назад 2 Направо 90 Вперёд 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 2 Направо 90 Вперёд 8 Направо 90 ]', output: '0', hidden: true}
+  - {input: 'Поднять хвост Назад 4 Направо 90 Назад 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 5 Направо 90 Вперёд 9 Направо 90 ]
+
+      Поднять хвост Вперёд 4 Направо 90 Назад 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 5 Налево 90 Вперёд 2 Налево 90 ]', output: '0', hidden: true}
+  - {input: 'Поднять хвост Вперёд 1 Направо 90 Назад 4 Налево 90 Опустить хвост Повтори 2 [ Вперёд 4 Направо 90 Вперёд 5 Направо 90 ]
+
+      Поднять хвост Вперёд 0 Направо 90 Назад 4 Налево 90 Опустить хвост Повтори 2 [ Вперёд 4 Налево 90 Вперёд 7 Налево 90 ]', output: '0', hidden: true}
+  - {input: 'Поднять хвост Вперёд 1 Направо 90 Вперёд 2 Налево 90 Опустить хвост Повтори 2 [ Вперёд 3 Налево 90 Вперёд 10 Налево 90 ]
+
+      Поднять хвост Вперёд 2 Направо 90 Назад 2 Налево 90 Опустить хвост Повтори 2 [ Вперёд 4 Направо 90 Вперёд 10 Направо 90 ]', output: '3', hidden: true}
+  - {input: 'Поднять хвост Назад 5 Направо 90 Назад 4 Налево 90 Опустить хвост Повтори 2 [ Вперёд 6 Налево 90 Вперёд 5 Налево 90 ]
+
+      Поднять хвост Назад 2 Направо 90 Назад 2 Налево 90 Опустить хвост Повтори 2 [ Вперёд 7 Направо 90 Вперёд 4 Направо 90 ]', output: '0', hidden: true}
+  checker: exact
+  hints:
+  - 'Получи границы каждой: ax1, ay1, ax2, ay2 и bx1, by1, bx2, by2.'
+  - 'Пересечение по x: left = max(ax1, bx1), right = min(ax2, bx2). По y аналогично.'
+  - 'Если right - left - 1 или верхняя - нижняя - 1 отрицательны, пересечения нет: ответ 0.'
+  solution: |
+    def bounding_box(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        x = 0
+        y = 0
+        angle = 0
+        pen = True
+        dx = [0, 1, 0, -1]
+        dy = [1, 0, -1, 0]
+        xs = []
+        ys = []
+        i = 0
+        while i < len(expanded):
+            command = expanded[i]
+            value = expanded[i + 1]
+            if command == "Поднять":
+                pen = False
+            elif command == "Опустить":
+                pen = True
+            elif command == "Направо":
+                angle = (angle + int(value)) % 360
+            elif command == "Налево":
+                angle = (angle - int(value)) % 360
+            else:
+                step = int(value)
+                if command == "Назад":
+                    step = -step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+                x += dx[angle // 90] * step
+                y += dy[angle // 90] * step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+            i += 2
+        return min(xs), min(ys), max(xs), max(ys)
+
+    first = input()
+    second = input()
+    ax1, ay1, ax2, ay2 = bounding_box(first)
+    bx1, by1, bx2, by2 = bounding_box(second)
+    left = max(ax1, bx1)
+    right = min(ax2, bx2)
+    bottom = max(ay1, by1)
+    top = min(ay2, by2)
+    width = right - left - 1
+    height = top - bottom - 1
+    if width > 0 and height > 0:
+        print(width * height)
+    else:
+        print(0)
+  explanation: |
+    Сердце задания 10: пересечение отрезков по осям. Рисуйте обе фигуры на клетчатой бумаге.
+- id: l20-t8
+  type: code
+  title: Объединение двух фигур
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 10
+  statement: |
+    Две программы рисуют два прямоугольника. Сколько целых точек лежит строго внутри хотя бы одного из них?
+  input_format: Две строки — по программе.
+  output_format: Одно число.
+  starter: |
+    def bounding_box(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        x = 0
+        y = 0
+        angle = 0
+        pen = True
+        dx = [0, 1, 0, -1]
+        dy = [1, 0, -1, 0]
+        xs = []
+        ys = []
+        i = 0
+        while i < len(expanded):
+            command = expanded[i]
+            value = expanded[i + 1]
+            if command == "Поднять":
+                pen = False
+            elif command == "Опустить":
+                pen = True
+            elif command == "Направо":
+                angle = (angle + int(value)) % 360
+            elif command == "Налево":
+                angle = (angle - int(value)) % 360
+            else:
+                step = int(value)
+                if command == "Назад":
+                    step = -step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+                x += dx[angle // 90] * step
+                y += dy[angle // 90] * step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+            i += 2
+        return min(xs), min(ys), max(xs), max(ys)
+
+    first = input()
+    second = input()
+    # внутри A + внутри B - внутри обоих
+  examples:
+  - &id015 {input: 'Поднять хвост Вперёд 4 Направо 90 Вперёд 0 Налево 90 Опустить хвост Повтори 2 [ Вперёд 2 Направо 90 Вперёд 7 Направо 90 ]
+
+      Поднять хвост Вперёд 3 Направо 90 Вперёд 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 4 Направо 90 Вперёд 4 Направо 90 ]', output: '12'}
+  - &id016 {input: 'Поднять хвост Вперёд 1 Направо 90 Вперёд 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 10 Направо 90 Вперёд 9 Направо 90 ]
+
+      Поднять хвост Назад 2 Направо 90 Вперёд 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 6 Налево 90 Вперёд 3 Налево 90 ]', output: '82'}
+  tests:
+  - *id015
+  - *id016
+  - {input: 'Поднять хвост Вперёд 3 Направо 90 Вперёд 3 Налево 90 Опустить хвост Повтори 2 [ Вперёд 8 Направо 90 Вперёд 10 Направо 90 ]
+
+      Поднять хвост Назад 2 Направо 90 Назад 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 8 Направо 90 Вперёд 8 Направо 90 ]', output: '112', hidden: true}
+  - {input: 'Поднять хвост Назад 5 Направо 90 Назад 2 Налево 90 Опустить хвост Повтори 2 [ Вперёд 5 Налево 90 Вперёд 3 Налево 90 ]
+
+      Поднять хвост Вперёд 4 Направо 90 Назад 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 8 Направо 90 Вперёд 10 Направо 90 ]', output: '71', hidden: true}
+  - {input: 'Поднять хвост Назад 3 Направо 90 Назад 2 Налево 90 Опустить хвост Повтори 2 [ Вперёд 8 Налево 90 Вперёд 10 Налево 90 ]
+
+      Поднять хвост Вперёд 2 Направо 90 Назад 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 6 Направо 90 Вперёд 5 Направо 90 ]', output: '79', hidden: true}
+  - {input: 'Поднять хвост Назад 3 Направо 90 Вперёд 4 Налево 90 Опустить хвост Повтори 2 [ Вперёд 8 Налево 90 Вперёд 6 Налево 90 ]
+
+      Поднять хвост Вперёд 4 Направо 90 Назад 3 Налево 90 Опустить хвост Повтори 2 [ Вперёд 4 Налево 90 Вперёд 9 Налево 90 ]', output: '59', hidden: true}
+  - {input: 'Поднять хвост Вперёд 1 Направо 90 Вперёд 3 Налево 90 Опустить хвост Повтори 2 [ Вперёд 5 Налево 90 Вперёд 6 Налево 90 ]
+
+      Поднять хвост Назад 2 Направо 90 Вперёд 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 10 Направо 90 Вперёд 8 Направо 90 ]', output: '79', hidden: true}
+  checker: exact
+  hints:
+  - Точек внутри каждой по формуле (ширина − 1)·(высота − 1).
+  - Общие точки посчитай как в прошлой задаче.
+  - Объединение = A + B − пересечение.
+  solution: |
+    def bounding_box(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        x = 0
+        y = 0
+        angle = 0
+        pen = True
+        dx = [0, 1, 0, -1]
+        dy = [1, 0, -1, 0]
+        xs = []
+        ys = []
+        i = 0
+        while i < len(expanded):
+            command = expanded[i]
+            value = expanded[i + 1]
+            if command == "Поднять":
+                pen = False
+            elif command == "Опустить":
+                pen = True
+            elif command == "Направо":
+                angle = (angle + int(value)) % 360
+            elif command == "Налево":
+                angle = (angle - int(value)) % 360
+            else:
+                step = int(value)
+                if command == "Назад":
+                    step = -step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+                x += dx[angle // 90] * step
+                y += dy[angle // 90] * step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+            i += 2
+        return min(xs), min(ys), max(xs), max(ys)
+
+    first = input()
+    second = input()
+    ax1, ay1, ax2, ay2 = bounding_box(first)
+    bx1, by1, bx2, by2 = bounding_box(second)
+    area_a = (ax2 - ax1 - 1) * (ay2 - ay1 - 1)
+    area_b = (bx2 - bx1 - 1) * (by2 - by1 - 1)
+    width = min(ax2, bx2) - max(ax1, bx1) - 1
+    height = min(ay2, by2) - max(ay1, by1) - 1
+    common = 0
+    if width > 0 and height > 0:
+        common = width * height
+    print(area_a + area_b - common)
+  explanation: |
+    Принцип включений-исключений для двух множеств.
+- id: l20-t9
+  type: code
+  title: Внутри первой, но не внутри второй
+  level: 4
+  required: false
+  homework: true
+  mcko:
+  - 10
+  statement: |
+    Две программы рисуют два прямоугольника. Сколько целых точек лежит строго внутри первого и не лежит строго внутри второго? Решите перебором точек сетки.
+  input_format: Две строки — по программе.
+  output_format: Одно число.
+  starter: |
+    def bounding_box(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        x = 0
+        y = 0
+        angle = 0
+        pen = True
+        dx = [0, 1, 0, -1]
+        dy = [1, 0, -1, 0]
+        xs = []
+        ys = []
+        i = 0
+        while i < len(expanded):
+            command = expanded[i]
+            value = expanded[i + 1]
+            if command == "Поднять":
+                pen = False
+            elif command == "Опустить":
+                pen = True
+            elif command == "Направо":
+                angle = (angle + int(value)) % 360
+            elif command == "Налево":
+                angle = (angle - int(value)) % 360
+            else:
+                step = int(value)
+                if command == "Назад":
+                    step = -step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+                x += dx[angle // 90] * step
+                y += dy[angle // 90] * step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+            i += 2
+        return min(xs), min(ys), max(xs), max(ys)
+
+    first = input()
+    second = input()
+    ax1, ay1, ax2, ay2 = bounding_box(first)
+    bx1, by1, bx2, by2 = bounding_box(second)
+    count = 0
+    # перебери точки в рамке первой фигуры
+  examples:
+  - &id017 {input: 'Поднять хвост Назад 1 Направо 90 Вперёд 3 Налево 90 Опустить хвост Повтори 2 [ Вперёд 6 Налево 90 Вперёд 3 Налево 90 ]
+
+      Поднять хвост Вперёд 2 Направо 90 Вперёд 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 10 Направо 90 Вперёд 8 Направо 90 ]', output: '8'}
+  - &id018 {input: 'Поднять хвост Вперёд 2 Направо 90 Назад 4 Налево 90 Опустить хвост Повтори 2 [ Вперёд 8 Налево 90 Вперёд 6 Налево 90 ]
+
+      Поднять хвост Вперёд 1 Направо 90 Вперёд 2 Налево 90 Опустить хвост Повтори 2 [ Вперёд 4 Направо 90 Вперёд 7 Направо 90 ]', output: '35'}
+  tests:
+  - *id017
+  - *id018
+  - {input: 'Поднять хвост Вперёд 2 Направо 90 Назад 4 Налево 90 Опустить хвост Повтори 2 [ Вперёд 8 Направо 90 Вперёд 8 Направо 90 ]
+
+      Поднять хвост Вперёд 2 Направо 90 Вперёд 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 4 Направо 90 Вперёд 8 Направо 90 ]', output: '43', hidden: true}
+  - {input: 'Поднять хвост Назад 2 Направо 90 Вперёд 4 Налево 90 Опустить хвост Повтори 2 [ Вперёд 7 Налево 90 Вперёд 2 Налево 90 ]
+
+      Поднять хвост Назад 1 Направо 90 Вперёд 2 Налево 90 Опустить хвост Повтори 2 [ Вперёд 4 Налево 90 Вперёд 10 Налево 90 ]', output: '6', hidden: true}
+  - {input: 'Поднять хвост Назад 4 Направо 90 Вперёд 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 10 Направо 90 Вперёд 2 Направо 90 ]
+
+      Поднять хвост Вперёд 4 Направо 90 Назад 4 Налево 90 Опустить хвост Повтори 2 [ Вперёд 4 Направо 90 Вперёд 7 Направо 90 ]', output: '8', hidden: true}
+  - {input: 'Поднять хвост Назад 5 Направо 90 Назад 3 Налево 90 Опустить хвост Повтори 2 [ Вперёд 9 Налево 90 Вперёд 3 Налево 90 ]
+
+      Поднять хвост Вперёд 4 Направо 90 Вперёд 4 Налево 90 Опустить хвост Повтори 2 [ Вперёд 10 Налево 90 Вперёд 3 Налево 90 ]', output: '16', hidden: true}
+  - {input: 'Поднять хвост Вперёд 1 Направо 90 Вперёд 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 8 Налево 90 Вперёд 6 Налево 90 ]
+
+      Поднять хвост Назад 3 Направо 90 Назад 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 3 Налево 90 Вперёд 4 Налево 90 ]', output: '35', hidden: true}
+  checker: exact
+  hints:
+  - Достаточно перебрать x от ax1 до ax2 и y от ay1 до ay2.
+  - 'Внутри первой: ax1 < x < ax2 and ay1 < y < ay2. Внутри второй — по аналогии.'
+  - Считай, если внутри первой и not внутри второй.
+  solution: |
+    def bounding_box(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        x = 0
+        y = 0
+        angle = 0
+        pen = True
+        dx = [0, 1, 0, -1]
+        dy = [1, 0, -1, 0]
+        xs = []
+        ys = []
+        i = 0
+        while i < len(expanded):
+            command = expanded[i]
+            value = expanded[i + 1]
+            if command == "Поднять":
+                pen = False
+            elif command == "Опустить":
+                pen = True
+            elif command == "Направо":
+                angle = (angle + int(value)) % 360
+            elif command == "Налево":
+                angle = (angle - int(value)) % 360
+            else:
+                step = int(value)
+                if command == "Назад":
+                    step = -step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+                x += dx[angle // 90] * step
+                y += dy[angle // 90] * step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+            i += 2
+        return min(xs), min(ys), max(xs), max(ys)
+
+    first = input()
+    second = input()
+    ax1, ay1, ax2, ay2 = bounding_box(first)
+    bx1, by1, bx2, by2 = bounding_box(second)
+    count = 0
+    for x in range(ax1, ax2 + 1):
+        for y in range(ay1, ay2 + 1):
+            inside_a = ax1 < x < ax2 and ay1 < y < ay2
+            inside_b = bx1 < x < bx2 and by1 < y < by2
+            if inside_a and not inside_b:
+                count += 1
+    print(count)
+  explanation: |
+    Звёздочка: для сложных фигур единственный универсальный способ — перебор по сетке. Здесь появляется цепочка сравнений `a < x < b`.

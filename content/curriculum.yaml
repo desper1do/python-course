@@ -1,22 +1,167 @@
 blocks:
-  - id: basics
-    title: Основы Python
+- id: basics
+  title: Основы Python
+- id: loops-info
+  title: Циклы и информация
+- id: structures
+  title: Структуры и системы счисления
+- id: mcko
+  title: МЦКО-практикум
 lessons:
-  - id: 01-basics-recap
-    block: basics
-    title: "Повторение: print, переменные, input"
-    minutes: 50
-    mcko: []
-    allowed_imports: []
-  - id: 02-numbers
-    block: basics
-    title: "Числа: деление с остатком и цифры"
-    minutes: 50
-    mcko: []
-    allowed_imports: []
-  - id: 03-strings-1
-    block: basics
-    title: "Строки I: склейка, повтор, длина, f-строки"
-    minutes: 50
-    mcko: []
-    allowed_imports: []
+- id: 01-basics-recap
+  block: basics
+  title: 'Повторение: print, переменные, input'
+  minutes: 50
+  mcko: []
+  allowed_imports: []
+- id: 02-numbers
+  block: basics
+  title: 'Числа: деление с остатком и цифры'
+  minutes: 50
+  mcko: []
+  allowed_imports: []
+- id: 03-strings-1
+  block: basics
+  title: 'Строки I: склейка, повтор, длина, f-строки'
+  minutes: 50
+  mcko: []
+  allowed_imports: []
+- id: 04-conditions
+  block: basics
+  title: 'Условия: if, elif, else'
+  minutes: 50
+  mcko: []
+  allowed_imports: []
+- id: 05-complex-conditions
+  block: basics
+  title: 'Сложные условия: and, or, not'
+  minutes: 50
+  mcko: []
+  allowed_imports: []
+- id: 06-information
+  block: loops-info
+  title: Количество информации
+  minutes: 50
+  mcko:
+  - 9
+  allowed_imports:
+  - math
+- id: 07-while
+  block: loops-info
+  title: Цикл while
+  minutes: 50
+  mcko: []
+  allowed_imports: []
+- id: 08-for-range
+  block: loops-info
+  title: Цикл for и range
+  minutes: 50
+  mcko: []
+  allowed_imports: []
+- id: 09-strings-2
+  block: loops-info
+  title: 'Строки II: индексы, срезы, перебор'
+  minutes: 50
+  mcko: []
+  allowed_imports: []
+- id: 10-accumulators
+  block: loops-info
+  title: 'Накопители: сумма, счётчик, максимум, делители'
+  minutes: 50
+  mcko:
+  - 13
+  allowed_imports: []
+- id: 11-raster
+  block: loops-info
+  title: Растровая графика
+  minutes: 50
+  mcko:
+  - 4
+  allowed_imports: []
+- id: 12-lists-sets
+  block: structures
+  title: Списки и множества
+  minutes: 50
+  mcko: []
+  allowed_imports: []
+- id: 13-functions
+  block: structures
+  title: Функции
+  minutes: 50
+  mcko: []
+  allowed_imports: []
+- id: 14-numeral-systems-1
+  block: structures
+  title: Системы счисления I
+  minutes: 50
+  mcko:
+  - 3
+  - 11
+  allowed_imports: []
+- id: 15-numeral-systems-2
+  block: structures
+  title: Системы счисления II
+  minutes: 50
+  mcko:
+  - 3
+  - 11
+  - 12
+  allowed_imports: []
+- id: 16-coding
+  block: mcko
+  title: 'Кодирование: код Фано и длина сообщения'
+  minutes: 50
+  mcko:
+  - 1
+  allowed_imports: []
+- id: 17-brute-force
+  block: mcko
+  title: 'Перебор: слова, автомат, RSA'
+  minutes: 50
+  mcko:
+  - 6
+  - 2
+  - 8
+  allowed_imports:
+  - itertools
+- id: 18-logic-networks
+  block: mcko
+  title: Логика и сети
+  minutes: 50
+  mcko:
+  - 5
+  - 7
+  allowed_imports: []
+- id: 19-files
+  block: mcko
+  title: 'Числа из файла: пары соседних элементов'
+  minutes: 50
+  mcko:
+  - 13
+  allowed_imports: []
+- id: 20-turtle
+  block: mcko
+  title: Исполнитель Черепаха
+  minutes: 50
+  mcko:
+  - 10
+  allowed_imports: []
+- id: 21-trial
+  block: mcko
+  title: Пробный вариант МЦКО
+  minutes: 50
+  mcko:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  allowed_imports: []

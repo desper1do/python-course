@@ -1,0 +1,1691 @@
+- id: l21-t1
+  type: code
+  title: №1. Коды Фано
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 1
+  statement: |
+    В сообщении используются n букв. Для каждой дано число вхождений. Коды известны всем буквам, кроме одной или двух (вместо кода «?»). Известные коды удовлетворяют условию Фано. Выберите недостающие коды так, чтобы условие Фано выполнялось, а длина сообщения была минимальной. Выведите эту длину. Достаточно проверять коды длиной до 6.
+  input_format: Первая строка — n. Затем n строк «буква код количество», у одной или двух букв код заменён «?».
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    # твой код
+  examples:
+  - &id001 {input: '3
+
+      A 0 12
+
+      B 10 7
+
+      C ? 3', output: '32'}
+  - &id002 {input: '4
+
+      A 1 8
+
+      B 00 6
+
+      C ? 5
+
+      D ? 2', output: '41'}
+  tests:
+  - *id001
+  - *id002
+  - {input: '4
+
+      A 01 3
+
+      B 10 3
+
+      C 000 4
+
+      D ? 9', output: '42', hidden: true}
+  - {input: '4
+
+      A 0 20
+
+      B 100 5
+
+      C ? 7
+
+      D ? 6', output: '67', hidden: true}
+  - {input: '4
+
+      A 11 5
+
+      B 10 5
+
+      C ? 6
+
+      D ? 1', output: '34', hidden: true}
+  - {input: '4
+
+      A 0 1
+
+      B 10 1
+
+      C 110 1
+
+      D ? 30', output: '96', hidden: true}
+  - {input: '5
+
+      A 00 7
+
+      B 01 4
+
+      C ? 3
+
+      D ? 3
+
+      E 11 1', output: '42', hidden: true}
+  checker: exact
+  hints:
+  - Известные коды и сумма их вклада — отдельно. Для «?» запомни частоты.
+  - 'Свободные коды: перебор строк из 0 и 1 до длины 6, отсеять конфликтующие с известными.'
+  - Если неизвестная одна — перебери свободные коды; если две — вложенный цикл с проверкой конфликта между ними.
+  solution: |
+    def all_codes(n):
+        result = []
+        for length in range(1, n + 1):
+            for number in range(2 ** length):
+                code = bin(number)[2:]
+                while len(code) < length:
+                    code = "0" + code
+                result.append(code)
+        return result
+
+    def conflicts(a, b):
+        return a.startswith(b) or b.startswith(a)
+
+    n = int(input())
+    known = []
+    base = 0
+    freqs = []
+    for k in range(n):
+        parts = input().split()
+        count = int(parts[2])
+        if parts[1] == "?":
+            freqs.append(count)
+        else:
+            known.append(parts[1])
+            base += len(parts[1]) * count
+    free = []
+    for candidate in all_codes(6):
+        ok = True
+        for c in known:
+            if conflicts(candidate, c):
+                ok = False
+        if ok:
+            free.append(candidate)
+    best = 10 ** 9
+    if len(freqs) == 1:
+        for c1 in free:
+            total = base + len(c1) * freqs[0]
+            if total < best:
+                best = total
+    else:
+        for c1 in free:
+            for c2 in free:
+                if not conflicts(c1, c2):
+                    total = base + len(c1) * freqs[0] + len(c2) * freqs[1]
+                    if total < best:
+                        best = total
+    print(best)
+  explanation: |
+    Сквозной перебор по шаблону урока 16.
+- id: l21-t2
+  type: code
+  title: №2. Автомат
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 2
+  statement: |
+    Автомат: записывает N в двоичной системе. Если N кратно 3, справа дописывается 01, иначе 10. Затем то же действие повторяется ещё раз для числа, записанного получившейся двоичной записью. Результат R — десятичное значение итоговой записи. Найдите наименьшее натуральное N, при котором R больше X.
+  input_format: Одна строка — число X.
+  output_format: Число N.
+  starter: |
+    x = int(input())
+    # твой код
+  examples:
+  - &id003 {input: '100', output: '6'}
+  - &id004 {input: '1', output: '1'}
+  tests:
+  - *id003
+  - *id004
+  - {input: '1000', output: '62', hidden: true}
+  - {input: '50', output: '3', hidden: true}
+  - {input: '500', output: '31', hidden: true}
+  - {input: '10000', output: '625', hidden: true}
+  - {input: '7', output: '1', hidden: true}
+  checker: exact
+  hints:
+  - 'Цикл while: пробуй N = 1, 2, 3, … пока R не станет больше X.'
+  - 'Внутри цикла выполни шаг два раза: s = bin(n)[2:]; дважды: v = int(s, 2); если v % 3 == 0, s += "01", иначе s += "10".'
+  - R = int(s, 2).
+  solution: |
+    x = int(input())
+    n = 0
+    r = 0
+    while r <= x:
+        n += 1
+        s = bin(n)[2:]
+        for step in range(2):
+            v = int(s, 2)
+            if v % 3 == 0:
+                s += "01"
+            else:
+                s += "10"
+        r = int(s, 2)
+    print(n)
+  explanation: |
+    Новое правило, тот же приём «первое подходящее». Во втором шаге кратность проверяется для нового числа.
+- id: l21-t3
+  type: code
+  title: №3. Сумма в разных системах
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 3
+  statement: |
+    Первое число записано в двоичной системе и может иметь дробную часть (через точку), второе — целое в шестнадцатеричной. Найдите сумму и выведите её в десятичной системе.
+  input_format: Две строки — двоичное число и шестнадцатеричное число (цифры 0–9 и A–F).
+  output_format: Десятичное число (дробное).
+  starter: |
+    first = input()
+    second = input()
+    # твой код
+  examples:
+  - &id005 {input: '101.011
+
+      1F', output: '36.375'}
+  - &id006 {input: '1.1
+
+      1', output: '2.5'}
+  tests:
+  - *id005
+  - *id006
+  - {input: '0.0001
+
+      A', output: '10.0625', hidden: true}
+  - {input: '1111.1
+
+      FF', output: '270.5', hidden: true}
+  - {input: '10.01
+
+      0', output: '2.25', hidden: true}
+  - {input: '11111111.11
+
+      100', output: '511.75', hidden: true}
+  - {input: '0.101
+
+      3', output: '3.625', hidden: true}
+  checker: float
+  hints:
+  - 'Разрежь первое число по точке: first.split(".").'
+  - 'Целая часть: int(часть, 2). Дробная: веса 1/2, 1/4, 1/8 (урок 15).'
+  - Добавь int(second, 16).
+  solution: |
+    first = input()
+    second = input()
+    parts = first.split(".")
+    result = int(parts[0], 2)
+    if len(parts) == 2:
+        weight = 0.5
+        for ch in parts[1]:
+            if ch == "1":
+                result += weight
+            weight /= 2
+    result += int(second, 16)
+    print(result)
+  explanation: |
+    Арифметика с дробью: приводим к десятичной.
+- id: l21-t4
+  type: code
+  title: №4. Изображение
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 4
+  statement: |
+    Растровое изображение w × h пикселей занимает V Кбайт. Каждый пиксель занимает одинаковое целое число байт; из них a бит отведено под прозрачность, остальное — на цвет. Какое наибольшее число цветов может быть в изображении?
+  input_format: Четыре строки — w, h, V, a.
+  output_format: Одно число.
+  starter: |
+    w = int(input())
+    h = int(input())
+    V = int(input())
+    a = int(input())
+    # твой код
+  examples:
+  - &id007 {input: '1024
+
+      768
+
+      3
+
+      0', output: '1'}
+  - &id008 {input: '640
+
+      480
+
+      900
+
+      8', output: '65536'}
+  tests:
+  - *id007
+  - *id008
+  - {input: '100
+
+      100
+
+      30
+
+      4', output: '1048576', hidden: true}
+  - {input: '200
+
+      200
+
+      80
+
+      16', output: '1', hidden: true}
+  - {input: '32
+
+      32
+
+      3
+
+      8', output: '65536', hidden: true}
+  - {input: '500
+
+      400
+
+      590
+
+      8', output: '65536', hidden: true}
+  - {input: '1000
+
+      1000
+
+      3000
+
+      8', output: '65536', hidden: true}
+  checker: exact
+  hints:
+  - 'Байт на пиксель: V * 1024 // (w * h) — целое число.'
+  - 'Бит на цвет: 8 * байт − a.'
+  - 'Цветов: 2 в степени этого числа.'
+  solution: |
+    w = int(input())
+    h = int(input())
+    V = int(input())
+    a = int(input())
+    bytes_per_pixel = V * 1024 // (w * h)
+    color_bits = bytes_per_pixel * 8 - a
+    print(2 ** color_bits)
+  explanation: |
+    Новый поворот: пиксель занимает целое число байт.
+- id: l21-t5
+  type: code
+  title: №5. Таблица истинности
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 5
+  statement: |
+    Функция F(x, y, z) = (x ∨ y) → (y ≡ z). Показаны строки таблицы, где F = 1; столбцы не подписаны. Определите, какой переменной соответствует каждый столбец. Выведите три буквы в порядке столбцов. Ответ единственный.
+  input_format: Первая строка — число строк k, затем k строк по три значения.
+  output_format: Три буквы.
+  starter: |
+    k = int(input())
+    # твой код
+  examples:
+  - &id009 {input: '5
+
+      1 1 1
+
+      0 0 1
+
+      0 0 0
+
+      1 0 0
+
+      0 1 1', output: xyz}
+  - &id010 {input: '2
+
+      0 1 0
+
+      0 1 1', output: xzy}
+  tests:
+  - *id009
+  - *id010
+  - {input: '4
+
+      0 0 0
+
+      0 1 0
+
+      0 0 1
+
+      1 0 1', output: yxz, hidden: true}
+  - {input: '5
+
+      0 0 1
+
+      1 1 0
+
+      0 0 0
+
+      1 1 1
+
+      1 0 0', output: zyx, hidden: true}
+  - {input: '5
+
+      1 1 1
+
+      0 0 1
+
+      0 0 0
+
+      0 1 0
+
+      1 0 1', output: yxz, hidden: true}
+  - {input: '2
+
+      1 0 1
+
+      1 0 0', output: zxy, hidden: true}
+  - {input: '5
+
+      0 0 1
+
+      1 1 1
+
+      0 0 0
+
+      1 0 0
+
+      1 1 0', output: zyx, hidden: true}
+  checker: exact
+  hints:
+  - 'Перебери порядки: itertools.permutations("xyz").'
+  - 'Значение переменной: int(row[order.index("x")]) и т. д.'
+  - F = (not (x or y)) or (y == z). Порядок подходит, если во всех строках F истинна.
+  solution: |
+    import itertools
+    k = int(input())
+    rows = []
+    for i in range(k):
+        rows.append(input().split())
+    for order in itertools.permutations("xyz"):
+        ok = True
+        for row in rows:
+            x = int(row[order.index("x")])
+            y = int(row[order.index("y")])
+            z = int(row[order.index("z")])
+            if not ((not (x or y)) or (y == z)):
+                ok = False
+        if ok:
+            print("".join(order))
+  explanation: |
+    Шаблон урока 18.
+- id: l21-t6
+  type: code
+  title: №6. Слова
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 6
+  statement: |
+    Все слова длины k из букв алфавита выписаны в алфавитном порядке. Оставлены только слова без буквы x и без двух одинаковых букв y подряд; нумерация с единицы. Найдите номер данного слова (оно подходит под ограничения).
+  input_format: Пять строк — алфавит, k, буква x, буква y, слово.
+  output_format: Одно число.
+  starter: |
+    alphabet = input()
+    # твой код
+  examples:
+  - &id011 {input: 'АЕИОУ
+
+      4
+
+      У
+
+      Е
+
+      ОАЕА', output: '164'}
+  - &id012 {input: 'АЕИОУ
+
+      3
+
+      А
+
+      И
+
+      ЕОУ', output: '11'}
+  tests:
+  - *id011
+  - *id012
+  - {input: 'АБВГ
+
+      5
+
+      Б
+
+      Г
+
+      АВАГА', output: '29', hidden: true}
+  - {input: 'АЕИ
+
+      6
+
+      Е
+
+      И
+
+      ААИАИА', output: '8', hidden: true}
+  - {input: 'КОТ
+
+      5
+
+      Т
+
+      О
+
+      ККОКК', output: '4', hidden: true}
+  - {input: 'АБВ
+
+      7
+
+      В
+
+      А
+
+      БАБАБАБ', output: '14', hidden: true}
+  - {input: 'АЕИОУ
+
+      3
+
+      О
+
+      У
+
+      ААА', output: '1', hidden: true}
+  checker: exact
+  hints:
+  - 'Читай пять строк: alphabet, k, x, y, word.'
+  - Перебор itertools.product(alphabet, repeat=k), слово w = "".join(letters).
+  - Подходит, если x not in w and y + y not in w. Счётчик number растёт только у подходящих.
+  solution: |
+    import itertools
+    alphabet = input()
+    k = int(input())
+    x = input()
+    y = input()
+    word = input()
+    number = 0
+    for letters in itertools.product(alphabet, repeat=k):
+        w = "".join(letters)
+        if x not in w and y + y not in w:
+            number += 1
+            if w == word:
+                print(number)
+  explanation: |
+    Шаблон урока 17.
+- id: l21-t7
+  type: code
+  title: №7. Сеть
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 7
+  statement: |
+    Даны IP-адрес и маска сети (в сети не больше 1024 адресов). Сколько адресов этой сети (включая адрес сети и широковещательный) содержат в двоичной записи чётное число единиц? Число единиц считается по всем 32 битам адреса.
+  input_format: Две строки — IP-адрес и маска.
+  output_format: Одно число.
+  starter: |
+    ip = input().split(".")
+    mask = input().split(".")
+    # твой код
+  examples:
+  - &id013 {input: '192.168.5.130
+
+      255.255.255.192', output: '32'}
+  - &id014 {input: '10.0.0.5
+
+      255.255.255.252', output: '2'}
+  tests:
+  - *id013
+  - *id014
+  - {input: '172.16.3.200
+
+      255.255.255.0', output: '128', hidden: true}
+  - {input: '1.2.3.4
+
+      255.255.255.254', output: '1', hidden: true}
+  - {input: '192.168.100.1
+
+      255.255.252.0', output: '512', hidden: true}
+  - {input: '200.100.50.25
+
+      255.255.255.224', output: '16', hidden: true}
+  - {input: '8.8.8.8
+
+      255.255.255.255', output: '1', hidden: true}
+  checker: exact
+  hints:
+  - Собери 32-битные числа ip_number и mask_number (n = n * 256 + октет).
+  - 'Адрес сети: ip_number & mask_number. Узловых бит — столько, сколько нулей в маске; адресов 2 ** этих бит: 2 ** 32 - mask_number.'
+  - 'Перебери смещения от 0 до размера − 1: адрес = сеть + смещение; bin(адрес).count("1") % 2 == 0.'
+  solution: |
+    ip = input().split(".")
+    mask = input().split(".")
+    ip_number = 0
+    mask_number = 0
+    for i in range(4):
+        ip_number = ip_number * 256 + int(ip[i])
+        mask_number = mask_number * 256 + int(mask[i])
+    network = ip_number & mask_number
+    size = 2 ** 32 - mask_number
+    count = 0
+    for offset in range(size):
+        if bin(network + offset).count("1") % 2 == 0:
+            count += 1
+    print(count)
+  explanation: |
+    Соединяет урок 18 (сеть) и перебор. Размер сети: 2**32 − маска.
+- id: l21-t8
+  type: code
+  title: №8. RSA
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 8
+  statement: |
+    Даны простые числа p и q, число e и диапазон [lo, hi]. Найдите наибольшее d из диапазона, для которого (d·e) mod f = 1, где f = (p − 1)·(q − 1). Такое d существует.
+  input_format: Пять строк — p, q, e, lo, hi.
+  output_format: Число d.
+  starter: |
+    p = int(input())
+    q = int(input())
+    e = int(input())
+    lo = int(input())
+    hi = int(input())
+    # твой код
+  examples:
+  - &id015 {input: '11
+
+      13
+
+      7
+
+      1
+
+      200', output: '103'}
+  - &id016 {input: '17
+
+      19
+
+      5
+
+      1
+
+      300', output: '173'}
+  tests:
+  - *id015
+  - *id016
+  - {input: '7
+
+      11
+
+      7
+
+      1
+
+      70', output: '43', hidden: true}
+  - {input: '13
+
+      17
+
+      5
+
+      1
+
+      200', output: '77', hidden: true}
+  - {input: '23
+
+      29
+
+      5
+
+      1
+
+      600', output: '493', hidden: true}
+  - {input: '11
+
+      13
+
+      7
+
+      100
+
+      130', output: '103', hidden: true}
+  - {input: '53
+
+      59
+
+      3
+
+      1
+
+      3000', output: '2011', hidden: true}
+  checker: exact
+  hints:
+  - f = (p - 1) * (q - 1).
+  - Перебери d от lo до hi.
+  - Запоминай d, если d * e % f == 1; после цикла останется последнее, то есть наибольшее.
+  solution: |
+    p = int(input())
+    q = int(input())
+    e = int(input())
+    lo = int(input())
+    hi = int(input())
+    f = (p - 1) * (q - 1)
+    answer = 0
+    for d in range(lo, hi + 1):
+        if d * e % f == 1:
+            answer = d
+    print(answer)
+  explanation: |
+    В уроке 17 искали наименьшее; здесь наибольшее.
+- id: l21-t9
+  type: code
+  title: №9. Серийные номера
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 9
+  statement: |
+    В базе хранится m серийных номеров. Каждый состоит из L символов и ещё s байт служебной информации. Символы кодируются одинаковым минимальным числом бит, символьная часть номера занимает целое число байт. Объём всей базы V байт. Найдите наименьшую возможную мощность алфавита.
+  input_format: Четыре строки — m, s, L, V.
+  output_format: Одно число.
+  starter: |
+    m = int(input())
+    s = int(input())
+    L = int(input())
+    V = int(input())
+    # твой код
+  examples:
+  - &id017 {input: '1000
+
+      2
+
+      10
+
+      6000', output: '5'}
+  - &id018 {input: '500
+
+      1
+
+      12
+
+      3000', output: '5'}
+  tests:
+  - *id017
+  - *id018
+  - {input: '100
+
+      3
+
+      8
+
+      500', output: '3', hidden: true}
+  - {input: '2000
+
+      2
+
+      20
+
+      14000', output: '3', hidden: true}
+  - {input: '100
+
+      1
+
+      7
+
+      400', output: '5', hidden: true}
+  - {input: '50
+
+      4
+
+      16
+
+      500', output: '5', hidden: true}
+  - {input: '300
+
+      2
+
+      5
+
+      1200', output: '3', hidden: true}
+  checker: exact
+  hints:
+  - 'Байт на номер: V // m. Из них на символы: B = V // m − s.'
+  - 'Наименьшее число бит на символ, при котором L символов занимают ровно B байт: i = 8 * (B - 1) // L + 1.'
+  - 'Наименьший алфавит: 2 ** (i - 1) + 1 (при i = 1 — 2).'
+  solution: |
+    m = int(input())
+    s = int(input())
+    L = int(input())
+    V = int(input())
+    B = V // m - s
+    i = 8 * (B - 1) // L + 1
+    if i == 1:
+        print(2)
+    else:
+        print(2 ** (i - 1) + 1)
+  explanation: |
+    Уроки 6 и 21: добавили служебные байты.
+- id: l21-t10
+  type: code
+  title: №10. Черепаха
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 10
+  statement: |
+    Две программы Черепахи (на двух строках) рисуют два прямоугольника (используйте готовую функцию `bounding_box`, она возвращает x_min, y_min, x_max, y_max). Сколько точек с целыми координатами лежит строго внутри ровно одной из двух фигур?
+  input_format: Две строки — программы.
+  output_format: Одно число.
+  starter: |
+    def bounding_box(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        x = 0
+        y = 0
+        angle = 0
+        pen = True
+        dx = [0, 1, 0, -1]
+        dy = [1, 0, -1, 0]
+        xs = []
+        ys = []
+        i = 0
+        while i < len(expanded):
+            command = expanded[i]
+            value = expanded[i + 1]
+            if command == "Поднять":
+                pen = False
+            elif command == "Опустить":
+                pen = True
+            elif command == "Направо":
+                angle = (angle + int(value)) % 360
+            elif command == "Налево":
+                angle = (angle - int(value)) % 360
+            else:
+                step = int(value)
+                if command == "Назад":
+                    step = -step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+                x += dx[angle // 90] * step
+                y += dy[angle // 90] * step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+            i += 2
+        return min(xs), min(ys), max(xs), max(ys)
+
+    first = input()
+    second = input()
+    # твой код
+  examples:
+  - &id019 {input: 'Поднять хвост Вперёд 2 Направо 90 Вперёд 3 Налево 90 Опустить хвост Повтори 2 [ Вперёд 9 Налево 90 Вперёд 6 Налево 90 ]
+
+      Поднять хвост Вперёд 1 Направо 90 Назад 2 Налево 90 Опустить хвост Повтори 2 [ Вперёд 3 Налево 90 Вперёд 7 Налево 90 ]', output: '52'}
+  - &id020 {input: 'Поднять хвост Вперёд 5 Направо 90 Назад 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 7 Налево 90 Вперёд 5 Налево 90 ]
+
+      Поднять хвост Вперёд 0 Направо 90 Вперёд 0 Налево 90 Опустить хвост Повтори 2 [ Вперёд 7 Направо 90 Вперёд 10 Направо 90 ]', output: '78'}
+  tests:
+  - *id019
+  - *id020
+  - {input: 'Поднять хвост Вперёд 3 Направо 90 Вперёд 0 Налево 90 Опустить хвост Повтори 2 [ Вперёд 4 Налево 90 Вперёд 7 Налево 90 ]
+
+      Поднять хвост Назад 3 Направо 90 Вперёд 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 2 Налево 90 Вперёд 8 Налево 90 ]', output: '25', hidden: true}
+  - {input: 'Поднять хвост Назад 3 Направо 90 Назад 3 Налево 90 Опустить хвост Повтори 2 [ Вперёд 5 Направо 90 Вперёд 7 Направо 90 ]
+
+      Поднять хвост Назад 3 Направо 90 Вперёд 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 2 Налево 90 Вперёд 2 Налево 90 ]', output: '25', hidden: true}
+  - {input: 'Поднять хвост Вперёд 2 Направо 90 Вперёд 4 Налево 90 Опустить хвост Повтори 2 [ Вперёд 7 Налево 90 Вперёд 2 Налево 90 ]
+
+      Поднять хвост Назад 2 Направо 90 Назад 5 Налево 90 Опустить хвост Повтори 2 [ Вперёд 4 Налево 90 Вперёд 4 Налево 90 ]', output: '15', hidden: true}
+  - {input: 'Поднять хвост Назад 3 Направо 90 Назад 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 6 Направо 90 Вперёд 6 Направо 90 ]
+
+      Поднять хвост Вперёд 2 Направо 90 Назад 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 10 Налево 90 Вперёд 10 Налево 90 ]', output: '106', hidden: true}
+  - {input: 'Поднять хвост Вперёд 2 Направо 90 Назад 1 Налево 90 Опустить хвост Повтори 2 [ Вперёд 8 Налево 90 Вперёд 8 Налево 90 ]
+
+      Поднять хвост Назад 2 Направо 90 Вперёд 3 Налево 90 Опустить хвост Повтори 2 [ Вперёд 8 Направо 90 Вперёд 4 Направо 90 ]', output: '70', hidden: true}
+  checker: exact
+  hints:
+  - Получи границы обеих фигур.
+  - 'Перебери все точки в общей рамке: x от min(ax1, bx1) до max(ax2, bx2), y аналогично.'
+  - 'Для каждой точки: inside_a и inside_b. Считай, если inside_a != inside_b.'
+  solution: |
+    def bounding_box(line):
+        tokens = line.split()
+        expanded = []
+        i = 0
+        while i < len(tokens):
+            if tokens[i] == "Повтори":
+                k = int(tokens[i + 1])
+                j = i + 3
+                body = []
+                while tokens[j] != "]":
+                    body.append(tokens[j])
+                    j += 1
+                for r in range(k):
+                    expanded += body
+                i = j + 1
+            else:
+                expanded.append(tokens[i])
+                i += 1
+        x = 0
+        y = 0
+        angle = 0
+        pen = True
+        dx = [0, 1, 0, -1]
+        dy = [1, 0, -1, 0]
+        xs = []
+        ys = []
+        i = 0
+        while i < len(expanded):
+            command = expanded[i]
+            value = expanded[i + 1]
+            if command == "Поднять":
+                pen = False
+            elif command == "Опустить":
+                pen = True
+            elif command == "Направо":
+                angle = (angle + int(value)) % 360
+            elif command == "Налево":
+                angle = (angle - int(value)) % 360
+            else:
+                step = int(value)
+                if command == "Назад":
+                    step = -step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+                x += dx[angle // 90] * step
+                y += dy[angle // 90] * step
+                if pen:
+                    xs.append(x)
+                    ys.append(y)
+            i += 2
+        return min(xs), min(ys), max(xs), max(ys)
+
+    first = input()
+    second = input()
+    ax1, ay1, ax2, ay2 = bounding_box(first)
+    bx1, by1, bx2, by2 = bounding_box(second)
+    count = 0
+    for x in range(min(ax1, bx1), max(ax2, bx2) + 1):
+        for y in range(min(ay1, by1), max(ay2, by2) + 1):
+            inside_a = ax1 < x < ax2 and ay1 < y < ay2
+            inside_b = bx1 < x < bx2 and by1 < y < by2
+            if inside_a != inside_b:
+                count += 1
+    print(count)
+  explanation: |
+    Симметрическая разность двух фигур перебором по сетке.
+- id: l21-t11
+  type: code
+  title: №11. Неизвестная цифра
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 11
+  statement: |
+    Число записано в системе с основанием b (11 ≤ b ≤ 16) цифрами 0–9 и A–F и содержит одну неизвестную цифру x (строчная буква x). Найдите наибольшее значение цифры, при котором число делится на d. Выведите эту цифру, а на следующей строке частное от деления числа на d в десятичной системе. Решение существует.
+  input_format: Три строки — b, d, запись числа.
+  output_format: 'Две строки: цифра и частное.'
+  starter: |
+    b = int(input())
+    d = int(input())
+    s = input()
+    # твой код
+  examples:
+  - &id021 {input: '15
+
+      13
+
+      5CBDx', output: 'E
+
+      22793'}
+  - &id022 {input: '11
+
+      5
+
+      x02', output: '8
+
+      194'}
+  tests:
+  - *id021
+  - *id022
+  - {input: '13
+
+      5
+
+      68x', output: 'C
+
+      226', hidden: true}
+  - {input: '12
+
+      7
+
+      3x426', output: 'A
+
+      11442', hidden: true}
+  - {input: '11
+
+      11
+
+      x7220', output: 'A
+
+      14181', hidden: true}
+  - {input: '12
+
+      11
+
+      x45', output: '2
+
+      31', hidden: true}
+  - {input: '15
+
+      11
+
+      BxE', output: 'D
+
+      244', hidden: true}
+  checker: exact
+  hints:
+  - 'Цифры: digits = "0123456789ABCDEF"; допустимые — digits[:b].'
+  - 'Для каждой цифры подставь вместо x: s.replace("x", c) и переведи int(..., b).'
+  - 'Нужна наибольшая: перебирай по возрастанию и запоминай каждую подходящую — последняя останется.'
+  solution: |
+    digits = "0123456789ABCDEF"
+    b = int(input())
+    d = int(input())
+    s = input()
+    best_digit = ""
+    best_quotient = 0
+    for c in digits[:b]:
+        value = int(s.replace("x", c), b)
+        if value % d == 0:
+            best_digit = c
+            best_quotient = value // d
+    print(best_digit)
+    print(best_quotient)
+  explanation: |
+    Поиск наибольшей цифры вместо первой.
+- id: l21-t12
+  type: code
+  title: №12. Дополнительный код
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 12
+  statement: |
+    Числа a и b лежат в диапазоне от −128 до 127, разность a − b тоже. Найдите 8-битный дополнительный код числа a − b и выведите его, а на следующей строке количество единиц в нём.
+  input_format: Две строки — a и b.
+  output_format: 'Две строки: код из 8 символов и число единиц.'
+  starter: |
+    a = int(input())
+    b = int(input())
+    # твой код
+  examples:
+  - &id023 {input: '5
+
+      3', output: '00000010
+
+      1'}
+  - &id024 {input: '-3
+
+      4', output: '11111001
+
+      6'}
+  tests:
+  - *id023
+  - *id024
+  - {input: '100
+
+      -20', output: '01111000
+
+      4', hidden: true}
+  - {input: '-100
+
+      20', output: '10001000
+
+      2', hidden: true}
+  - {input: '0
+
+      0', output: '00000000
+
+      0', hidden: true}
+  - {input: '-128
+
+      0', output: '10000000
+
+      1', hidden: true}
+  - {input: '127
+
+      0', output: '01111111
+
+      7', hidden: true}
+  checker: exact
+  hints:
+  - d = a - b. Если d отрицательно, код — запись числа d + 256.
+  - Дополни запись нулями слева до 8 символов.
+  - 'Количество единиц: code.count("1").'
+  solution: |
+    a = int(input())
+    b = int(input())
+    d = a - b
+    if d < 0:
+        d += 256
+    code = bin(d)[2:]
+    while len(code) < 8:
+        code = "0" + code
+    print(code)
+    print(code.count("1"))
+  explanation: |
+    Шаблон урока 15 плюс счёт единиц.
+- id: l21-t13
+  type: code
+  title: №13. Числа из файла
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 13
+  statement: |
+    Вводятся n, затем n натуральных чисел. Пусть N — наименьшее число, не кратное 15. Среди пар соседних чисел найдите те, сумма которых кратна N и хотя бы одно из чисел больше 100. Выведите через пробел количество таких пар и наименьшую сумму. Гарантируется, что такая пара есть.
+  input_format: Первая строка — n, затем n чисел.
+  output_format: Два числа через пробел.
+  starter: |
+    n = int(input())
+    # твой код
+  examples:
+  - &id025 {input: '20
+
+      145
+
+      225
+
+      62
+
+      237
+
+      41
+
+      294
+
+      204
+
+      180
+
+      15
+
+      75
+
+      294
+
+      270
+
+      10
+
+      219
+
+      150
+
+      165
+
+      21
+
+      23
+
+      130
+
+      61', output: 2 280}
+  - &id026 {input: '25
+
+      10
+
+      200
+
+      231
+
+      93
+
+      210
+
+      49
+
+      88
+
+      156
+
+      45
+
+      105
+
+      116
+
+      105
+
+      255
+
+      127
+
+      37
+
+      45
+
+      292
+
+      167
+
+      90
+
+      19
+
+      195
+
+      298
+
+      88
+
+      119
+
+      122', output: 3 150}
+  tests:
+  - *id025
+  - *id026
+  - {input: '30
+
+      54
+
+      162
+
+      52
+
+      150
+
+      43
+
+      105
+
+      214
+
+      275
+
+      165
+
+      117
+
+      14
+
+      49
+
+      242
+
+      279
+
+      300
+
+      110
+
+      183
+
+      45
+
+      199
+
+      38
+
+      98
+
+      285
+
+      40
+
+      45
+
+      165
+
+      115
+
+      90
+
+      142
+
+      109
+
+      218', output: 2 210, hidden: true}
+  - {input: '40
+
+      94
+
+      176
+
+      276
+
+      49
+
+      281
+
+      249
+
+      81
+
+      170
+
+      135
+
+      255
+
+      290
+
+      15
+
+      90
+
+      234
+
+      165
+
+      27
+
+      11
+
+      123
+
+      135
+
+      285
+
+      124
+
+      170
+
+      75
+
+      173
+
+      213
+
+      245
+
+      210
+
+      186
+
+      165
+
+      223
+
+      181
+
+      286
+
+      105
+
+      210
+
+      240
+
+      284
+
+      172
+
+      225
+
+      181
+
+      194', output: 3 330, hidden: true}
+  - {input: '30
+
+      30
+
+      207
+
+      197
+
+      189
+
+      240
+
+      269
+
+      69
+
+      264
+
+      164
+
+      210
+
+      34
+
+      113
+
+      285
+
+      249
+
+      240
+
+      165
+
+      86
+
+      257
+
+      124
+
+      220
+
+      206
+
+      210
+
+      143
+
+      227
+
+      234
+
+      270
+
+      136
+
+      31
+
+      164
+
+      24', output: 1 504, hidden: true}
+  - {input: '50
+
+      98
+
+      232
+
+      60
+
+      132
+
+      87
+
+      48
+
+      254
+
+      37
+
+      240
+
+      294
+
+      166
+
+      291
+
+      85
+
+      37
+
+      210
+
+      15
+
+      119
+
+      270
+
+      139
+
+      219
+
+      81
+
+      165
+
+      97
+
+      249
+
+      126
+
+      285
+
+      261
+
+      21
+
+      60
+
+      164
+
+      210
+
+      40
+
+      163
+
+      195
+
+      210
+
+      128
+
+      46
+
+      299
+
+      55
+
+      173
+
+      158
+
+      12
+
+      274
+
+      163
+
+      12
+
+      91
+
+      197
+
+      214
+
+      154
+
+      195', output: 4 192, hidden: true}
+  - {input: '60
+
+      38
+
+      232
+
+      78
+
+      240
+
+      102
+
+      19
+
+      180
+
+      59
+
+      56
+
+      45
+
+      268
+
+      285
+
+      229
+
+      175
+
+      76
+
+      228
+
+      45
+
+      233
+
+      196
+
+      193
+
+      35
+
+      165
+
+      176
+
+      129
+
+      165
+
+      236
+
+      239
+
+      15
+
+      34
+
+      10
+
+      270
+
+      15
+
+      228
+
+      15
+
+      180
+
+      75
+
+      173
+
+      296
+
+      137
+
+      54
+
+      103
+
+      220
+
+      192
+
+      119
+
+      277
+
+      175
+
+      21
+
+      15
+
+      281
+
+      42
+
+      263
+
+      246
+
+      109
+
+      60
+
+      267
+
+      15
+
+      287
+
+      26
+
+      157
+
+      172', output: 4 200, hidden: true}
+  checker: tokens
+  hints:
+  - Прочитай числа в список.
+  - 'N: наименьшее число с x % 15 != 0.'
+  - 'В цикле по парам: s = p + q; условие s % N == 0 and (p > 100 or q > 100). Минимум начни с большого числа 10 ** 9.'
+  solution: |
+    n = int(input())
+    numbers = []
+    for i in range(n):
+        numbers.append(int(input()))
+    N = 10 ** 9
+    for x in numbers:
+        if x % 15 != 0 and x < N:
+            N = x
+    count = 0
+    best = 10 ** 9
+    for i in range(len(numbers) - 1):
+        p = numbers[i]
+        q = numbers[i + 1]
+        s = p + q
+        if s % N == 0 and (p > 100 or q > 100):
+            count += 1
+            if s < best:
+                best = s
+    print(count, best)
+  explanation: |
+    Шаблон урока 19; максимум заменён минимумом. Числа пока из stdin: переделать на файл 13.txt, когда платформа научится.

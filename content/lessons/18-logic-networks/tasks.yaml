@@ -1,0 +1,914 @@
+- id: l18-t1
+  type: code
+  title: Значение выражения
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны значения x, y, z (0 или 1). Выведите значение выражения «не x или (y и z)» как 0 или 1.
+  input_format: Три строки — x, y, z.
+  output_format: 0 или 1.
+  starter: |
+    x = int(input())
+    y = int(input())
+    z = int(input())
+    # выведи int(...) от выражения
+  examples:
+  - &id001 {input: '0
+
+      0
+
+      0', output: '1'}
+  - &id002 {input: '1
+
+      1
+
+      1', output: '1'}
+  tests:
+  - *id001
+  - *id002
+  - {input: '1
+
+      0
+
+      1', output: '0', hidden: true}
+  - {input: '0
+
+      1
+
+      0', output: '1', hidden: true}
+  - {input: '1
+
+      1
+
+      0', output: '0', hidden: true}
+  - {input: '0
+
+      1
+
+      1', output: '1', hidden: true}
+  - {input: '1
+
+      0
+
+      0', output: '0', hidden: true}
+  checker: exact
+  hints:
+  - 'Выражение в Python: (not x) or (y and z).'
+  - Чтобы получить 0 или 1, оберни в int(...).
+  solution: |
+    x = int(input())
+    y = int(input())
+    z = int(input())
+    print(int((not x) or (y and z)))
+  explanation: |
+    Перевод выражения в Python.
+- id: l18-t2
+  type: code
+  title: Цепочка импликаций
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны x, y, z (0 или 1). Выведите значение выражения (x → y) → z. Импликация A → B равна «не A или B».
+  input_format: Три строки — x, y, z.
+  output_format: 0 или 1.
+  starter: |
+    x = int(input())
+    y = int(input())
+    z = int(input())
+    # сначала x → y, потом результат → z
+  examples:
+  - &id003 {input: '0
+
+      0
+
+      0', output: '0'}
+  - &id004 {input: '1
+
+      0
+
+      0', output: '1'}
+  tests:
+  - *id003
+  - *id004
+  - {input: '1
+
+      1
+
+      0', output: '0', hidden: true}
+  - {input: '0
+
+      1
+
+      0', output: '0', hidden: true}
+  - {input: '1
+
+      1
+
+      1', output: '1', hidden: true}
+  - {input: '0
+
+      0
+
+      1', output: '1', hidden: true}
+  - {input: '1
+
+      0
+
+      1', output: '1', hidden: true}
+  checker: exact
+  hints:
+  - x → y пишется (not x) or y.
+  - 'Результат подставь вместо A: (not ((not x) or y)) or z.'
+  solution: |
+    x = int(input())
+    y = int(input())
+    z = int(input())
+    first = (not x) or y
+    print(int((not first) or z))
+  explanation: |
+    Импликация через `or`. Удобно хранить промежуточный результат в переменной.
+- id: l18-t3
+  type: code
+  title: Закон де Моргана
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны x, y, z (0 или 1). Выведите на двух строках значения выражений «не (x и y и z)» и «(не x) или (не y) или (не z)». Они всегда совпадают — проверьте.
+  input_format: Три строки — x, y, z.
+  output_format: Две строки (0 или 1).
+  starter: |
+    x = int(input())
+    y = int(input())
+    z = int(input())
+    # два значения
+  examples:
+  - &id005 {input: '1
+
+      1
+
+      1', output: '0
+
+      0'}
+  - &id006 {input: '0
+
+      0
+
+      0', output: '1
+
+      1'}
+  tests:
+  - *id005
+  - *id006
+  - {input: '1
+
+      0
+
+      1', output: '1
+
+      1', hidden: true}
+  - {input: '0
+
+      1
+
+      1', output: '1
+
+      1', hidden: true}
+  - {input: '1
+
+      1
+
+      0', output: '1
+
+      1', hidden: true}
+  - {input: '0
+
+      0
+
+      1', output: '1
+
+      1', hidden: true}
+  - {input: '1
+
+      0
+
+      0', output: '1
+
+      1', hidden: true}
+  checker: exact
+  hints:
+  - 'Первое: not (x and y and z).'
+  - 'Второе: (not x) or (not y) or (not z). Оба обернуть в int.'
+  solution: |
+    x = int(input())
+    y = int(input())
+    z = int(input())
+    print(int(not (x and y and z)))
+    print(int((not x) or (not y) or (not z)))
+  explanation: |
+    Закон де Моргана: отрицание И — это ИЛИ отрицаний. Сначала проверьте вручную по таблице.
+- id: l18-t4
+  type: code
+  title: Сколько наборов дают 1
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 5
+  statement: |
+    Функция F(x, y) = ((x → y) ∧ v) ∨ (x ∧ ¬w) ∨ (y ∧ u). Значения v, w, u даны. Сколько из четырёх пар (x, y) дают F = 1?
+  input_format: Три строки — v, w, u (0 или 1).
+  output_format: Число от 0 до 4.
+  starter: |
+    v = int(input())
+    w = int(input())
+    u = int(input())
+    count = 0
+    # вложенные циклы по x и y
+  examples:
+  - &id007 {input: '0
+
+      0
+
+      0', output: '2'}
+  - &id008 {input: '1
+
+      1
+
+      1', output: '3'}
+  tests:
+  - *id007
+  - *id008
+  - {input: '1
+
+      0
+
+      0', output: '4', hidden: true}
+  - {input: '0
+
+      1
+
+      0', output: '0', hidden: true}
+  - {input: '0
+
+      0
+
+      1', output: '3', hidden: true}
+  - {input: '1
+
+      1
+
+      0', output: '3', hidden: true}
+  - {input: '0
+
+      1
+
+      1', output: '2', hidden: true}
+  checker: exact
+  hints:
+  - 'Два вложенных цикла: for x in range(2): for y in range(2):.'
+  - 'Условие: ((not x) or y) and v, или x and not w, или y and u.'
+  - Если истинно, count += 1.
+  solution: |
+    v = int(input())
+    w = int(input())
+    u = int(input())
+    count = 0
+    for x in range(2):
+        for y in range(2):
+            if (((not x) or y) and v) or (x and not w) or (y and u):
+                count += 1
+    print(count)
+  explanation: |
+    Перебор всех наборов — основа таблицы истинности.
+- id: l18-t5
+  type: code
+  title: 'МЦКО-5: два столбца'
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 5
+  statement: |
+    Функция F(x, y) = ¬x ∨ y. В таблице истинности показаны несколько строк, где F = 1, но столбцы не подписаны (первый столбец и второй). Определите, какой переменной соответствует каждый столбец. Выведите буквы в порядке столбцов: «xy» или «yx». Ответ единственный.
+  input_format: Первая строка — число строк k, затем k строк по два значения (0 или 1).
+  output_format: Строка «xy» или «yx».
+  starter: |
+    import itertools
+    k = int(input())
+    rows = []
+    for i in range(k):
+        rows.append(input().split())
+    # попробуй оба порядка
+  examples:
+  - &id009 {input: '1
+
+      0 1', output: xy}
+  - &id010 {input: '1
+
+      1 0', output: yx}
+  tests:
+  - *id009
+  - *id010
+  - {input: '2
+
+      0 0
+
+      0 1', output: xy, hidden: true}
+  - {input: '2
+
+      1 1
+
+      1 0', output: yx, hidden: true}
+  - {input: '3
+
+      0 1
+
+      1 1
+
+      0 0', output: xy, hidden: true}
+  - {input: '2
+
+      1 0
+
+      0 0', output: yx, hidden: true}
+  - {input: '2
+
+      0 1
+
+      1 1', output: xy, hidden: true}
+  checker: exact
+  hints:
+  - 'Перебери порядки: itertools.permutations("xy") даёт кортежи ("x", "y") и ("y", "x").'
+  - 'Значение x в строке row: int(row[order.index("x")]).'
+  - 'Порядок подходит, если во всех строках (not x) or y истинно. Вывести: "".join(order).'
+  solution: |
+    import itertools
+    k = int(input())
+    rows = []
+    for i in range(k):
+        rows.append(input().split())
+    for order in itertools.permutations("xy"):
+        ok = True
+        for row in rows:
+            x = int(row[order.index("x")])
+            y = int(row[order.index("y")])
+            if not ((not x) or y):
+                ok = False
+        if ok:
+            print("".join(order))
+  explanation: |
+    Разбор вручную: строка (0, 1) годится только если первый столбец — x. Затем программа.
+- id: l18-t6
+  type: code
+  title: 'МЦКО-7: поразрядная конъюнкция'
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 7
+  statement: |
+    Выведите результат поразрядного И (операция `&`) двух чисел.
+  input_format: Две строки — целые числа a и b от 0 до 255.
+  output_format: Одно число.
+  starter: |
+    a = int(input())
+    b = int(input())
+    # поразрядное И
+  examples:
+  - &id011 {input: '192
+
+      240', output: '192'}
+  - &id012 {input: '170
+
+      85', output: '0'}
+  tests:
+  - *id011
+  - *id012
+  - {input: '255
+
+      13', output: '13', hidden: true}
+  - {input: '200
+
+      255', output: '200', hidden: true}
+  - {input: '129
+
+      192', output: '128', hidden: true}
+  - {input: '15
+
+      240', output: '0', hidden: true}
+  - {input: '0
+
+      255', output: '0', hidden: true}
+  checker: exact
+  hints:
+  - 'Операция в Python — один амперсанд: a & b.'
+  - 'Проверь вручную: 129 = 10000001, 192 = 11000000.'
+  solution: |
+    a = int(input())
+    b = int(input())
+    print(a & b)
+  explanation: |
+    Поразрядное И: единица только там, где в обоих числах единицы.
+- id: l18-t7
+  type: code
+  title: 'МЦКО-7: адрес сети'
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 7
+  statement: |
+    Даны IP-адрес и маска. Выведите адрес сети — результат поразрядного И адреса и маски, четыре числа через точку.
+  input_format: Две строки — IP-адрес и маска (четыре числа через точку).
+  output_format: Адрес сети через точки.
+  starter: |
+    ip = input().split(".")
+    mask = input().split(".")
+    parts = []
+    # для каждого октета: ip & mask
+  examples:
+  - &id013 {input: '192.168.5.130
+
+      255.255.255.192', output: 192.168.5.128}
+  - &id014 {input: '10.20.30.40
+
+      255.0.0.0', output: 10.0.0.0}
+  tests:
+  - *id013
+  - *id014
+  - {input: '172.16.255.255
+
+      255.255.240.0', output: 172.16.240.0, hidden: true}
+  - {input: '1.2.3.4
+
+      255.255.255.255', output: 1.2.3.4, hidden: true}
+  - {input: '200.100.50.25
+
+      255.255.255.0', output: 200.100.50.0, hidden: true}
+  - {input: '192.168.1.200
+
+      255.255.255.224', output: 192.168.1.192, hidden: true}
+  - {input: '130.5.9.77
+
+      255.255.128.0', output: 130.5.0.0, hidden: true}
+  checker: exact
+  hints:
+  - split(".") режет строку по точкам, получается список из четырёх строк.
+  - 'Для каждого i: int(ip[i]) & int(mask[i]) — превратить в строку и добавить в parts.'
+  - 'Склей через точку: ".".join(parts).'
+  solution: |
+    ip = input().split(".")
+    mask = input().split(".")
+    parts = []
+    for i in range(4):
+        parts.append(str(int(ip[i]) & int(mask[i])))
+    print(".".join(parts))
+  explanation: |
+    Основа МЦКО-7. Октеты со значением 255 в маске переносят число без изменений, 0 — обнуляют.
+- id: l18-t8
+  type: code
+  title: 'МЦКО-7: длина маски'
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 7
+  statement: |
+    Маска сети записана четырьмя числами. Найдите длину префикса — число единиц в двоичной записи маски.
+  input_format: Одна строка — маска из четырёх чисел через точку.
+  output_format: Число от 0 до 32.
+  starter: |
+    mask = input().split(".")
+    count = 0
+    # посчитай единицы в каждом октете
+  examples:
+  - &id015 {input: 255.255.255.0, output: '24'}
+  - &id016 {input: 255.255.255.192, output: '26'}
+  tests:
+  - *id015
+  - *id016
+  - {input: 255.0.0.0, output: '8', hidden: true}
+  - {input: 255.255.240.0, output: '20', hidden: true}
+  - {input: 255.255.255.255, output: '32', hidden: true}
+  - {input: 128.0.0.0, output: '1', hidden: true}
+  - {input: 255.255.252.0, output: '22', hidden: true}
+  checker: exact
+  hints:
+  - 'Единицы в числе: bin(число).count("1").'
+  - Сложи по всем четырём октетам.
+  solution: |
+    mask = input().split(".")
+    count = 0
+    for part in mask:
+        count += bin(int(part)).count("1")
+    print(count)
+  explanation: |
+    Префикс — 24 для 255.255.255.0 и т. д.
+- id: l18-t9
+  type: code
+  title: 'МЦКО-5: три столбца'
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 5
+  statement: |
+    Функция F(x, y, z) = (x → y) ∧ (y ∨ z). Показаны строки таблицы, где F = 1, столбцы не подписаны. Определите, какой переменной соответствует каждый столбец. Выведите буквы в порядке столбцов, например «zxy». Ответ единственный.
+  input_format: Первая строка — число строк k, затем k строк по три значения (0 или 1).
+  output_format: Три буквы.
+  starter: |
+    import itertools
+    k = int(input())
+    rows = []
+    for i in range(k):
+        rows.append(input().split())
+    # перебери 6 порядков
+  examples:
+  - &id017 {input: '5
+
+      0 1 0
+
+      0 1 1
+
+      0 0 1
+
+      1 1 1
+
+      1 1 0', output: xyz}
+  - &id018 {input: '4
+
+      0 1 0
+
+      1 0 1
+
+      1 1 1
+
+      0 0 1', output: xzy}
+  tests:
+  - *id017
+  - *id018
+  - {input: '4
+
+      0 1 1
+
+      1 1 0
+
+      0 1 0
+
+      1 0 0', output: zyx, hidden: true}
+  - {input: '5
+
+      0 1 0
+
+      0 1 1
+
+      0 0 1
+
+      1 1 1
+
+      1 1 0', output: xyz, hidden: true}
+  - {input: '4
+
+      1 1 1
+
+      1 0 1
+
+      0 1 1
+
+      1 0 0', output: zxy, hidden: true}
+  - {input: '4
+
+      0 0 1
+
+      1 1 1
+
+      0 1 1
+
+      1 0 0', output: zxy, hidden: true}
+  - {input: '4
+
+      1 0 1
+
+      0 1 1
+
+      0 0 1
+
+      1 0 0', output: zxy, hidden: true}
+  checker: exact
+  hints:
+  - itertools.permutations("xyz") даёт 6 порядков.
+  - Для каждой строки получи x, y, z через order.index(...).
+  - 'Порядок подходит, если во всех строках F истинна: ((not x) or y) and (y or z).'
+  solution: |
+    import itertools
+    k = int(input())
+    rows = []
+    for i in range(k):
+        rows.append(input().split())
+    for order in itertools.permutations("xyz"):
+        ok = True
+        for row in rows:
+            x = int(row[order.index("x")])
+            y = int(row[order.index("y")])
+            z = int(row[order.index("z")])
+            if not (((not x) or y) and (y or z)):
+                ok = False
+        if ok:
+            print("".join(order))
+  explanation: |
+    Типичная МЦКО-5. Сначала выпишите, при каких x, y, z функция равна 1, и поищите в данных строку «опознавательный знак».
+- id: l18-t10
+  type: code
+  title: 'МЦКО-7: номер узла'
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 7
+  statement: |
+    Номер узла в сети — число, образованное теми битами адреса, где в маске стоят нули (как обычное число). Найдите номер узла по IP-адресу и маске. Для этого переведите оба адреса в одно 32-битное число: a·256³ + b·256² + c·256 + d.
+  input_format: Две строки — IP-адрес и маска.
+  output_format: Одно число.
+  starter: |
+    ip = input().split(".")
+    mask = input().split(".")
+    ip_number = 0
+    mask_number = 0
+    # собери 32-битные числа
+  examples:
+  - &id019 {input: '192.168.5.130
+
+      255.255.255.192', output: '2'}
+  - &id020 {input: '10.20.30.40
+
+      255.255.0.0', output: '7720'}
+  tests:
+  - *id019
+  - *id020
+  - {input: '192.168.1.200
+
+      255.255.255.224', output: '8', hidden: true}
+  - {input: '172.16.5.9
+
+      255.255.248.0', output: '1289', hidden: true}
+  - {input: '1.2.3.4
+
+      255.255.255.255', output: '0', hidden: true}
+  - {input: '200.100.50.25
+
+      255.255.255.0', output: '25', hidden: true}
+  - {input: '130.5.9.77
+
+      255.255.128.0', output: '2381', hidden: true}
+  checker: exact
+  hints:
+  - '32-битное число собирают так: n = n * 256 + очередной октет (для каждого октета по порядку).'
+  - 'Узловая часть: ip_number & (2 ** 32 - 1 - mask_number) — единицы там, где в маске нули.'
+  - Результат и есть номер узла.
+  solution: |
+    ip = input().split(".")
+    mask = input().split(".")
+    ip_number = 0
+    mask_number = 0
+    for i in range(4):
+        ip_number = ip_number * 256 + int(ip[i])
+        mask_number = mask_number * 256 + int(mask[i])
+    print(ip_number & (2 ** 32 - 1 - mask_number))
+  explanation: |
+    Аналог схемы Горнера из урока 14. Инверсия маски: `2**32 - 1 - mask`.
+- id: l18-t11
+  type: code
+  title: 'МЦКО-7: сколько масок'
+  level: 4
+  required: false
+  homework: true
+  mcko:
+  - 7
+  statement: |
+    Даны IP-адрес и адрес сети. Сколько существует масок (с n единицами подряд слева, n от 0 до 32), для которых IP-адрес и маска (поразрядное И) дают именно этот адрес сети?
+  input_format: Две строки — IP-адрес и адрес сети.
+  output_format: Одно число.
+  starter: |
+    ip = input().split(".")
+    net = input().split(".")
+    ip_number = 0
+    net_number = 0
+    # собери 32-битные числа и перебери n
+  examples:
+  - &id021 {input: '192.168.5.130
+
+      192.168.5.128', output: '6'}
+  - &id022 {input: '10.20.30.40
+
+      10.0.0.0', output: '5'}
+  tests:
+  - *id021
+  - *id022
+  - {input: '192.168.1.200
+
+      192.168.1.192', output: '3', hidden: true}
+  - {input: '172.16.5.9
+
+      172.16.0.0', output: '10', hidden: true}
+  - {input: '1.2.3.4
+
+      1.2.3.4', output: '3', hidden: true}
+  - {input: '200.100.50.25
+
+      200.100.50.0', output: '5', hidden: true}
+  - {input: '130.5.9.77
+
+      130.5.0.0', output: '5', hidden: true}
+  checker: exact
+  hints:
+  - Собери два 32-битных числа, как в задаче про номер узла.
+  - 'Маска с n единицами: 2 ** 32 - 2 ** (32 - n).'
+  - Проверяй ip_number & mask == net_number для n от 0 до 32 и считай подходящие.
+  solution: |
+    ip = input().split(".")
+    net = input().split(".")
+    ip_number = 0
+    net_number = 0
+    for i in range(4):
+        ip_number = ip_number * 256 + int(ip[i])
+        net_number = net_number * 256 + int(net[i])
+    count = 0
+    for n in range(33):
+        mask = 2 ** 32 - 2 ** (32 - n)
+        if ip_number & mask == net_number:
+            count += 1
+    print(count)
+  explanation: |
+    Звёздочка: обратная задача МЦКО-7 перебором длины префикса.
+- id: l18-t12
+  type: code
+  title: 'МЦКО-5: четыре столбца'
+  level: 4
+  required: false
+  homework: true
+  mcko:
+  - 5
+  statement: |
+    Функция F(w, x, y, z) = (w ∧ ¬x) ∨ (x ∧ (y → z)). Показаны строки таблицы, где F = 1; столбцы не подписаны. Определите, какой переменной соответствует каждый столбец. Выведите четыре буквы в порядке столбцов. Ответ единственный.
+  input_format: Первая строка — число строк k, затем k строк по четыре значения.
+  output_format: Четыре буквы.
+  starter: |
+    import itertools
+    k = int(input())
+    rows = []
+    for i in range(k):
+        rows.append(input().split())
+    # 24 порядка
+  examples:
+  - &id023 {input: '6
+
+      0 1 0 0
+
+      0 1 1 1
+
+      1 0 1 1
+
+      0 1 0 1
+
+      1 1 1 0
+
+      1 0 0 0', output: xwzy}
+  - &id024 {input: '9
+
+      1 0 0 1
+
+      1 1 0 1
+
+      0 1 0 1
+
+      1 1 0 0
+
+      1 1 1 1
+
+      1 1 1 0
+
+      0 0 0 1
+
+      0 0 1 1
+
+      0 1 0 0', output: zxyw}
+  tests:
+  - *id023
+  - *id024
+  - {input: '9
+
+      1 1 1 1
+
+      0 1 1 1
+
+      0 1 0 1
+
+      1 1 0 0
+
+      1 0 0 0
+
+      1 0 1 1
+
+      0 1 1 0
+
+      0 1 0 0
+
+      1 1 0 1', output: xwyz, hidden: true}
+  - {input: '7
+
+      0 0 0 1
+
+      1 0 0 1
+
+      1 0 1 1
+
+      1 1 1 0
+
+      0 1 1 1
+
+      1 0 0 0
+
+      1 1 0 0', output: wyzx, hidden: true}
+  - {input: '10
+
+      1 0 0 0
+
+      1 1 1 1
+
+      1 1 0 0
+
+      0 1 0 1
+
+      0 1 1 1
+
+      1 1 0 1
+
+      1 0 1 1
+
+      1 0 0 1
+
+      0 1 0 0
+
+      0 1 1 0', output: xwyz, hidden: true}
+  - {input: '7
+
+      1 0 0 1
+
+      1 1 1 1
+
+      0 0 1 1
+
+      0 1 1 0
+
+      1 1 1 0
+
+      0 1 1 1
+
+      0 1 0 0', output: yxzw, hidden: true}
+  - {input: '8
+
+      1 1 1 1
+
+      1 0 1 0
+
+      0 0 1 1
+
+      1 1 1 0
+
+      1 0 1 1
+
+      0 1 0 1
+
+      1 0 0 1
+
+      0 1 1 1', output: xyzw, hidden: true}
+  checker: exact
+  hints:
+  - itertools.permutations("wxyz") даёт 24 порядка.
+  - 'Значение переменной v в строке row: int(row[order.index(v)]).'
+  - 'Импликация y → z пишется (not y) or z. Вся функция: (w and not x) or (x and ((not y) or z)).'
+  solution: |
+    import itertools
+    k = int(input())
+    rows = []
+    for i in range(k):
+        rows.append(input().split())
+    for order in itertools.permutations("wxyz"):
+        ok = True
+        for row in rows:
+            w = int(row[order.index("w")])
+            x = int(row[order.index("x")])
+            y = int(row[order.index("y")])
+            z = int(row[order.index("z")])
+            if not ((w and not x) or (x and ((not y) or z))):
+                ok = False
+        if ok:
+            print("".join(order))
+  explanation: |
+    Звёздочка: те же перестановки, но четыре переменные. Перебор 24 вариантов программа делает мгновенно, руками — долго.

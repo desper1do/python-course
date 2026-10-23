@@ -1,0 +1,486 @@
+- id: l06-t1
+  type: code
+  title: Килобайты в биты
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Файл занимает k Кбайт. Сколько это бит?
+  input_format: Одна строка — целое число k.
+  output_format: Одно число.
+  starter: |
+    import math
+    k = int(input())
+    # 1 Кбайт = 1024 байта, 1 байт = 8 бит
+  examples:
+  - &id001 {input: '1', output: '8192'}
+  - &id002 {input: '2', output: '16384'}
+  tests:
+  - *id001
+  - *id002
+  - {input: '10', output: '81920', hidden: true}
+  - {input: '0', output: '0', hidden: true}
+  - {input: '512', output: '4194304', hidden: true}
+  - {input: '3', output: '24576', hidden: true}
+  checker: exact
+  hints:
+  - 'Сначала Кбайт в байты: k * 1024.'
+  - 'Потом байты в биты: умножь на 8.'
+  solution: |
+    k = int(input())
+    print(k * 1024 * 8)
+  explanation: |
+    Цепочка единиц. Обратите внимание, что `import` для этой задачи не нужен.
+- id: l06-t2
+  type: code
+  title: Бит на символ
+  level: 1
+  required: true
+  homework: false
+  mcko:
+  - 9
+  statement: |
+    В алфавите N символов. Сколько бит нужно, чтобы закодировать каждый символ одинаковым минимальным числом бит?
+  input_format: Одна строка — целое число N (от 2).
+  output_format: Одно число.
+  starter: |
+    import math
+    N = int(input())
+    # найди наименьшее i, где 2**i >= N
+  examples:
+  - &id003 {input: '32', output: '5'}
+  - &id004 {input: '33', output: '6'}
+  tests:
+  - *id003
+  - *id004
+  - {input: '2', output: '1', hidden: true}
+  - {input: '3', output: '2', hidden: true}
+  - {input: '4', output: '2', hidden: true}
+  - {input: '5', output: '3', hidden: true}
+  - {input: '64', output: '6', hidden: true}
+  - {input: '100', output: '7', hidden: true}
+  - {input: '1000', output: '10', hidden: true}
+  checker: exact
+  hints:
+  - Нужно наименьшее i, при котором 2 в степени i не меньше N.
+  - 'В Python: math.ceil(math.log2(N)).'
+  - Проверь N = 32 (ответ 5) и 33 (ответ 6).
+  solution: |
+    import math
+    N = int(input())
+    print(math.ceil(math.log2(N)))
+  explanation: |
+    Таблица степеней двойки, потом проверка программой.
+- id: l06-t3
+  type: code
+  title: Объём текста в битах
+  level: 1
+  required: true
+  homework: false
+  mcko:
+  - 9
+  statement: |
+    Текст состоит из k символов. Алфавит содержит N символов. Сколько бит занимает текст?
+  input_format: Две строки — k и N.
+  output_format: Одно число — объём в битах.
+  starter: |
+    import math
+    k = int(input())
+    N = int(input())
+    # сначала найди i, потом k * i
+  examples:
+  - &id005 {input: '100
+
+      32', output: '500'}
+  - &id006 {input: '50
+
+      33', output: '300'}
+  tests:
+  - *id005
+  - *id006
+  - {input: '1
+
+      2', output: '1', hidden: true}
+  - {input: '10
+
+      3', output: '20', hidden: true}
+  - {input: '1000
+
+      4', output: '2000', hidden: true}
+  - {input: '7
+
+      100', output: '49', hidden: true}
+  checker: exact
+  hints:
+  - 'Сначала число бит на символ: i = math.ceil(math.log2(N)).'
+  - 'Объём: k * i.'
+  solution: |
+    import math
+    k = int(input())
+    N = int(input())
+    i = math.ceil(math.log2(N))
+    print(k * i)
+  explanation: |
+    Складываем два шага: i, затем k * i.
+- id: l06-t4
+  type: code
+  title: Объём сообщения в байтах
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 9
+  statement: |
+    Сообщение из k символов записано алфавитом из N символов. Сколько байт оно занимает? Если число бит не делится на 8, округлите вверх.
+  input_format: Две строки — k и N.
+  output_format: Одно число — байты.
+  starter: |
+    import math
+    k = int(input())
+    N = int(input())
+    # бит на символ, затем байты
+  examples:
+  - &id007 {input: '100
+
+      32', output: '63'}
+  - &id008 {input: '10
+
+      33', output: '8'}
+  tests:
+  - *id007
+  - *id008
+  - {input: '1
+
+      2', output: '1', hidden: true}
+  - {input: '8
+
+      2', output: '1', hidden: true}
+  - {input: '9
+
+      2', output: '2', hidden: true}
+  - {input: '1000
+
+      100', output: '875', hidden: true}
+  checker: exact
+  hints:
+  - Сначала i = math.ceil(math.log2(N)).
+  - 'Бит всего: k * i. В байтах: k * i / 8, округлить вверх: math.ceil(...).'
+  - 'Проверь: 9 символов по 1 биту — это 2 байта, не 1.'
+  solution: |
+    import math
+    k = int(input())
+    N = int(input())
+    i = math.ceil(math.log2(N))
+    print(math.ceil(k * i / 8))
+  explanation: |
+    Добавили деление на 8 и округление вверх.
+- id: l06-t5
+  type: code
+  title: Один серийный номер
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 9
+  statement: |
+    Серийный номер состоит из L символов. Используется алфавит из N символов. Все символы кодируются одинаковым минимальным числом бит, а номер занимает целое число байт. Сколько байт занимает один номер?
+  input_format: Две строки — L и N.
+  output_format: Одно число — байты на номер.
+  starter: |
+    import math
+    L = int(input())
+    N = int(input())
+    # бит на символ, потом байты на номер
+  examples:
+  - &id009 {input: '8
+
+      36', output: '6'}
+  - &id010 {input: '10
+
+      26', output: '7'}
+  tests:
+  - *id009
+  - *id010
+  - {input: '5
+
+      2', output: '1', hidden: true}
+  - {input: '8
+
+      256', output: '8', hidden: true}
+  - {input: '12
+
+      10', output: '6', hidden: true}
+  - {input: '7
+
+      1000', output: '9', hidden: true}
+  checker: exact
+  hints:
+  - 'Сначала число бит на символ: math.ceil(math.log2(N)).'
+  - 'Бит на номер: L * i. Байты: math.ceil(L * i / 8).'
+  solution: |
+    import math
+    L = int(input())
+    N = int(input())
+    i = math.ceil(math.log2(N))
+    print(math.ceil(L * i / 8))
+  explanation: |
+    Это пример из теории в виде программы. Тип 9 из МЦКО, самый простой шаг.
+- id: l06-t6
+  type: code
+  title: База номеров в байтах
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 9
+  statement: |
+    Нужно хранить n серийных номеров по L символов; алфавит из N символов. Каждый номер занимает целое число байт. Сколько байт займёт вся база?
+  input_format: Три строки — n, L и N.
+  output_format: Одно число — байты.
+  starter: |
+    import math
+    n = int(input())
+    L = int(input())
+    N = int(input())
+    # байты на номер, потом умножь на n
+  examples:
+  - &id011 {input: '1000
+
+      8
+
+      36', output: '6000'}
+  - &id012 {input: '500
+
+      10
+
+      26', output: '3500'}
+  tests:
+  - *id011
+  - *id012
+  - {input: '1
+
+      5
+
+      2', output: '1', hidden: true}
+  - {input: '200
+
+      8
+
+      256', output: '1600', hidden: true}
+  - {input: '1000000
+
+      12
+
+      10', output: '6000000', hidden: true}
+  - {input: '10
+
+      7
+
+      1000', output: '90', hidden: true}
+  checker: exact
+  hints:
+  - Байты на номер считай как в прошлой задаче.
+  - Всю базу получишь, умножив на n.
+  solution: |
+    import math
+    n = int(input())
+    L = int(input())
+    N = int(input())
+    i = math.ceil(math.log2(N))
+    bytes_per_number = math.ceil(L * i / 8)
+    print(n * bytes_per_number)
+  explanation: |
+    Добавили n. Ошибка — умножать на n до округления.
+- id: l06-t7
+  type: code
+  title: Объём базы в Кбайт и байтах
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 9
+  statement: |
+    Для базы из n серийных номеров по L символов (алфавит из N символов, номер занимает целое число байт) выведите объём в виде «X Кбайт Y байт», где Y меньше 1024.
+  input_format: Три строки — n, L и N.
+  output_format: Одна строка вида «X Кбайт Y байт».
+  starter: |
+    import math
+    n = int(input())
+    L = int(input())
+    N = int(input())
+    # объём в байтах, затем // 1024 и % 1024
+  examples:
+  - &id013 {input: '1000
+
+      8
+
+      36', output: 5 Кбайт 880 байт}
+  - &id014 {input: '500
+
+      10
+
+      26', output: 3 Кбайт 428 байт}
+  tests:
+  - *id013
+  - *id014
+  - {input: '1
+
+      5
+
+      2', output: 0 Кбайт 1 байт, hidden: true}
+  - {input: '200
+
+      8
+
+      256', output: 1 Кбайт 576 байт, hidden: true}
+  - {input: '1000000
+
+      12
+
+      10', output: 5859 Кбайт 384 байт, hidden: true}
+  - {input: '10
+
+      7
+
+      1000', output: 0 Кбайт 90 байт, hidden: true}
+  checker: exact
+  hints:
+  - Сначала всю базу в байтах, как в предыдущей задаче.
+  - 'Кбайты: V // 1024. Остаток: V % 1024.'
+  - print(f"{...} Кбайт {...} байт")
+  solution: |
+    import math
+    n = int(input())
+    L = int(input())
+    N = int(input())
+    i = math.ceil(math.log2(N))
+    volume = n * math.ceil(L * i / 8)
+    print(f"{volume // 1024} Кбайт {volume % 1024} байт")
+  explanation: |
+    Связка уроков 2, 3 и 6: деление с остатком и f-строка.
+- id: l06-t8
+  type: code
+  title: Наименьший алфавит по объёму базы
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 9
+  statement: |
+    В базе хранится n серийных номеров по L символов. Весь объём базы равен V байт (V делится на n). Все символы кодируются одинаковым минимальным числом бит, номер занимает целое число байт. Найдите наименьшее возможное число символов в алфавите.
+  input_format: Три строки — n, L и V.
+  output_format: Одно число — наименьшая мощность алфавита.
+  starter: |
+    n = int(input())
+    L = int(input())
+    V = int(input())
+    # байты на номер, затем наименьшее число бит
+  examples:
+  - &id015 {input: '1000
+
+      8
+
+      6000', output: '33'}
+  - &id016 {input: '100
+
+      10
+
+      1000', output: '129'}
+  tests:
+  - *id015
+  - *id016
+  - {input: '50
+
+      4
+
+      50', output: '2', hidden: true}
+  - {input: '10
+
+      12
+
+      90', output: '33', hidden: true}
+  - {input: '10
+
+      16
+
+      40', output: '3', hidden: true}
+  - {input: '1
+
+      7
+
+      3', output: '5', hidden: true}
+  - {input: '100
+
+      20
+
+      1500', output: '33', hidden: true}
+  checker: exact
+  hints:
+  - 'Байты на номер: B = V // n. Это целое число байт.'
+  - 'Номер занимает ровно B байт, значит бит на номер больше 8 * (B - 1) и не больше 8 * B. Наименьшее число бит на символ: i = 8 * (B - 1) // L + 1.'
+  - 'Наименьший алфавит для i бит: 2 ** (i - 1) + 1, а при i = 1 алфавит из 2 символов.'
+  solution: |
+    n = int(input())
+    L = int(input())
+    V = int(input())
+    B = V // n
+    i = 8 * (B - 1) // L + 1
+    if i == 1:
+        print(2)
+    else:
+        print(2 ** (i - 1) + 1)
+  explanation: |
+    Типичная МЦКО-9. Разберите рассуждение: чтобы номер занимал ровно B байт, надо попасть в промежуток (8*(B-1); 8*B] бит. Наименьшее i — первое, что вышло за нижнюю границу. Осторожно с i = 1: алфавит из одного символа не кодируется, поэтому 2.
+- id: l06-t9
+  type: code
+  title: Длина номера
+  level: 4
+  required: false
+  homework: true
+  mcko:
+  - 9
+  statement: |
+    Номер занимает не больше B байт, алфавит содержит N символов, символы кодируются одинаковым минимальным числом бит. Какое наибольшее число символов может быть в номере?
+  input_format: Две строки — B и N.
+  output_format: Одно число.
+  starter: |
+    import math
+    B = int(input())
+    N = int(input())
+    # сколько бит на символ и сколько символов влезет
+  examples:
+  - &id017 {input: '6
+
+      36', output: '8'}
+  - &id018 {input: '4
+
+      26', output: '6'}
+  tests:
+  - *id017
+  - *id018
+  - {input: '1
+
+      2', output: '8', hidden: true}
+  - {input: '3
+
+      1000', output: '2', hidden: true}
+  - {input: '10
+
+      100', output: '11', hidden: true}
+  - {input: '2
+
+      3', output: '8', hidden: true}
+  checker: exact
+  hints:
+  - Сначала i — бит на символ.
+  - 'Всего бит в B байтах: B * 8.'
+  - Символов помещается (B * 8) // i.
+  solution: |
+    import math
+    B = int(input())
+    N = int(input())
+    i = math.ceil(math.log2(N))
+    print(B * 8 // i)
+  explanation: |
+    Звёздочка: обратная задача, деление нацело на i. Ограничение «не больше», поэтому // подходит.

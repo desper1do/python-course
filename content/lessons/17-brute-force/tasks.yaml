@@ -1,0 +1,889 @@
+- id: l17-t1
+  type: code
+  title: Пары с суммой
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Сколько существует пар целых чисел (a, b), для которых 1 ≤ a ≤ b ≤ n и a + b = s?
+  input_format: Две строки — n и s.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    s = int(input())
+    count = 0
+    # перебери a, затем b
+  examples:
+  - &id001 {input: '5
+
+      6', output: '3'}
+  - &id002 {input: '3
+
+      2', output: '1'}
+  tests:
+  - *id001
+  - *id002
+  - {input: '10
+
+      11', output: '5', hidden: true}
+  - {input: '1
+
+      2', output: '1', hidden: true}
+  - {input: '4
+
+      100', output: '0', hidden: true}
+  - {input: '20
+
+      21', output: '10', hidden: true}
+  checker: exact
+  hints:
+  - Внешний цикл по a от 1 до n, внутренний по b от a до n.
+  - Если a + b == s, count += 1.
+  solution: |
+    n = int(input())
+    s = int(input())
+    count = 0
+    for a in range(1, n + 1):
+        for b in range(a, n + 1):
+            if a + b == s:
+                count += 1
+    print(count)
+  explanation: |
+    Вложенные циклы: внутренний начинается с a, чтобы пара не считалась дважды.
+- id: l17-t2
+  type: code
+  title: Все слова
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите все слова длины k из букв алфавита в алфавитном порядке, каждое на своей строке.
+  input_format: Две строки — алфавит (буквы подряд, отсортированы) и k.
+  output_format: Столбец слов.
+  starter: |
+    import itertools
+    alphabet = input()
+    k = int(input())
+    # перебор через product
+  examples:
+  - &id003 {input: 'АБ
+
+      2', output: 'АА
+
+      АБ
+
+      БА
+
+      ББ'}
+  - &id004 {input: 'АБВ
+
+      2', output: 'АА
+
+      АБ
+
+      АВ
+
+      БА
+
+      ББ
+
+      БВ
+
+      ВА
+
+      ВБ
+
+      ВВ'}
+  tests:
+  - *id003
+  - *id004
+  - {input: '01
+
+      3', output: '000
+
+      001
+
+      010
+
+      011
+
+      100
+
+      101
+
+      110
+
+      111', hidden: true}
+  - {input: 'АБ
+
+      1', output: 'А
+
+      Б', hidden: true}
+  - {input: 'ABC
+
+      1', output: 'A
+
+      B
+
+      C', hidden: true}
+  - {input: 'КТ
+
+      3', output: 'ККК
+
+      ККТ
+
+      КТК
+
+      КТТ
+
+      ТКК
+
+      ТКТ
+
+      ТТК
+
+      ТТТ', hidden: true}
+  checker: exact
+  hints:
+  - itertools.product(alphabet, repeat=k) даёт наборы букв.
+  - 'Склей набор: "".join(letters), затем print.'
+  solution: |
+    import itertools
+    alphabet = input()
+    k = int(input())
+    for letters in itertools.product(alphabet, repeat=k):
+        print("".join(letters))
+  explanation: |
+    Пример из теории с вводом.
+- id: l17-t3
+  type: code
+  title: 'МЦКО-6: номер слова'
+  level: 1
+  required: true
+  homework: false
+  mcko:
+  - 6
+  statement: |
+    Все слова длины k из букв алфавита выписаны в алфавитном порядке и пронумерованы с единицы. Какой номер у данного слова? Длина слова равна k.
+  input_format: Две строки — алфавит и слово.
+  output_format: Одно число.
+  starter: |
+    import itertools
+    alphabet = input()
+    word = input()
+    # перебирай слова и сравнивай с word
+  examples:
+  - &id005 {input: 'АБВ
+
+      БВ', output: '6'}
+  - &id006 {input: 'АБ
+
+      ББ', output: '4'}
+  tests:
+  - *id005
+  - *id006
+  - {input: 'АБВГ
+
+      ГГГ', output: '64', hidden: true}
+  - {input: 'АБВ
+
+      ААА', output: '1', hidden: true}
+  - {input: 'КОТ
+
+      ТОК', output: '22', hidden: true}
+  - {input: 'ЛЕС
+
+      СЕЛ', output: '22', hidden: true}
+  checker: exact
+  hints:
+  - Длина слова — len(word).
+  - Перебирай enumerate(itertools.product(alphabet, repeat=len(word)), 1).
+  - Когда "".join(letters) совпало с word, выведи номер.
+  solution: |
+    import itertools
+    alphabet = input()
+    word = input()
+    for number, letters in enumerate(itertools.product(alphabet, repeat=len(word)), 1):
+        if "".join(letters) == word:
+            print(number)
+  explanation: |
+    Проверьте вручную: в алфавите из 3 букв слово БВ — шестое.
+- id: l17-t4
+  type: code
+  title: 'МЦКО-2: один шаг автомата'
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 2
+  statement: |
+    Автомат: записываем N в двоичной системе; если N чётное, справа дописываем 0, иначе справа дописываем 11. Результат R — число, которое получилось, в десятичной системе. Найдите R.
+  input_format: Одна строка — натуральное число N.
+  output_format: Число R.
+  starter: |
+    n = int(input())
+    # двоичная запись, дописать биты, обратно в десятичную
+  examples:
+  - &id007 {input: '5', output: '23'}
+  - &id008 {input: '4', output: '8'}
+  tests:
+  - *id007
+  - *id008
+  - {input: '1', output: '7', hidden: true}
+  - {input: '2', output: '4', hidden: true}
+  - {input: '7', output: '31', hidden: true}
+  - {input: '100', output: '200', hidden: true}
+  - {input: '255', output: '1023', hidden: true}
+  checker: exact
+  hints:
+  - 'Запись: s = bin(n)[2:].'
+  - Если n % 2 == 0, s += "0", иначе s += "11".
+  - R = int(s, 2).
+  solution: |
+    n = int(input())
+    s = bin(n)[2:]
+    if n % 2 == 0:
+        s += "0"
+    else:
+        s += "11"
+    print(int(s, 2))
+  explanation: |
+    Пример из теории. Вручную: 5 = 101 → 10111 = 23.
+- id: l17-t5
+  type: code
+  title: 'МЦКО-6: слова без буквы'
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 6
+  statement: |
+    Выписаны все слова длины k из букв алфавита в алфавитном порядке, но только те, в которых нет буквы x. Нумерация с единицы. Найдите номер данного слова (в нём буквы x нет).
+  input_format: Три строки — алфавит, буква x, слово.
+  output_format: Одно число.
+  starter: |
+    import itertools
+    alphabet = input()
+    x = input()
+    word = input()
+    number = 0
+    # считай только слова без x
+  examples:
+  - &id009 {input: 'АБВ
+
+      Б
+
+      ВА', output: '3'}
+  - &id010 {input: 'АБВ
+
+      А
+
+      ББ', output: '1'}
+  tests:
+  - *id009
+  - *id010
+  - {input: 'АБВГ
+
+      В
+
+      ГГ', output: '9', hidden: true}
+  - {input: 'АБ
+
+      А
+
+      ББББ', output: '1', hidden: true}
+  - {input: 'АБВ
+
+      В
+
+      БАБ', output: '6', hidden: true}
+  - {input: 'КОТ
+
+      О
+
+      ТТ', output: '4', hidden: true}
+  checker: exact
+  hints:
+  - Перебирай все слова product(alphabet, repeat=len(word)).
+  - Слово подходит, если x not in w. Увеличивай number только для подходящих.
+  - Когда w == word, выведи number.
+  solution: |
+    import itertools
+    alphabet = input()
+    x = input()
+    word = input()
+    number = 0
+    for letters in itertools.product(alphabet, repeat=len(word)):
+        w = "".join(letters)
+        if x not in w:
+            number += 1
+            if w == word:
+                print(number)
+  explanation: |
+    Нумеруем только подходящие слова, поэтому `enumerate` здесь не нужен: нужен счётчик.
+- id: l17-t6
+  type: code
+  title: 'МЦКО-8: проверка ключа'
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 8
+  statement: |
+    В RSA даны простые числа p и q, число f = (p − 1)·(q − 1) и числа e и d. Выведите «Да», если (d·e) mod f = 1, иначе «Нет».
+  input_format: Четыре строки — p, q, e, d.
+  output_format: «Да» или «Нет».
+  starter: |
+    p = int(input())
+    q = int(input())
+    e = int(input())
+    d = int(input())
+    # f, потом остаток
+  examples:
+  - &id011 {input: '11
+
+      13
+
+      7
+
+      103', output: Да}
+  - &id012 {input: '3
+
+      11
+
+      3
+
+      7', output: Да}
+  tests:
+  - *id011
+  - *id012
+  - {input: '5
+
+      7
+
+      5
+
+      5', output: Да, hidden: true}
+  - {input: '7
+
+      11
+
+      7
+
+      43', output: Да, hidden: true}
+  - {input: '5
+
+      13
+
+      7
+
+      7', output: Да, hidden: true}
+  - {input: '13
+
+      17
+
+      5
+
+      77', output: Да, hidden: true}
+  - {input: '101
+
+      103
+
+      3
+
+      6667', output: Нет, hidden: true}
+  checker: exact
+  hints:
+  - f = (p - 1) * (q - 1).
+  - 'Условие: d * e % f == 1.'
+  solution: |
+    p = int(input())
+    q = int(input())
+    e = int(input())
+    d = int(input())
+    f = (p - 1) * (q - 1)
+    if d * e % f == 1:
+        print("Да")
+    else:
+        print("Нет")
+  explanation: |
+    Прямая подстановка в формулу МЦКО-8. Остаток из урока 2.
+- id: l17-t7
+  type: code
+  title: 'МЦКО-2: наименьшее N'
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 2
+  statement: |
+    Автомат из задачи «один шаг»: если N чётное, дописывается 0, иначе 11. Найдите наименьшее натуральное N, при котором R больше X.
+  input_format: Одна строка — число X.
+  output_format: Число N.
+  starter: |
+    x = int(input())
+    n = 1
+    # пока R не больше X, пробуй следующее N
+  examples:
+  - &id013 {input: '50', output: '13'}
+  - &id014 {input: '1', output: '1'}
+  tests:
+  - *id013
+  - *id014
+  - {input: '100', output: '25', hidden: true}
+  - {input: '20', output: '5', hidden: true}
+  - {input: '1000', output: '251', hidden: true}
+  - {input: '8', output: '3', hidden: true}
+  - {input: '300', output: '75', hidden: true}
+  checker: exact
+  hints:
+  - 'Цикл while r <= x: пока ответ не подходит.'
+  - 'Внутри: n += 1, затем считай r так же, как в прошлой задаче.'
+  - Когда r станет больше x, цикл закончится — выведи n.
+  solution: |
+    x = int(input())
+    n = 0
+    r = 0
+    while r <= x:
+        n += 1
+        s = bin(n)[2:]
+        if n % 2 == 0:
+            s += "0"
+        else:
+            s += "11"
+        r = int(s, 2)
+    print(n)
+  explanation: |
+    Классический «поиск первого подходящего»: цикл while идёт, пока ответ не подходит. Сначала вручную для X = 20: N = 5 даёт 23.
+- id: l17-t8
+  type: code
+  title: 'МЦКО-6: две запрета'
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 6
+  statement: |
+    Выписаны все слова длины k из букв алфавита в алфавитном порядке. Оставлены только слова, в которых нет буквы x и нет двух одинаковых букв y подряд. Нумерация с единицы. Найдите номер данного слова (оно подходит под ограничения).
+  input_format: Четыре строки — алфавит, буква x, буква y, слово.
+  output_format: Одно число.
+  starter: |
+    import itertools
+    alphabet = input()
+    x = input()
+    y = input()
+    word = input()
+    number = 0
+    # слово подходит, если нет x и нет y + y
+  examples:
+  - &id015 {input: 'АБВ
+
+      А
+
+      Б
+
+      ВБВ', output: '3'}
+  - &id016 {input: 'АБВ
+
+      В
+
+      А
+
+      БАБ', output: '3'}
+  tests:
+  - *id015
+  - *id016
+  - {input: 'АБВГ
+
+      Г
+
+      Б
+
+      АВАБ', output: '16', hidden: true}
+  - {input: 'АБВ
+
+      Б
+
+      А
+
+      ВВВ', output: '5', hidden: true}
+  - {input: 'АБВ
+
+      Б
+
+      В
+
+      АВА', output: '3', hidden: true}
+  - {input: 'АБВ
+
+      А
+
+      В
+
+      БВБ', output: '3', hidden: true}
+  - {input: 'КОТ
+
+      К
+
+      Т
+
+      ООТО', output: '3', hidden: true}
+  checker: exact
+  hints:
+  - 'Две проверки: x not in w и y + y not in w.'
+  - Объединить через and.
+  - Нумеруй только подходящие слова.
+  solution: |
+    import itertools
+    alphabet = input()
+    x = input()
+    y = input()
+    word = input()
+    number = 0
+    for letters in itertools.product(alphabet, repeat=len(word)):
+        w = "".join(letters)
+        if x not in w and y + y not in w:
+            number += 1
+            if w == word:
+                print(number)
+  explanation: |
+    Типичная МЦКО-6: два ограничения. Подскажите, что `"ББ" in w` проверяет подряд идущие буквы.
+- id: l17-t9
+  type: code
+  title: 'МЦКО-8: найти d'
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 8
+  statement: |
+    В RSA даны простые числа p и q и число e. Найдите такое d из диапазона от lo до hi включительно, что (d·e) mod f = 1, где f = (p − 1)·(q − 1). Гарантируется, что подходящее d есть; если их несколько, выведите наименьшее.
+  input_format: Пять строк — p, q, e, lo, hi.
+  output_format: Число d.
+  starter: |
+    p = int(input())
+    q = int(input())
+    e = int(input())
+    lo = int(input())
+    hi = int(input())
+    f = (p - 1) * (q - 1)
+    answer = 0
+    # перебери d от hi до lo, запомни подходящее
+  examples:
+  - &id017 {input: '11
+
+      13
+
+      7
+
+      1
+
+      200', output: '103'}
+  - &id018 {input: '3
+
+      11
+
+      3
+
+      1
+
+      20', output: '7'}
+  tests:
+  - *id017
+  - *id018
+  - {input: '5
+
+      7
+
+      5
+
+      1
+
+      30', output: '5', hidden: true}
+  - {input: '7
+
+      11
+
+      7
+
+      40
+
+      50', output: '43', hidden: true}
+  - {input: '13
+
+      17
+
+      5
+
+      1
+
+      190', output: '77', hidden: true}
+  - {input: '11
+
+      13
+
+      7
+
+      100
+
+      110', output: '103', hidden: true}
+  - {input: '17
+
+      19
+
+      5
+
+      1
+
+      300', output: '173', hidden: true}
+  checker: exact
+  hints:
+  - Цикл for d in range(lo, hi + 1).
+  - Если d * e % f == 1 — запомни d.
+  - 'Нужно наименьшее: перебирай от hi вниз (range(hi, lo - 1, -1)) и перезаписывай answer — после цикла в answer будет наименьшее. Либо используй флаг.'
+  solution: |
+    p = int(input())
+    q = int(input())
+    e = int(input())
+    lo = int(input())
+    hi = int(input())
+    f = (p - 1) * (q - 1)
+    answer = 0
+    for d in range(hi, lo - 1, -1):
+        if d * e % f == 1:
+            answer = d
+    print(answer)
+  explanation: |
+    Полная задача МЦКО-8. Идём сверху вниз, чтобы последнее запомненное d было наименьшим. Допустим и вариант с флагом.
+- id: l17-t10
+  type: code
+  title: 'МЦКО-6: слово по номеру'
+  level: 4
+  required: false
+  homework: true
+  mcko:
+  - 6
+  statement: |
+    Выписаны в алфавитном порядке все слова длины k из букв алфавита, в которых нет буквы x и нет двух одинаковых букв y подряд. Нумерация с единицы. Выведите слово с номером n (оно существует).
+  input_format: Пять строк — алфавит, k, буква x, буква y, номер n.
+  output_format: Одно слово.
+  starter: |
+    import itertools
+    alphabet = input()
+    k = int(input())
+    x = input()
+    y = input()
+    n = int(input())
+    number = 0
+    # нумеруй подходящие слова
+  examples:
+  - &id019 {input: 'АБВ
+
+      3
+
+      А
+
+      Б
+
+      1', output: БВБ}
+  - &id020 {input: 'АБВ
+
+      3
+
+      А
+
+      Б
+
+      4', output: ВВБ}
+  tests:
+  - *id019
+  - *id020
+  - {input: 'АБВГ
+
+      4
+
+      Г
+
+      Б
+
+      10', output: АБАБ, hidden: true}
+  - {input: 'АБВ
+
+      2
+
+      В
+
+      А
+
+      3', output: ББ, hidden: true}
+  - {input: 'АБВГ
+
+      5
+
+      Б
+
+      Г
+
+      50', output: АГАВГ, hidden: true}
+  - {input: 'АБВ
+
+      4
+
+      В
+
+      А
+
+      5', output: БАББ, hidden: true}
+  - {input: 'КОТ
+
+      3
+
+      К
+
+      Т
+
+      5', output: ТОТ, hidden: true}
+  checker: exact
+  hints:
+  - Тот же перебор, что в задаче 8, только искомое — номер.
+  - Когда number == n, выведи слово.
+  - Используй допустимые слова только после проверки ограничений.
+  solution: |
+    import itertools
+    alphabet = input()
+    k = int(input())
+    x = input()
+    y = input()
+    n = int(input())
+    number = 0
+    for letters in itertools.product(alphabet, repeat=k):
+        w = "".join(letters)
+        if x not in w and y + y not in w:
+            number += 1
+            if number == n:
+                print(w)
+  explanation: |
+    Звёздочка: обратная задача. Следите за случаем, когда подходящее слово первое по алфавиту.
+- id: l17-t11
+  type: code
+  title: 'МЦКО-2: бит чётности'
+  level: 4
+  required: false
+  homework: true
+  mcko:
+  - 2
+  statement: |
+    Автомат: записываем N в двоичной системе. Шаг A: если в записи нечётное число единиц, справа дописываем 1, иначе 0. Шаг A выполняется два раза подряд. Результат R — число в десятичной системе. Найдите наименьшее N, при котором R больше X.
+  input_format: Одна строка — число X.
+  output_format: Число N.
+  starter: |
+    x = int(input())
+    n = 0
+    r = 0
+    # пока R не больше X, увеличивай N
+  examples:
+  - &id021 {input: '100', output: '25'}
+  - &id022 {input: '1', output: '1'}
+  tests:
+  - *id021
+  - *id022
+  - {input: '10', output: '3', hidden: true}
+  - {input: '255', output: '64', hidden: true}
+  - {input: '1000', output: '251', hidden: true}
+  - {input: '31', output: '8', hidden: true}
+  - {input: '500', output: '126', hidden: true}
+  checker: exact
+  hints:
+  - 'Шаг A: s.count("1") % 2 == 1 → s += "1", иначе s += "0".'
+  - Повтори шаг A дважды с обновлённой записью (число единиц изменилось!).
+  - Остальное как в задаче 7.
+  solution: |
+    x = int(input())
+    n = 0
+    r = 0
+    while r <= x:
+        n += 1
+        s = bin(n)[2:]
+        for step in range(2):
+            if s.count("1") % 2 == 1:
+                s += "1"
+            else:
+                s += "0"
+        r = int(s, 2)
+    print(n)
+  explanation: |
+    Звёздочка: шаг применяется дважды, поэтому count считаем заново. Похоже на реальный тип МЦКО-2.
+- id: l17-t12
+  type: code
+  title: 'МЦКО-8: секретный ключ'
+  level: 4
+  required: false
+  homework: true
+  mcko:
+  - 8
+  statement: |
+    Даны простые p, q и число e. Найдите d, 1 ≤ d < f, где f = (p − 1)·(q − 1), для которого (d·e) mod f = 1. Такое d существует и единственно.
+  input_format: Три строки — p, q, e.
+  output_format: Число d.
+  starter: |
+    p = int(input())
+    q = int(input())
+    e = int(input())
+    # найди d среди всех чисел от 1 до f - 1
+  examples:
+  - &id023 {input: '11
+
+      13
+
+      7', output: '103'}
+  - &id024 {input: '3
+
+      11
+
+      3', output: '7'}
+  tests:
+  - *id023
+  - *id024
+  - {input: '101
+
+      103
+
+      7', output: '8743', hidden: true}
+  - {input: '7
+
+      11
+
+      7', output: '43', hidden: true}
+  - {input: '53
+
+      59
+
+      3', output: '2011', hidden: true}
+  - {input: '61
+
+      67
+
+      17', output: '233', hidden: true}
+  - {input: '149
+
+      151
+
+      7', output: '6343', hidden: true}
+  checker: exact
+  hints:
+  - 'f = (p - 1) * (q - 1). Диапазон d: range(1, f).'
+  - Если d * e % f == 1, запомни d в answer.
+  solution: |
+    p = int(input())
+    q = int(input())
+    e = int(input())
+    f = (p - 1) * (q - 1)
+    answer = 0
+    for d in range(1, f):
+        if d * e % f == 1:
+            answer = d
+    print(answer)
+  explanation: |
+    Полный перебор при f до 22 000. Так работает RSA при маленьких ключах.

@@ -1,0 +1,567 @@
+- id: l11-t1
+  type: code
+  title: Число пикселей
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Изображение имеет ширину w и высоту h пикселей. Сколько в нём пикселей?
+  input_format: Две строки — w и h.
+  output_format: Одно число.
+  starter: |
+    w = int(input())
+    h = int(input())
+    # число пикселей
+  examples:
+  - &id001 {input: '640
+
+      480', output: '307200'}
+  - &id002 {input: '1
+
+      1', output: '1'}
+  tests:
+  - *id001
+  - *id002
+  - {input: '1920
+
+      1080', output: '2073600', hidden: true}
+  - {input: '10
+
+      1', output: '10', hidden: true}
+  - {input: '100
+
+      100', output: '10000', hidden: true}
+  - {input: '3
+
+      7', output: '21', hidden: true}
+  checker: exact
+  hints:
+  - Пикселей — это ширина умножить на высоту.
+  - print(w * h)
+  solution: |
+    w = int(input())
+    h = int(input())
+    print(w * h)
+  explanation: |
+    Самая простая формула урока.
+- id: l11-t2
+  type: code
+  title: Сколько цветов
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Глубина цвета равна i бит. Сколько различных цветов можно закодировать?
+  input_format: Одна строка — целое число i.
+  output_format: Одно число.
+  starter: |
+    i = int(input())
+    # число цветов
+  examples:
+  - &id003 {input: '1', output: '2'}
+  - &id004 {input: '8', output: '256'}
+  tests:
+  - *id003
+  - *id004
+  - {input: '24', output: '16777216', hidden: true}
+  - {input: '4', output: '16', hidden: true}
+  - {input: '16', output: '65536', hidden: true}
+  - {input: '2', output: '4', hidden: true}
+  - {input: '10', output: '1024', hidden: true}
+  checker: exact
+  hints:
+  - Из i бит получается 2 в степени i комбинаций.
+  - print(2 ** i)
+  solution: |
+    i = int(input())
+    print(2 ** i)
+  explanation: |
+    Формула N = 2**i из урока 6.
+- id: l11-t3
+  type: code
+  title: Объём в битах
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Изображение имеет размер w × h пикселей, глубина цвета i бит. Найдите объём в битах.
+  input_format: Три строки — w, h, i.
+  output_format: Одно число.
+  starter: |
+    w = int(input())
+    h = int(input())
+    i = int(input())
+    # w * h * i
+  examples:
+  - &id005 {input: '100
+
+      50
+
+      8', output: '40000'}
+  - &id006 {input: '10
+
+      10
+
+      1', output: '100'}
+  tests:
+  - *id005
+  - *id006
+  - {input: '640
+
+      480
+
+      24', output: '7372800', hidden: true}
+  - {input: '1
+
+      1
+
+      1', output: '1', hidden: true}
+  - {input: '200
+
+      300
+
+      16', output: '960000', hidden: true}
+  - {input: '5
+
+      5
+
+      2', output: '50', hidden: true}
+  checker: exact
+  hints:
+  - Количество пикселей — это w * h.
+  - Умножь его на биты одного пикселя i.
+  solution: |
+    w = int(input())
+    h = int(input())
+    i = int(input())
+    print(w * h * i)
+  explanation: |
+    Основная формула.
+- id: l11-t4
+  type: code
+  title: Объём в байтах
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Найдите объём изображения в байтах. Если число бит не делится на 8, округлите вверх.
+  input_format: Три строки — w, h, i.
+  output_format: Одно число — байты.
+  starter: |
+    w = int(input())
+    h = int(input())
+    i = int(input())
+    # биты, потом байты с округлением вверх
+  examples:
+  - &id007 {input: '100
+
+      50
+
+      8', output: '5000'}
+  - &id008 {input: '10
+
+      10
+
+      1', output: '13'}
+  tests:
+  - *id007
+  - *id008
+  - {input: '3
+
+      3
+
+      1', output: '2', hidden: true}
+  - {input: '640
+
+      480
+
+      24', output: '921600', hidden: true}
+  - {input: '7
+
+      7
+
+      3', output: '19', hidden: true}
+  - {input: '1
+
+      1
+
+      1', output: '1', hidden: true}
+  checker: exact
+  hints:
+  - 'Биты: w * h * i.'
+  - 'Округление вверх: (bits + 7) // 8 или math.ceil(bits / 8).'
+  solution: |
+    w = int(input())
+    h = int(input())
+    i = int(input())
+    bits = w * h * i
+    print((bits + 7) // 8)
+  explanation: |
+    Округление вверх через `(x + 7) // 8` — тот же приём, что в задаче про автобусы (урок 2).
+- id: l11-t5
+  type: code
+  title: Максимум цветов по объёму
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 4
+  statement: |
+    Изображение w × h пикселей занимает V байт. Все пиксели кодируются одинаковым числом бит. Какое наибольшее число цветов оно может содержать?
+  input_format: Три строки — w, h, V.
+  output_format: Одно число — число цветов.
+  starter: |
+    w = int(input())
+    h = int(input())
+    V = int(input())
+    # сколько бит на пиксель, потом 2 в этой степени
+  examples:
+  - &id009 {input: '640
+
+      480
+
+      307200', output: '256'}
+  - &id010 {input: '100
+
+      100
+
+      10000', output: '256'}
+  tests:
+  - *id009
+  - *id010
+  - {input: '10
+
+      10
+
+      13', output: '2', hidden: true}
+  - {input: '100
+
+      200
+
+      5000', output: '4', hidden: true}
+  - {input: '50
+
+      20
+
+      375', output: '8', hidden: true}
+  - {input: '1000
+
+      1000
+
+      3000000', output: '16777216', hidden: true}
+  checker: exact
+  hints:
+  - 'Биты на пиксель: V * 8 // (w * h).'
+  - Число цветов — 2 ** (биты на пиксель).
+  solution: |
+    w = int(input())
+    h = int(input())
+    V = int(input())
+    i = V * 8 // (w * h)
+    print(2 ** i)
+  explanation: |
+    МЦКО-4 без прозрачности.
+- id: l11-t6
+  type: code
+  title: Прозрачность
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 4
+  statement: |
+    Цвет пикселя кодируется i битами, ещё a бит отводится на прозрачность. Найдите объём изображения w × h в байтах (округлите вверх).
+  input_format: Четыре строки — w, h, i, a.
+  output_format: Одно число — байты.
+  starter: |
+    w = int(input())
+    h = int(input())
+    i = int(input())
+    a = int(input())
+    # на пиксель i + a бит
+  examples:
+  - &id011 {input: '100
+
+      100
+
+      24
+
+      8', output: '40000'}
+  - &id012 {input: '10
+
+      10
+
+      8
+
+      0', output: '100'}
+  tests:
+  - *id011
+  - *id012
+  - {input: '640
+
+      480
+
+      16
+
+      2', output: '691200', hidden: true}
+  - {input: '3
+
+      3
+
+      1
+
+      1', output: '3', hidden: true}
+  - {input: '1
+
+      1
+
+      24
+
+      8', output: '4', hidden: true}
+  - {input: '50
+
+      20
+
+      6
+
+      3', output: '1125', hidden: true}
+  checker: exact
+  hints:
+  - 'Бит на пиксель: i + a.'
+  - 'Всего бит: w * h * (i + a), байты — делим на 8 вверх.'
+  solution: |
+    w = int(input())
+    h = int(input())
+    i = int(input())
+    a = int(input())
+    bits = w * h * (i + a)
+    print((bits + 7) // 8)
+  explanation: |
+    Скобки: умножаем на сумму.
+- id: l11-t7
+  type: code
+  title: 'МЦКО-4: цвета с прозрачностью'
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 4
+  statement: |
+    Изображение w × h пикселей занимает V Кбайт. Каждый пиксель хранит цвет и ещё a бит прозрачности; число бит на пиксель одинаково и максимально возможно. Найдите наибольшее число цветов.
+  input_format: Четыре строки — w, h, V (в Кбайт), a.
+  output_format: Одно число.
+  starter: |
+    w = int(input())
+    h = int(input())
+    V = int(input())
+    a = int(input())
+    # Кбайт в биты, бит на пиксель, вычти прозрачность
+  examples:
+  - &id013 {input: '640
+
+      480
+
+      300
+
+      2', output: '64'}
+  - &id014 {input: '800
+
+      600
+
+      468
+
+      0', output: '128'}
+  tests:
+  - *id013
+  - *id014
+  - {input: '1000
+
+      1000
+
+      1000
+
+      0', output: '256', hidden: true}
+  - {input: '256
+
+      256
+
+      128
+
+      8', output: '256', hidden: true}
+  - {input: '100
+
+      100
+
+      30
+
+      0', output: '16777216', hidden: true}
+  - {input: '100
+
+      100
+
+      10
+
+      4', output: '16', hidden: true}
+  - {input: '200
+
+      100
+
+      80
+
+      2', output: '1073741824', hidden: true}
+  checker: exact
+  hints:
+  - 'Объём в битах: V * 1024 * 8.'
+  - Бит на пиксель — это объём в битах // (w * h). Из них a — прозрачность.
+  - Цвет получает (бит на пиксель − a) бит, цветов 2 в этой степени.
+  solution: |
+    w = int(input())
+    h = int(input())
+    V = int(input())
+    a = int(input())
+    bits = V * 1024 * 8
+    per_pixel = bits // (w * h)
+    i = per_pixel - a
+    print(2 ** i)
+  explanation: |
+    Полноценный тип 4. Разберите разбор из теории и сверьте с первым примером (ответ 64).
+- id: l11-t8
+  type: code
+  title: Изображение с палитрой
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 4
+  statement: |
+    Изображение w × h пикселей хранится с палитрой из N цветов. В каждом пикселе — номер цвета в палитре, одинаковое минимальное число бит. Сама палитра занимает 24 бита на цвет. Найдите весь объём в байтах (округлите вверх).
+  input_format: Три строки — w, h, N.
+  output_format: Одно число — байты.
+  starter: |
+    import math
+    w = int(input())
+    h = int(input())
+    N = int(input())
+    # номер цвета: сколько бит? плюс палитра
+  examples:
+  - &id015 {input: '100
+
+      100
+
+      16', output: '5048'}
+  - &id016 {input: '10
+
+      10
+
+      2', output: '19'}
+  tests:
+  - *id015
+  - *id016
+  - {input: '64
+
+      64
+
+      256', output: '4864', hidden: true}
+  - {input: '20
+
+      5
+
+      3', output: '34', hidden: true}
+  - {input: '1
+
+      1
+
+      2', output: '7', hidden: true}
+  - {input: '200
+
+      100
+
+      100', output: '17800', hidden: true}
+  checker: exact
+  hints:
+  - 'Бит на номер: i = math.ceil(math.log2(N)).'
+  - 'Пиксели: w * h * i бит. Палитра: N * 24 бит.'
+  - 'Сложи, затем байты вверх: (bits + 7) // 8.'
+  solution: |
+    import math
+    w = int(input())
+    h = int(input())
+    N = int(input())
+    i = math.ceil(math.log2(N))
+    bits = w * h * i + N * 24
+    print((bits + 7) // 8)
+  explanation: |
+    Оригинальная задача на палитру. Складываем два объёма и только потом переводим в байты.
+- id: l11-t9
+  type: code
+  title: Наибольший квадрат
+  level: 4
+  required: false
+  homework: true
+  mcko:
+  - 4
+  statement: |
+    Квадратное изображение k × k пикселей, глубина цвета i бит, прозрачность a бит. Файл не может занимать больше V Кбайт. Найдите наибольшее возможное k.
+  input_format: Три строки — V, i, a.
+  output_format: Одно число.
+  starter: |
+    V = int(input())
+    i = int(input())
+    a = int(input())
+    k = 1
+    # увеличивай k, пока картинка (k + 1) × (k + 1) ещё помещается
+  examples:
+  - &id017 {input: '3
+
+      24
+
+      0', output: '32'}
+  - &id018 {input: '1
+
+      8
+
+      0', output: '32'}
+  tests:
+  - *id017
+  - *id018
+  - {input: '100
+
+      24
+
+      8', output: '160', hidden: true}
+  - {input: '4
+
+      32
+
+      0', output: '32', hidden: true}
+  - {input: '10
+
+      1
+
+      0', output: '286', hidden: true}
+  - {input: '1
+
+      32
+
+      0', output: '16', hidden: true}
+  checker: exact
+  hints:
+  - 'Всего бит в файле: V * 1024 * 8; на пиксель i + a.'
+  - Пока (k + 1) * (k + 1) * (i + a) <= bits, увеличивай k.
+  - Цикл while.
+  solution: |
+    V = int(input())
+    i = int(input())
+    a = int(input())
+    bits = V * 1024 * 8
+    per_pixel = i + a
+    k = 1
+    while (k + 1) * (k + 1) * per_pixel <= bits:
+        k += 1
+    print(k)
+  explanation: |
+    Звёздочка: `while` с условием на объём. Допустимо считать, что хотя бы 1×1 помещается.

@@ -1,0 +1,737 @@
+- id: l10-t1
+  type: code
+  title: Сумма n чисел
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Сначала вводится количество чисел n, затем сами числа по одному на строке. Выведите их сумму.
+  input_format: Первая строка — n, затем n целых чисел.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    total = 0
+    # прочитай n чисел и сложи
+  examples:
+  - &id001 {input: '3
+
+      1
+
+      2
+
+      3', output: '6'}
+  - &id002 {input: '1
+
+      5', output: '5'}
+  tests:
+  - *id001
+  - *id002
+  - {input: '2
+
+      -1
+
+      1', output: '0', hidden: true}
+  - {input: '5
+
+      10
+
+      20
+
+      30
+
+      40
+
+      50', output: '150', hidden: true}
+  - {input: '3
+
+      0
+
+      0
+
+      0', output: '0', hidden: true}
+  - {input: '2
+
+      -5
+
+      -7', output: '-12', hidden: true}
+  checker: exact
+  hints:
+  - Нужен цикл на n шагов с вводом внутри.
+  - total += x
+  solution: |
+    n = int(input())
+    total = 0
+    for i in range(n):
+        x = int(input())
+        total += x
+    print(total)
+  explanation: |
+    Первый шаблон: сумматор.
+- id: l10-t2
+  type: code
+  title: Сколько положительных
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Вводится n, затем n целых чисел. Выведите, сколько из них больше нуля.
+  input_format: Первая строка — n, затем n целых чисел.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    count = 0
+    # считай только x > 0
+  examples:
+  - &id003 {input: '4
+
+      3
+
+      -1
+
+      0
+
+      5', output: '2'}
+  - &id004 {input: '2
+
+      1
+
+      7', output: '2'}
+  tests:
+  - *id003
+  - *id004
+  - {input: '1
+
+      -7', output: '0', hidden: true}
+  - {input: '4
+
+      0
+
+      0
+
+      0
+
+      0', output: '0', hidden: true}
+  - {input: '5
+
+      1
+
+      2
+
+      3
+
+      4
+
+      5', output: '5', hidden: true}
+  - {input: '3
+
+      -1
+
+      -2
+
+      -3', output: '0', hidden: true}
+  checker: exact
+  hints:
+  - Счётчик увеличивай только внутри if.
+  - 'if x > 0: count += 1'
+  solution: |
+    n = int(input())
+    count = 0
+    for i in range(n):
+        x = int(input())
+        if x > 0:
+            count += 1
+    print(count)
+  explanation: |
+    Счётчик с условием. Ноль — не положительное число.
+- id: l10-t3
+  type: code
+  title: Наибольшее из n
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Вводится n, затем n целых чисел. Выведите наибольшее.
+  input_format: Первая строка — n, затем n целых чисел.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    biggest = int(input())
+    # сравнивай оставшиеся числа с biggest
+  examples:
+  - &id005 {input: '3
+
+      3
+
+      9
+
+      2', output: '9'}
+  - &id006 {input: '3
+
+      -5
+
+      -2
+
+      -9', output: '-2'}
+  tests:
+  - *id005
+  - *id006
+  - {input: '1
+
+      7', output: '7', hidden: true}
+  - {input: '3
+
+      4
+
+      4
+
+      4', output: '4', hidden: true}
+  - {input: '5
+
+      1
+
+      2
+
+      3
+
+      4
+
+      5', output: '5', hidden: true}
+  - {input: '2
+
+      10
+
+      -10', output: '10', hidden: true}
+  checker: exact
+  hints:
+  - Первое число уже прочитано, значит в цикле n - 1 шагов.
+  - Если x > biggest, запиши biggest = x.
+  solution: |
+    n = int(input())
+    biggest = int(input())
+    for i in range(n - 1):
+        x = int(input())
+        if x > biggest:
+            biggest = x
+    print(biggest)
+  explanation: |
+    Максимум из теории. Тест из отрицательных чисел ловит `biggest = 0`.
+- id: l10-t4
+  type: code
+  title: Сколько делителей
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите количество делителей натурального числа.
+  input_format: Одна строка — целое число n (1 ≤ n ≤ 100000).
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    count = 0
+    # перебери кандидатов от 1 до n
+  examples:
+  - &id007 {input: '12', output: '6'}
+  - &id008 {input: '1', output: '1'}
+  tests:
+  - *id007
+  - *id008
+  - {input: '7', output: '2', hidden: true}
+  - {input: '36', output: '9', hidden: true}
+  - {input: '100', output: '9', hidden: true}
+  - {input: '97', output: '2', hidden: true}
+  - {input: '1000', output: '16', hidden: true}
+  checker: exact
+  hints:
+  - 'Кандидаты: range(1, n + 1).'
+  - Делитель, если n % d == 0; тогда count += 1.
+  solution: |
+    n = int(input())
+    count = 0
+    for d in range(1, n + 1):
+        if n % d == 0:
+            count += 1
+    print(count)
+  explanation: |
+    Перебор делителей из теории.
+- id: l10-t5
+  type: code
+  title: Сумма кратных
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Вводятся n и k, затем n целых чисел. Выведите сумму тех чисел, которые делятся на k без остатка.
+  input_format: Первая строка — n, вторая — k, затем n чисел.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    k = int(input())
+    total = 0
+    # складывай только кратные k
+  examples:
+  - &id009 {input: '4
+
+      3
+
+      3
+
+      6
+
+      7
+
+      9', output: '18'}
+  - &id010 {input: '5
+
+      2
+
+      4
+
+      1
+
+      3
+
+      5
+
+      7', output: '4'}
+  tests:
+  - *id009
+  - *id010
+  - {input: '4
+
+      5
+
+      3
+
+      10
+
+      20
+
+      0', output: '30', hidden: true}
+  - {input: '3
+
+      1
+
+      2
+
+      -3
+
+      4', output: '3', hidden: true}
+  - {input: '4
+
+      10
+
+      3
+
+      100
+
+      30
+
+      5', output: '130', hidden: true}
+  - {input: '5
+
+      4
+
+      5
+
+      -8
+
+      -12
+
+      3
+
+      7', output: '-20', hidden: true}
+  checker: exact
+  hints:
+  - 'Проверка кратности: x % k == 0.'
+  - Если кратно, total += x.
+  solution: |
+    n = int(input())
+    k = int(input())
+    total = 0
+    for i in range(n):
+        x = int(input())
+        if x % k == 0:
+            total += x
+    print(total)
+  explanation: |
+    Сумма с условием. Ноль делится на любое k.
+- id: l10-t6
+  type: code
+  title: Простое ли число
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите «Да», если число простое, иначе «Нет». Единица не является простым числом.
+  input_format: Одна строка — целое число n (1 ≤ n ≤ 100000).
+  output_format: «Да» или «Нет».
+  starter: |
+    n = int(input())
+    count = 0
+    # посчитай делители
+  examples:
+  - &id011 {input: '2', output: Да}
+  - &id012 {input: '97', output: Да}
+  tests:
+  - *id011
+  - *id012
+  - {input: '1', output: Нет, hidden: true}
+  - {input: '4', output: Нет, hidden: true}
+  - {input: '91', output: Нет, hidden: true}
+  - {input: '99991', output: Да, hidden: true}
+  - {input: '100000', output: Нет, hidden: true}
+  checker: exact
+  hints:
+  - Простое число имеет ровно два делителя.
+  - Посчитай делители как в прошлой задаче и проверь count == 2.
+  solution: |
+    n = int(input())
+    count = 0
+    for d in range(1, n + 1):
+        if n % d == 0:
+            count += 1
+    if count == 2:
+        print("Да")
+    else:
+        print("Нет")
+  explanation: |
+    Ловушки: 1 и 91 = 7 · 13.
+- id: l10-t7
+  type: code
+  title: Наибольшая сумма соседей
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 13
+  statement: |
+    Вводится n (n ≥ 2), затем n целых чисел. Для каждой пары соседних чисел найдите сумму. Выведите наибольшую из этих сумм.
+  input_format: Первая строка — n, затем n целых чисел.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    prev = int(input())
+    # храни предыдущее число
+  examples:
+  - &id013 {input: '3
+
+      1
+
+      5
+
+      2', output: '7'}
+  - &id014 {input: '3
+
+      3
+
+      3
+
+      3', output: '6'}
+  tests:
+  - *id013
+  - *id014
+  - {input: '3
+
+      -4
+
+      -1
+
+      -6', output: '-5', hidden: true}
+  - {input: '6
+
+      5
+
+      1
+
+      2
+
+      9
+
+      0
+
+      3', output: '11', hidden: true}
+  - {input: '3
+
+      2
+
+      -5
+
+      -5', output: '-3', hidden: true}
+  - {input: '5
+
+      4
+
+      10
+
+      -10
+
+      10
+
+      -10', output: '14', hidden: true}
+  checker: exact
+  hints:
+  - Запоминай предыдущее число в prev.
+  - Для каждого нового x сумма пары — prev + x. После проверки не забудь prev = x.
+  - 'Максимум начни с суммы первой пары (прочитай второе число до цикла), а не с нуля: суммы могут быть отрицательными.'
+  solution: |
+    n = int(input())
+    prev = int(input())
+    x = int(input())
+    best = prev + x
+    prev = x
+    for i in range(n - 2):
+        x = int(input())
+        if prev + x > best:
+            best = prev + x
+        prev = x
+    print(best)
+  explanation: |
+    Шаблон «соседние пары» из МЦКО-13. Нужна переменная prev и аккуратная инициализация максимума первой парой.
+- id: l10-t8
+  type: code
+  title: Наименьшее не кратное
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 13
+  statement: |
+    Вводятся n и k, затем n целых положительных чисел (не больше 10**9). Среди них есть хотя бы одно, не делящееся на k. Выведите наименьшее из чисел, не кратных k.
+  input_format: Первая строка — n, вторая — k, затем n чисел.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    k = int(input())
+    smallest = 10**9
+    # обновляй smallest только для не кратных k
+  examples:
+  - &id015 {input: '5
+
+      15
+
+      30
+
+      45
+
+      7
+
+      60
+
+      22', output: '7'}
+  - &id016 {input: '4
+
+      2
+
+      4
+
+      6
+
+      3
+
+      8', output: '3'}
+  tests:
+  - *id015
+  - *id016
+  - {input: '3
+
+      3
+
+      9
+
+      12
+
+      10', output: '10', hidden: true}
+  - {input: '5
+
+      5
+
+      5
+
+      10
+
+      15
+
+      5
+
+      1', output: '1', hidden: true}
+  - {input: '5
+
+      7
+
+      14
+
+      21
+
+      28
+
+      35
+
+      36', output: '36', hidden: true}
+  - {input: '5
+
+      15
+
+      150
+
+      300
+
+      17
+
+      16
+
+      45', output: '16', hidden: true}
+  checker: exact
+  hints:
+  - 'Условие «не кратно»: x % k != 0.'
+  - Если x не кратно и x < smallest, то smallest = x.
+  - Начальное значение 10**9 больше любого числа из ввода.
+  solution: |
+    n = int(input())
+    k = int(input())
+    smallest = 10**9
+    for i in range(n):
+        x = int(input())
+        if x % k != 0 and x < smallest:
+            smallest = x
+    print(smallest)
+  explanation: |
+    Первый шаг задания 13: найти N. Минимум с условием, заведомо большое начальное значение.
+- id: l10-t9
+  type: code
+  title: Пары, сумма которых кратна N
+  level: 4
+  required: false
+  homework: true
+  mcko:
+  - 13
+  statement: |
+    Вводятся n и N, затем n целых положительных чисел. Рассмотрите все пары соседних чисел, сумма которых кратна N. Выведите через пробел количество таких пар и наибольшую из их сумм. Гарантируется, что хотя бы одна такая пара есть.
+  input_format: Первая строка — n, вторая — N, затем n чисел.
+  output_format: Два числа через пробел.
+  starter: |
+    n = int(input())
+    N = int(input())
+    prev = int(input())
+    count = 0
+    best = 0
+    # проходи по оставшимся числам
+  examples:
+  - &id017 {input: '7
+
+      7
+
+      8
+
+      22
+
+      3
+
+      15
+
+      4
+
+      10
+
+      5', output: 1 14}
+  - &id018 {input: '6
+
+      5
+
+      4
+
+      1
+
+      14
+
+      6
+
+      5
+
+      0', output: 4 20}
+  tests:
+  - *id017
+  - *id018
+  - {input: '7
+
+      6
+
+      10
+
+      5
+
+      25
+
+      13
+
+      17
+
+      2
+
+      4', output: 3 30, hidden: true}
+  - {input: '4
+
+      3
+
+      6
+
+      9
+
+      12
+
+      15', output: 3 27, hidden: true}
+  - {input: '7
+
+      10
+
+      2
+
+      3
+
+      7
+
+      5
+
+      5
+
+      5
+
+      9', output: 3 10, hidden: true}
+  - {input: '4
+
+      4
+
+      20
+
+      10
+
+      10
+
+      10', output: 2 20, hidden: true}
+  checker: tokens
+  hints:
+  - Нужны счётчик пар, максимум сумм и предыдущее число.
+  - 'Для каждого x: s = prev + x; если s % N == 0, то count += 1 и обновить best, если s > best.'
+  - 'Не забудь prev = x в конце тела цикла. Выводить: print(count, best).'
+  solution: |
+    n = int(input())
+    N = int(input())
+    prev = int(input())
+    count = 0
+    best = 0
+    for i in range(n - 1):
+        x = int(input())
+        s = prev + x
+        if s % N == 0:
+            count += 1
+            if s > best:
+                best = s
+        prev = x
+    print(count, best)
+  explanation: |
+    Звёздочка: полный набор шаблонов МЦКО-13 (кроме первого шага — поиска N, он в t8). Полную версию с файлом сделаем в уроке 19.

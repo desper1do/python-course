@@ -1,0 +1,621 @@
+- id: l08-t1
+  type: code
+  title: Числа от 1 до n
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите числа от 1 до n включительно, каждое на своей строке. Используйте `for`.
+  input_format: Одна строка — целое число n (n ≥ 1).
+  output_format: n строк.
+  starter: |
+    n = int(input())
+    # for i in range(...):
+  examples:
+  - &id001 {input: '5', output: '1
+
+      2
+
+      3
+
+      4
+
+      5'}
+  - &id002 {input: '1', output: '1'}
+  tests:
+  - *id001
+  - *id002
+  - {input: '3', output: '1
+
+      2
+
+      3', hidden: true}
+  - {input: '10', output: '1
+
+      2
+
+      3
+
+      4
+
+      5
+
+      6
+
+      7
+
+      8
+
+      9
+
+      10', hidden: true}
+  - {input: '2', output: '1
+
+      2', hidden: true}
+  - {input: '7', output: '1
+
+      2
+
+      3
+
+      4
+
+      5
+
+      6
+
+      7', hidden: true}
+  checker: exact
+  hints:
+  - Нужен range(1, n + 1), потому что n в диапазон не входит.
+  - Внутри цикла просто print(i).
+  solution: |
+    n = int(input())
+    for i in range(1, n + 1):
+        print(i)
+  explanation: |
+    Та же задача, что в уроке 7, но через for.
+- id: l08-t2
+  type: code
+  title: Таблица умножения
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите таблицу умножения на n от 1 до 9 в виде «3 * 4 = 12», каждую строку отдельно.
+  input_format: Одна строка — целое число n.
+  output_format: 9 строк вида «n * i = результат».
+  starter: |
+    n = int(input())
+    # перебери множитель от 1 до 9
+  examples:
+  - &id003 {input: '3', output: '3 * 1 = 3
+
+      3 * 2 = 6
+
+      3 * 3 = 9
+
+      3 * 4 = 12
+
+      3 * 5 = 15
+
+      3 * 6 = 18
+
+      3 * 7 = 21
+
+      3 * 8 = 24
+
+      3 * 9 = 27'}
+  - &id004 {input: '7', output: '7 * 1 = 7
+
+      7 * 2 = 14
+
+      7 * 3 = 21
+
+      7 * 4 = 28
+
+      7 * 5 = 35
+
+      7 * 6 = 42
+
+      7 * 7 = 49
+
+      7 * 8 = 56
+
+      7 * 9 = 63'}
+  tests:
+  - *id003
+  - *id004
+  - {input: '1', output: '1 * 1 = 1
+
+      1 * 2 = 2
+
+      1 * 3 = 3
+
+      1 * 4 = 4
+
+      1 * 5 = 5
+
+      1 * 6 = 6
+
+      1 * 7 = 7
+
+      1 * 8 = 8
+
+      1 * 9 = 9', hidden: true}
+  - {input: '0', output: '0 * 1 = 0
+
+      0 * 2 = 0
+
+      0 * 3 = 0
+
+      0 * 4 = 0
+
+      0 * 5 = 0
+
+      0 * 6 = 0
+
+      0 * 7 = 0
+
+      0 * 8 = 0
+
+      0 * 9 = 0', hidden: true}
+  - {input: '9', output: '9 * 1 = 9
+
+      9 * 2 = 18
+
+      9 * 3 = 27
+
+      9 * 4 = 36
+
+      9 * 5 = 45
+
+      9 * 6 = 54
+
+      9 * 7 = 63
+
+      9 * 8 = 72
+
+      9 * 9 = 81', hidden: true}
+  - {input: '12', output: '12 * 1 = 12
+
+      12 * 2 = 24
+
+      12 * 3 = 36
+
+      12 * 4 = 48
+
+      12 * 5 = 60
+
+      12 * 6 = 72
+
+      12 * 7 = 84
+
+      12 * 8 = 96
+
+      12 * 9 = 108', hidden: true}
+  checker: exact
+  hints:
+  - Множитель i пробегает range(1, 10).
+  - print(f"{n} * {i} = {n * i}")
+  solution: |
+    n = int(input())
+    for i in range(1, 10):
+        print(f"{n} * {i} = {n * i}")
+  explanation: |
+    f-строка с вычислением в цикле.
+- id: l08-t3
+  type: code
+  title: Чётные числа
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите все чётные числа от 2 до n включительно, каждое на своей строке. Используйте шаг в `range`.
+  input_format: Одна строка — целое число n (n ≥ 2).
+  output_format: Столбец чисел.
+  starter: |
+    n = int(input())
+    # начинай с 2, шаг 2
+  examples:
+  - &id005 {input: '10', output: '2
+
+      4
+
+      6
+
+      8
+
+      10'}
+  - &id006 {input: '2', output: '2'}
+  tests:
+  - *id005
+  - *id006
+  - {input: '7', output: '2
+
+      4
+
+      6', hidden: true}
+  - {input: '3', output: '2', hidden: true}
+  - {input: '20', output: '2
+
+      4
+
+      6
+
+      8
+
+      10
+
+      12
+
+      14
+
+      16
+
+      18
+
+      20', hidden: true}
+  - {input: '15', output: '2
+
+      4
+
+      6
+
+      8
+
+      10
+
+      12
+
+      14', hidden: true}
+  checker: exact
+  hints:
+  - 'Три аргумента: range(2, n + 1, 2).'
+  - Шаг 2 даёт 2, 4, 6, …
+  solution: |
+    n = int(input())
+    for i in range(2, n + 1, 2):
+        print(i)
+  explanation: |
+    Шаг в range. Проверьте нечётное n (7): последним должно быть 6.
+- id: l08-t4
+  type: code
+  title: Сумма от a до b
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Найдите сумму всех целых чисел от a до b включительно.
+  input_format: Две строки — целые числа a и b (a ≤ b).
+  output_format: Одно число.
+  starter: |
+    a = int(input())
+    b = int(input())
+    total = 0
+    # добавь все числа от a до b
+  examples:
+  - &id007 {input: '1
+
+      5', output: '15'}
+  - &id008 {input: '3
+
+      3', output: '3'}
+  tests:
+  - *id007
+  - *id008
+  - {input: '-2
+
+      2', output: '0', hidden: true}
+  - {input: '10
+
+      20', output: '165', hidden: true}
+  - {input: '0
+
+      0', output: '0', hidden: true}
+  - {input: '-5
+
+      -1', output: '-15', hidden: true}
+  - {input: '1
+
+      100', output: '5050', hidden: true}
+  checker: exact
+  hints:
+  - 'Диапазон: range(a, b + 1).'
+  - total += i.
+  solution: |
+    a = int(input())
+    b = int(input())
+    total = 0
+    for i in range(a, b + 1):
+        total += i
+    print(total)
+  explanation: |
+    Сумматор в for. Следим за b + 1.
+- id: l08-t5
+  type: code
+  title: Факториал
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Факториал числа n — это произведение всех чисел от 1 до n. Факториал нуля равен 1. Найдите n!.
+  input_format: Одна строка — целое число n (0 ≤ n ≤ 20).
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    result = 1
+    # умножай result на каждое i
+  examples:
+  - &id009 {input: '5', output: '120'}
+  - &id010 {input: '1', output: '1'}
+  tests:
+  - *id009
+  - *id010
+  - {input: '0', output: '1', hidden: true}
+  - {input: '10', output: '3628800', hidden: true}
+  - {input: '3', output: '6', hidden: true}
+  - {input: '7', output: '5040', hidden: true}
+  - {input: '20', output: '2432902008176640000', hidden: true}
+  checker: exact
+  hints:
+  - Накопитель для произведения начинается с 1, не с 0.
+  - result *= i для i от 1 до n.
+  solution: |
+    n = int(input())
+    result = 1
+    for i in range(1, n + 1):
+        result *= i
+    print(result)
+  explanation: |
+    Накопитель произведения. Для 0 цикл не выполняется и остаётся 1 — то, что нужно.
+- id: l08-t6
+  type: code
+  title: Кратные k
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите все числа от a до b включительно, которые делятся на k, каждое на своей строке. Если таких нет, ничего не выводите.
+  input_format: Три строки — целые числа a, b, k (a ≤ b, k ≥ 1; a ≥ 1).
+  output_format: Столбец чисел.
+  starter: |
+    a = int(input())
+    b = int(input())
+    k = int(input())
+    # перебери числа и проверь остаток
+  examples:
+  - &id011 {input: '1
+
+      20
+
+      5', output: '5
+
+      10
+
+      15
+
+      20'}
+  - &id012 {input: '10
+
+      30
+
+      7', output: '14
+
+      21
+
+      28'}
+  tests:
+  - *id011
+  - *id012
+  - {input: '1
+
+      10
+
+      1', output: '1
+
+      2
+
+      3
+
+      4
+
+      5
+
+      6
+
+      7
+
+      8
+
+      9
+
+      10', hidden: true}
+  - {input: '6
+
+      6
+
+      3', output: '6', hidden: true}
+  - {input: '5
+
+      9
+
+      10', output: '', hidden: true}
+  - {input: '1
+
+      30
+
+      11', output: '11
+
+      22', hidden: true}
+  checker: exact
+  hints:
+  - Перебирай range(a, b + 1).
+  - 'Внутри цикла if i % k == 0: print(i).'
+  solution: |
+    a = int(input())
+    b = int(input())
+    k = int(input())
+    for i in range(a, b + 1):
+        if i % k == 0:
+            print(i)
+  explanation: |
+    for + if: перебор с проверкой. Это основа МЦКО-13.
+- id: l08-t7
+  type: code
+  title: Ёлочка
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Выведите «ёлочку» высотой n: в строке с номером i (от 1) сначала n − i пробелов, затем 2·i − 1 звёздочек. Пример для n = 3 ниже.
+  input_format: Одна строка — целое число n (n ≥ 1).
+  output_format: n строк.
+  starter: |
+    n = int(input())
+    # для каждой строки i: пробелы и звёздочки
+  examples:
+  - &id013 {input: '3', output: "  *\n ***\n*****"}
+  - &id014 {input: '1', output: '*'}
+  tests:
+  - *id013
+  - *id014
+  - {input: '2', output: ' *
+
+      ***', hidden: true}
+  - {input: '4', output: "   *\n  ***\n *****\n*******", hidden: true}
+  - {input: '5', output: "    *\n   ***\n  *****\n *******\n*********", hidden: true}
+  - {input: '6', output: "     *\n    ***\n   *****\n  *******\n *********\n***********", hidden: true}
+  checker: exact
+  hints:
+  - В строке i пробелов n - i, звёздочек 2 * i - 1.
+  - print(" " * (n - i) + "*" * (2 * i - 1))
+  solution: |
+    n = int(input())
+    for i in range(1, n + 1):
+        print(" " * (n - i) + "*" * (2 * i - 1))
+  explanation: |
+    Вспоминаем умножение строки (урок 3). Нарисуйте ёлочку на бумаге с номерами строк.
+- id: l08-t8
+  type: code
+  title: Средний балл
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Сначала вводится количество оценок n, затем сами оценки по одной на строке. Выведите их среднее арифметическое.
+  input_format: Первая строка — n (n ≥ 1), затем n строк с оценками.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    total = 0
+    # прочитай n оценок в цикле
+  examples:
+  - &id015 {input: '3
+
+      5
+
+      4
+
+      3', output: '4.0'}
+  - &id016 {input: '2
+
+      5
+
+      5', output: '5.0'}
+  tests:
+  - *id015
+  - *id016
+  - {input: '1
+
+      4', output: '4.0', hidden: true}
+  - {input: '4
+
+      5
+
+      4
+
+      4
+
+      5', output: '4.5', hidden: true}
+  - {input: '5
+
+      3
+
+      3
+
+      3
+
+      3
+
+      3', output: '3.0', hidden: true}
+  - {input: '2
+
+      2
+
+      5', output: '3.5', hidden: true}
+  checker: float
+  hints:
+  - 'Цикл на n шагов: for i in range(n).'
+  - 'Внутри: grade = int(input()), потом total += grade.'
+  - В конце total / n.
+  solution: |
+    n = int(input())
+    total = 0
+    for i in range(n):
+        grade = int(input())
+        total += grade
+    print(total / n)
+  explanation: |
+    Ввод внутри цикла. Первая строка — «сколько».
+- id: l08-t9
+  type: code
+  title: Число Фибоначчи
+  level: 4
+  required: false
+  homework: true
+  mcko: []
+  statement: |
+    Последовательность Фибоначчи: первые два числа равны 1, каждое следующее — сумма двух предыдущих (1, 1, 2, 3, 5, 8, …). Найдите n-е число.
+  input_format: Одна строка — целое число n (n ≥ 1).
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    a = 1
+    b = 1
+    # сделай n - 1 шагов
+  examples:
+  - &id017 {input: '10', output: '55'}
+  - &id018 {input: '1', output: '1'}
+  tests:
+  - *id017
+  - *id018
+  - {input: '2', output: '1', hidden: true}
+  - {input: '5', output: '5', hidden: true}
+  - {input: '3', output: '2', hidden: true}
+  - {input: '20', output: '6765', hidden: true}
+  - {input: '30', output: '832040', hidden: true}
+  checker: exact
+  hints:
+  - 'Храним два последних числа: a и b.'
+  - 'На каждом шаге новое число — a + b, потом сдвигаем: a становится b, b становится новым.'
+  - Нужна третья переменная, как в обмене значений. Сделай n - 1 шагов и выведи a.
+  solution: |
+    n = int(input())
+    a = 1
+    b = 1
+    for i in range(n - 1):
+        c = a + b
+        a = b
+        b = c
+    print(a)
+  explanation: |
+    Звёздочка: цикл + «обмен». Нарисуйте таблицу a, b для первых шагов.

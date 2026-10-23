@@ -18,4 +18,4 @@ export type Task = {
   examples?: { input: string; output: string }[]; hints?: string[]
   has_tests: boolean; status: string; attempts: number; last_result?: any[] | null
 }
-export type Lesson = { meta: { title: string; subtitle?: string; goal?: string }; markdown: string; tasks: Task[] }
+export type Lesson = { meta: { title: string; subtitle?: string; goal?: string }; markdown: string; tasks: Task[]; manual?: boolean }

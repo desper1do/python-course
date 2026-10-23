@@ -1,72 +1,374 @@
-:root { --bg:#0f1117; --panel:#161a23; --panel2:#1d222e; --line:#2c3344; --text:#e8ebf2; --muted:#b4bdd0; --accent:#8b7cff; --ok:#3ddc97; --err:#ff6b6b; --warn:#ffcc66; --ui:20px; --theory:22px; --code:24px }
+/* Цвета задаются темой (themes.ts → CSS-переменные на :root). Здесь — только значения по умолчанию. */
+:root {
+  --bg: #121418; --surface: #17191f; --raised: #1f2229; --line: #2a2e37;
+  --text: #eceef2; --muted: #bcc2ce; --accent: #b3a8ff; --on-accent: #14112b;
+  --ok: #5ee0a6; --err: #ff9a9a; --warn: #f2c86b;
+  --ui: 20px; --theory: 22px; --code: 24px;
+  --r: 10px;
+  --font-ui: 'Onest', system-ui, sans-serif, 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji';
+  --font-code: 'JetBrains Mono', ui-monospace, monospace, 'Segoe UI Emoji', 'Noto Color Emoji';
+}
 * { box-sizing: border-box }
 html, body, #root { height: 100%; margin: 0 }
-body { background: var(--bg); color: var(--text); font: 400 var(--ui)/1.6 Inter, system-ui, sans-serif }
+body {
+  background: var(--bg); color: var(--text);
+  font: 400 var(--ui)/1.6 var(--font-ui);
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
 a { color: inherit; text-decoration: none }
+button { font-family: inherit }
+code, pre, kbd { font-family: var(--font-code); font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0 }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px }
+::selection { background: var(--sel) }
+
 .app { height: 100%; display: flex; flex-direction: column }
-.top { display: flex; align-items: center; gap: 10px; padding: 8px 20px; background: var(--panel); border-bottom: 1px solid var(--line) }
-.brand { font-weight: 700; font-size: 1.1em }
-.spacer { flex: 1 }
 main { flex: 1; min-height: 0 }
-.pad { padding: 20px }
+.spacer { flex: 1 }
+.pad { padding: 32px }
 .muted { color: var(--muted) }
-.btn { display: inline-flex; align-items: center; gap: 8px; background: var(--panel2); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 8px 16px; font: 600 var(--ui) Inter, sans-serif; cursor: pointer }
-.btn:hover:not(:disabled) { border-color: var(--accent) }
-.btn:focus-visible { outline: 3px solid var(--accent) }
-.btn:disabled { opacity: .45; cursor: default }
-.btn.sm { padding: 4px 12px; font-size: .8em }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: #0b0b14 }
-.btn.ok { background: var(--ok); border-color: var(--ok); color: #06140d }
-.btn.danger { color: var(--err); border-color: var(--err) }
-.home { max-width: 1000px; margin: 0 auto; padding: 24px; overflow: auto; height: 100% }
-.home h2 { color: var(--accent); margin-top: 32px }
-.lesson-row { display: flex; align-items: center; gap: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 20px; margin: 8px 0 }
-.lesson-row:hover { border-color: var(--accent) }
-.lesson-row .num { font: 700 1em 'JetBrains Mono', monospace; color: var(--accent) }
-.grow { flex: 1 }
-.pill { padding: 2px 12px; border-radius: 99px; border: 1px solid var(--line); font-size: .85em }
-.pill.done { color: var(--ok); border-color: var(--ok) } .pill.progress { color: var(--warn); border-color: var(--warn) }
-.lesson { display: grid; grid-template-columns: 42% 58%; height: 100% }
+
+/* ---------- Шапка ---------- */
+.top {
+  display: flex; align-items: center; gap: 12px; height: 60px; padding: 0 20px;
+  background: var(--surface); border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -.01em }
+.logo { display: block; flex: none }
+.crumb { display: flex; align-items: center; gap: 10px; min-width: 0; color: var(--muted); font-weight: 500 }
+.crumb a:hover { color: var(--text) }
+.crumb .cur { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+
+/* ---------- Кнопки ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 44px; padding: 0 18px; border-radius: var(--r);
+  background: var(--raised); color: var(--text); border: 1px solid transparent;
+  font: 600 var(--ui)/1 var(--font-ui); cursor: pointer; white-space: nowrap;
+}
+.btn:hover:not(:disabled) { background: var(--hover); border-color: var(--line) }
+.btn:disabled { opacity: .5; cursor: default }
+.btn.primary { background: var(--accent); color: var(--on-accent) }
+.btn.primary:hover:not(:disabled) { background: var(--accent); filter: brightness(1.06); border-color: transparent }
+.btn.ghost { background: transparent }
+.btn.ghost:hover:not(:disabled) { background: var(--hover); border-color: transparent }
+.btn.icon { width: 44px; padding: 0 }
+.btn .ic-ok { color: var(--ok) }
+.btn.stop:not(:disabled) .ic { color: var(--err) }
+
+.seg { display: inline-flex; background: var(--raised); border-radius: var(--r); padding: 3px }
+.seg .btn { height: 38px; background: transparent; padding: 0 12px }
+.seg .btn:hover { background: var(--hover); border-color: transparent }
+.seg .sep { width: 1px; margin: 8px 2px; background: var(--line) }
+
+/* Выпадающее меню оформления */
+.menu-wrap { position: relative }
+.menu {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 50; width: 360px; padding: 12px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow);
+}
+.menu h4 { margin: 4px 8px 8px; font-size: .85em; font-weight: 600; color: var(--muted) }
+.menu .opt {
+  display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; border-radius: var(--r);
+  background: none; border: 0; color: var(--text); font: 500 var(--ui) var(--font-ui); cursor: pointer; text-align: left;
+}
+.menu .opt:hover { background: var(--hover) }
+.menu .opt.on { background: var(--accent-soft) }
+.menu .opt .tick { margin-left: auto; color: var(--accent) }
+.menu .divider { height: 1px; background: var(--line); margin: 8px 0 }
+.swatch { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--line); display: grid; place-items: center; flex: none }
+.swatch i { width: 10px; height: 10px; border-radius: 50% }
+
+/* ---------- Главная ---------- */
+.home { height: 100%; overflow: auto }
+.home-inner { max-width: 1240px; margin: 0 auto; padding: 40px 32px 64px }
+.hero { display: flex; align-items: flex-end; gap: 24px; margin-bottom: 8px }
+.hero h1 { margin: 0; font-size: 2em; letter-spacing: -.02em; line-height: 1.2 }
+.hero .sub { color: var(--muted); margin-top: 6px }
+.overall { min-width: 320px; margin-left: auto }
+.overall .row { display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 8px }
+.bar { height: 10px; border-radius: 99px; background: var(--raised); overflow: hidden }
+.bar > i { display: block; height: 100%; background: var(--accent); border-radius: 99px }
+.bar.ok > i { background: var(--ok) }
+.continue {
+  display: flex; align-items: center; gap: 16px; margin: 28px 0 8px; padding: 18px 24px;
+  border-radius: var(--r); background: var(--accent); color: var(--on-accent); font-weight: 600;
+}
+.continue:hover { filter: brightness(1.05) }
+.continue .grow { flex: 1 }
+.block-title { display: flex; align-items: baseline; gap: 12px; margin: 40px 0 16px; font-size: 1.15em; font-weight: 700 }
+.block-title span { color: var(--muted); font-weight: 500; font-size: .85em }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 16px }
+.card {
+  display: flex; flex-direction: column; gap: 14px; min-height: 190px; padding: 22px 24px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+}
+.card:hover { border-color: var(--accent); box-shadow: var(--shadow) }
+.card .head { display: flex; align-items: center; gap: 12px }
+.card .num {
+  font: 700 .9em var(--font-ui); color: var(--accent); background: var(--accent-soft);
+  padding: 4px 10px; border-radius: 8px;
+}
+.card h3 { margin: 0; font-size: 1.1em; line-height: 1.35; font-weight: 600 }
+.card .foot { margin-top: auto; display: flex; align-items: center; gap: 14px }
+.card .foot .bar { flex: 1 }
+.card .count { font-weight: 600; font-variant-numeric: tabular-nums }
+.status { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; font-weight: 600; font-size: .9em; color: var(--muted) }
+.status.done { color: var(--ok) }
+.status.progress { color: var(--warn) }
+.status .dot { width: 10px; height: 10px; border-radius: 50%; background: currentColor }
+.status.new .dot { background: transparent; border: 2px solid currentColor }
+
+/* ---------- Экран урока ---------- */
+.lesson { display: flex; height: 100%; overflow: hidden; --split: 42% }
 .left, .right { display: flex; flex-direction: column; min-height: 0; min-width: 0 }
-.left { border-right: 1px solid var(--line); background: var(--panel) }
-.lhead { padding: 12px 24px 4px } .lhead h1 { margin: 0; font-size: 1.3em }
-.tabs, .btabs { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px 16px 0; border-bottom: 1px solid var(--line) }
-.tabs button, .btabs button { background: none; border: 0; border-bottom: 3px solid transparent; color: var(--muted); font: 600 var(--ui) Inter, sans-serif; padding: 6px 14px; cursor: pointer }
-.tabs button.on, .btabs button.on { color: var(--text); border-bottom-color: var(--accent) }
-.tabs button.solved { color: var(--ok) }
-.lscroll { flex: 1; overflow: auto; padding: 8px 24px 40px; font-size: var(--theory) }
-.lscroll h2 { font-size: 1.3em } .lscroll h3 { font-size: 1.1em; margin-bottom: 4px }
-.md table { border-collapse: collapse } .md th, .md td { border: 1px solid var(--line); padding: 4px 12px }
-.md code { font: 500 .9em 'JetBrains Mono', monospace; background: var(--panel2); padding: 1px 6px; border-radius: 6px }
-.md details { background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 16px; margin: 12px 0 }
-.md summary { cursor: pointer; font-weight: 600; color: var(--accent) }
-.md blockquote { margin: 12px 0; padding: 4px 16px; border-left: 4px solid var(--warn); background: var(--panel2) }
-.codeblock { margin: 12px 0; position: relative }
-.codebar { display: flex; gap: 8px; margin-bottom: 4px }
-.codeblock pre, .example pre, .tests pre { margin: 0; background: #0b0d13; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; overflow: auto; font: 500 calc(var(--theory) - 2px)/1.5 'JetBrains Mono', monospace }
-.codeblock pre.out { border-style: dashed; color: var(--ok) }
-.example { margin: 12px 0 } .exhead { display: flex; justify-content: space-between; align-items: center }
+.left { background: var(--surface); flex: none; width: clamp(25%, var(--split), 70%) }
+.right { flex: 1 1 0 }
+
+.tabs { display: flex; align-items: center; gap: 6px; padding: 12px 20px; border-bottom: 1px solid var(--line); overflow-x: auto }
+.tab {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: none;
+  height: 42px; min-width: 42px; padding: 0 12px; border-radius: var(--r);
+  background: transparent; border: 1px solid transparent; color: var(--muted);
+  font: 600 var(--ui)/1 var(--font-ui); font-variant-numeric: tabular-nums; cursor: pointer; position: relative;
+}
+.tab:hover { background: var(--hover); color: var(--text) }
+.tab.on { background: var(--accent-soft); color: var(--accent) }
+.tab.theory { padding: 0 16px; margin-right: 6px }
+.tab .mark-ok { color: var(--ok) }
+.tab .mark-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--warn) }
+.tabs .vsep { width: 1px; height: 24px; background: var(--line); margin: 0 6px 0 0; flex: none }
+
+.lscroll { flex: 1; overflow: auto; padding: 24px 32px 48px; font-size: var(--theory) }
+.lhead { margin-bottom: 20px }
+.lhead h1 { margin: 0; font-size: 1.45em; line-height: 1.25; letter-spacing: -.015em }
+.lhead .sub { margin-top: 6px; color: var(--muted) }
+.eyebrow { font-size: .85em; font-weight: 600; color: var(--accent); margin-bottom: 6px }
+
+/* Типографика теории */
+.md { line-height: 1.6 }
+.md > :first-child { margin-top: 0 }
+.md h1 { font-size: 1.4em; margin: 1.4em 0 .5em; line-height: 1.25; letter-spacing: -.015em }
+.md h2 { font-size: 1.25em; margin: 1.6em 0 .5em; line-height: 1.3; letter-spacing: -.01em; padding-top: .9em; border-top: 1px solid var(--line) }
+.md h3 { font-size: 1.08em; margin: 1.3em 0 .4em; line-height: 1.35 }
+.md p, .md ul, .md ol { margin: .6em 0 }
+.md li { margin: .25em 0 }
+.md li::marker { color: var(--muted) }
+.md strong { font-weight: 700 }
+.md a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px }
+.md hr { border: 0; height: 1px; background: var(--line); margin: 2em 0 }
+.md :not(pre) > code { font-size: .88em; font-weight: 500; background: var(--raised); padding: .1em .4em; border-radius: 6px }
+.tablewrap { overflow-x: auto; margin: 1em 0 }
+.md table { border-collapse: collapse; font-size: .95em }
+.md th, .md td { padding: 8px 16px; border-bottom: 1px solid var(--line); text-align: left }
+.md th { font-weight: 600; border-bottom-width: 2px }
+.md td code, .md th code { white-space: nowrap }
+
+/* Врезки */
+.callout { margin: 1em 0; padding: 12px 18px; border-radius: var(--r); background: var(--accent-soft); border-left: 4px solid var(--accent) }
+.callout > :first-child { margin-top: 0 } .callout > :last-child { margin-bottom: 0 }
+.callout.warn { background: var(--warn-soft); border-left-color: var(--warn) }
+.callout.ok { background: var(--ok-soft); border-left-color: var(--ok) }
+.callout.note { background: var(--raised); border-left-color: var(--muted) }
+.callout :not(pre) > code { background: var(--bg) }
+
+/* Раскрывашки */
+.md details { margin: 1em 0; border-radius: var(--r); background: var(--raised) }
+.md summary {
+  display: flex; align-items: center; gap: 10px; padding: 12px 18px; cursor: pointer; list-style: none;
+  font-weight: 600; color: var(--accent); border-radius: var(--r);
+}
+.md summary::-webkit-details-marker { display: none }
+.md summary::before { content: '▸'; display: inline-block; width: 1em; font-size: .9em }
+.md details[open] summary::before { content: '▾' }
+.md summary:hover { background: var(--hover) }
+.md details > :not(summary) { margin: 0; padding: 0 18px 0 46px }
+.md details > :last-child { padding-bottom: 14px }
+.md details > summary + * { padding-top: 2px }
+
+/* Блоки кода */
+.codeblock { position: relative; margin: 1em 0; background: var(--bg); border-radius: var(--r); border: 1px solid var(--line) }
+.codeblock pre { margin: 0; padding: 16px 20px; overflow: auto; font: 500 calc(var(--theory) - 1px)/1.55 var(--font-code) }
+.codebar { display: flex; align-items: center; gap: 6px; padding: 6px 6px 0 20px }
+.codebar .lang { margin-right: auto; font: 600 .8em var(--font-code); color: var(--muted) }
+.codebar + pre { padding-top: 8px }
+.codeblock.out { background: transparent; border-style: dashed }
+.codeblock.out pre { padding-top: 6px }
+.codelabel { padding: 10px 20px 0; font-size: .8em; font-weight: 600; color: var(--muted) }
+.chipbtn {
+  display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 8px;
+  background: var(--raised); border: 1px solid var(--line); color: var(--text);
+  font: 600 17px/1 var(--font-ui); cursor: pointer;
+}
+.chipbtn:hover { border-color: var(--accent); color: var(--accent) }
+.tk-kw { color: var(--syn-kw); font-weight: 700 }
+.tk-str { color: var(--syn-str) }
+.tk-num { color: var(--syn-num) }
+.tk-com { color: var(--syn-com); font-style: italic }
+.tk-fn { color: var(--syn-fn) }
+.tk-def { color: var(--syn-def); font-weight: 700 }
+.tk-prop { color: var(--syn-prop) }
+
+/* Задача */
+.task-head { margin-bottom: 16px }
+.task-head h2 { margin: 0; font-size: 1.35em; line-height: 1.3; letter-spacing: -.01em }
+.task-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px }
+.tag { font-size: .85em; font-weight: 600; padding: 3px 10px; border-radius: 8px; background: var(--raised); color: var(--muted) }
+.tag.star { color: var(--warn); background: var(--warn-soft) }
+.tag.done { color: var(--ok); background: var(--ok-soft) }
+.section-label { margin: 24px 0 6px; font-size: .9em; font-weight: 700 }
+.example { margin: 16px 0 }
+.exhead { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-weight: 700; font-size: .9em }
 .excols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
-.hint { background: var(--panel2); border-left: 4px solid var(--warn); padding: 4px 16px; margin: 12px 0 }
-.hint p { margin: 4px 0 }
-.nav { display: flex; gap: 8px; margin: 24px 0 }
-.toolbar { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--panel); border-bottom: 1px solid var(--line) }
-.file { font: 500 .9em 'JetBrains Mono', monospace; margin-right: auto; color: var(--muted) }
-.editor-wrap { flex: 55 1 0; min-height: 0; background: #0b0d13; overflow: hidden }
-.editor, .editor .cm-editor { height: 100% }
-.cm-editor { background: #0b0d13; color: var(--text); font: 500 var(--code)/1.6 'JetBrains Mono', monospace }
-.cm-editor.cm-focused { outline: none }
-.cm-scroller { overflow: auto; font-family: inherit }
-.cm-gutters { background: #0b0d13; color: #8e99b3; border: 0 }
-.cm-activeLine { background: #ffffff0d } .cm-activeLineGutter { background: transparent; color: var(--text) }
-.cm-cursor { border-left: 3px solid var(--accent) !important }
-.cm-selectionBackground { background: #8b7cff55 !important }
-.btabs { background: var(--panel); border-top: 1px solid var(--line) }
-.bottom { flex: 40 1 0; min-height: 0; background: #0b0d13; display: flex; flex-direction: column }
-.fill { flex: 1; display: flex !important; flex-direction: column; min-height: 0 }
-.console { flex: 1; min-height: 0; padding: 8px 12px }
-.errcard { margin: 8px; padding: 8px 16px; border: 2px solid var(--err); border-radius: 10px; background: #2a1518 }
-.tests { overflow: auto; padding: 12px 20px }
-.test { padding: 6px 0; font-weight: 600 } .test.ok { color: var(--ok) } .test.wrong, .test.error, .test.timeout { color: var(--err) }
-.test pre { color: var(--text); font-weight: 500 }
-.banner.ok { background: var(--ok); color: #06140d; padding: 8px 16px; border-radius: 10px; font-weight: 700; margin-bottom: 8px }
+.excols .lbl { font-size: .85em; font-weight: 600; color: var(--muted); margin-bottom: 4px }
+.excols pre { margin: 0; padding: 12px 16px; background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); font: 500 calc(var(--theory) - 1px)/1.5 var(--font-code); overflow: auto; min-height: 2.6em }
+.hint { margin: 12px 0; padding: 12px 18px; border-radius: var(--r); background: var(--warn-soft); border-left: 4px solid var(--warn) }
+.hint .md p { margin: .2em 0 }
+.hint b { color: var(--warn) }
+.nav { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line) }
+.done-row { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line) }
+
+/* Правая колонка */
+.toolbar { display: flex; align-items: center; gap: 8px; height: 66px; padding: 0 16px; background: var(--surface); border-bottom: 1px solid var(--line) }
+.file { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 14px; margin-right: auto; border-radius: var(--r); background: var(--bg); font: 500 .9em var(--font-code) }
+.file .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent) }
+.rsplit { flex: 1; min-height: 0; display: flex; flex-direction: column; --esplit: 56% }
+.editor-wrap { flex: none; height: clamp(120px, var(--esplit), calc(100% - 175px)); min-height: 0; background: var(--bg); overflow: hidden }
+.lower { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column }
+.editor { height: 100% }
+
+.btabs { display: flex; align-items: center; gap: 4px; height: 54px; padding: 0 12px; background: var(--surface); border-bottom: 1px solid var(--line) }
+.btab {
+  display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; border-radius: var(--r);
+  background: none; border: 0; color: var(--muted); font: 600 var(--ui)/1 var(--font-ui); cursor: pointer;
+}
+.btab:hover { background: var(--hover); color: var(--text) }
+.btab.on { color: var(--text); background: var(--raised) }
+.badge { font-size: .8em; padding: 2px 8px; border-radius: 99px; background: var(--raised); font-variant-numeric: tabular-nums }
+.btab.on .badge { background: var(--bg) }
+.badge.ok { color: var(--ok); background: var(--ok-soft) } .badge.bad { color: var(--err); background: var(--err-soft) }
+.run-state { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; color: var(--warn); font-weight: 600; padding-right: 8px }
+.run-state .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--warn) }
+
+.bottom { flex: 1 1 0; min-height: 0; background: var(--bg); display: flex; flex-direction: column }
+.fill { flex: 1; flex-direction: column; min-height: 0 }
+.console { flex: 1; min-height: 0; padding: 12px 8px 8px 20px; display: flex }
+.console-host { flex: 1; min-width: 0; min-height: 0 }
+.console .xterm-viewport { background: transparent !important }
+.errcard { margin: 0 16px 14px; padding: 12px 18px; border-radius: var(--r); background: var(--err-soft); border-left: 4px solid var(--err) }
+.errcard b { color: var(--err) }
+
+.tests { flex: 1; overflow: auto; padding: 16px 20px }
+.empty { flex: 1; display: grid; place-items: center; text-align: center; color: var(--muted); padding: 24px }
+.empty b { color: var(--text); display: block; margin-bottom: 4px }
+
+/* Скроллбары */
+* { scrollbar-width: thin; scrollbar-color: var(--line) transparent }
+.md details :not(pre) > code { background: var(--bg) }
+.menu.confirm { width: 400px; padding: 16px 18px; right: auto; left: 0 }
+.menu.confirm .q { font-weight: 600; margin-bottom: 14px }
+.menu.confirm .actions { display: flex; justify-content: flex-end; gap: 8px }
+/* Футер главной (не прибит к экрану, идёт после контента) */
+.home { display: flex; flex-direction: column }
+.home-inner { width: 100%; flex: 1 0 auto }
+.footer { border-top: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: max(18px, calc(var(--ui) * .9)) }
+.footer-inner { max-width: 1240px; margin: 0 auto; padding: 22px 32px; display: flex; align-items: center; gap: 24px }
+.footer b { color: var(--text); font-weight: 600 }
+.footer a { color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 3px }
+.footer a:hover { text-decoration-thickness: 2px }
+
+/* ---------- Вкладка «Тесты» ---------- */
+.tests { display: flex; flex-direction: column; gap: 12px; position: relative; padding-top: 0 }
+.tsummary {
+  position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 18px;
+  border-radius: 0 0 var(--r) var(--r); background: linear-gradient(var(--raised), var(--raised)), var(--bg); font-weight: 700;
+  box-shadow: 0 -16px 0 var(--bg);
+}
+.tsummary.ok { background: linear-gradient(var(--ok-soft), var(--ok-soft)), var(--bg); color: var(--ok) }
+.tsummary .ic-bad { color: var(--err) }
+.tcard { border-radius: var(--r); background: var(--surface); border: 1px solid var(--line) }
+.thead {
+  display: flex; align-items: center; gap: 10px; width: 100%; min-height: 54px; padding: 8px 18px 8px 12px;
+  background: none; border: 0; color: var(--text); font: 600 var(--ui)/1.3 var(--font-ui); cursor: pointer; text-align: left; border-radius: var(--r);
+}
+.thead:hover { background: var(--hover) }
+.thead .chev { color: var(--muted); flex: none }
+.thead .ico { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; flex: none }
+.tcard.ok .ico { color: var(--ok); background: var(--ok-soft) }
+.tcard.bad .ico { color: var(--err); background: var(--err-soft) }
+.thead .tag { font-weight: 600 }
+.thead .verdict { font-weight: 700 }
+.tcard.ok .verdict { color: var(--ok) } .tcard.bad .verdict { color: var(--err) }
+.thead .ms { color: var(--muted); font-weight: 500; font-variant-numeric: tabular-nums; min-width: 4.5em; text-align: right }
+.tbody { padding: 4px 18px 18px }
+.tblocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px }
+.tblock { min-width: 0 }
+.tblock .lbl { font-size: .85em; font-weight: 700; color: var(--muted); margin-bottom: 6px }
+.tblock pre {
+  margin: 0; padding: 12px 16px; max-height: 15em; overflow: auto; white-space: pre;
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--r);
+  font: 500 calc(var(--code) - 2px)/1.5 var(--font-code);
+}
+.tblock.ok pre { border-color: var(--ok); color: var(--ok) }
+.tblock.bad pre { border-color: var(--err); color: var(--err) }
+.tblock.warn .lbl { color: var(--warn) }
+.tblock .ln { display: block; margin: 0 -16px; padding: 0 16px }
+.tblock .ln.hl { background: var(--err-soft); box-shadow: inset 4px 0 0 var(--err) }
+.tblock.warn .ln.hl { background: var(--warn-soft); box-shadow: inset 4px 0 0 var(--warn) }
+.tblock .ws { color: var(--warn); background: var(--warn-soft); border-radius: 3px }
+.tblock .nl { color: var(--muted); opacity: .9; margin-left: 2px; font-weight: 500 }
+.tblock .emptyout { color: var(--muted); font-style: italic; font-family: var(--font-ui) }
+.tblock .errtext { color: var(--err); white-space: pre-wrap }
+.tblock .warntext { color: var(--warn); white-space: pre-wrap; font-family: var(--font-ui) }
+.tdiff { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 10px 16px; border-radius: var(--r); background: var(--err-soft); color: var(--err); font-weight: 600 }
+.tcard-err .errcard { margin: 12px 0 0 }
+.tblock.wide { grid-column: 1 / -1 }
+
+/* ---------- Разделители ---------- */
+.splitter { position: relative; flex: none; z-index: 5; background: var(--line); outline: none; touch-action: none }
+.splitter.v { width: 1px; cursor: col-resize }
+.splitter.h { height: 1px; cursor: row-resize }
+/* Зона захвата 14px поверх тонкой линии */
+.splitter::before { content: ''; position: absolute }
+.splitter.v::before { inset: 0 -7px }
+.splitter.h::before { inset: -7px 0 }
+/* Подсветка при наведении/перетаскивании/фокусе — линия 3px акцентного цвета */
+.splitter::after { content: ''; position: absolute; background: var(--accent); opacity: 0 }
+.splitter.v::after { inset: 0 -1px }
+.splitter.h::after { inset: -1px 0 }
+.splitter:hover::after, .splitter.drag::after, .splitter:focus-visible::after { opacity: 1 }
+/* Ручка посередине */
+.grip {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 99px; pointer-events: none;
+}
+.splitter.v .grip { flex-direction: column; width: 12px; height: 44px }
+.splitter.h .grip { width: 44px; height: 12px }
+.grip i { width: 4px; height: 4px; border-radius: 50%; background: var(--muted) }
+.splitter:hover .grip, .splitter.drag .grip, .splitter:focus-visible .grip { border-color: var(--accent); background: var(--accent) }
+.splitter:hover .grip i, .splitter.drag .grip i, .splitter:focus-visible .grip i { background: var(--on-accent) }
+/* Во время перетаскивания: без выделения текста, редактор и консоль не перехватывают мышь */
+body.resizing { user-select: none; -webkit-user-select: none }
+body.resizing-v, body.resizing-v * { cursor: col-resize !important }
+body.resizing-h, body.resizing-h * { cursor: row-resize !important }
+body.resizing .cm-editor, body.resizing .xterm, body.resizing iframe { pointer-events: none }
+.menu .opt:disabled { opacity: .5; cursor: default; background: none }
+.menu .opt .hint-r { margin-left: auto; color: var(--muted); font-variant-numeric: tabular-nums }
+
+/* Узкие колонки (при перетаскивании разделителя): компактнее, но без обрезки */
+.left, .right { container-type: inline-size }
+@container (max-width: 760px) {
+  .toolbar .btn.stop .lbl, .toolbar .btn:not(.primary):not(.stop) .lbl { display: none }
+  .toolbar .btn:has(.lbl) { padding: 0 12px }
+  .toolbar { gap: 6px; padding: 0 12px }
+}
+@container (max-width: 560px) {
+  .toolbar .btn.primary .lbl { display: none }
+  .file { padding: 0 10px }
+  .tabs { padding: 10px 8px; gap: 0 }
+  .tab { min-width: 30px; padding: 0 5px; gap: 2px }
+  .tab.theory { padding: 0 8px; margin-right: 0 }
+  .tabs .vsep { margin: 0 4px 0 2px }
+  .lscroll { padding: 20px 20px 40px }
+  .excols { grid-template-columns: 1fr }
+}

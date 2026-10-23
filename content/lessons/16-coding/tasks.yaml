@@ -1,0 +1,888 @@
+- id: l16-t1
+  type: code
+  title: Условие Фано
+  level: 1
+  required: true
+  homework: false
+  mcko:
+  - 1
+  statement: |
+    Дан набор кодов. Выведите «Да», если выполнено условие Фано (ни один код не является началом другого, одинаковых кодов нет), иначе «Нет».
+  input_format: Первая строка — число кодов n, затем n строк с кодами из 0 и 1.
+  output_format: «Да» или «Нет».
+  starter: |
+    n = int(input())
+    codes = []
+    for i in range(n):
+        codes.append(input())
+    # сравни каждую пару кодов
+  examples:
+  - &id001 {input: '3
+
+      0
+
+      10
+
+      11', output: Да}
+  - &id002 {input: '3
+
+      0
+
+      01
+
+      11', output: Нет}
+  tests:
+  - *id001
+  - *id002
+  - {input: '2
+
+      1
+
+      1', output: Нет, hidden: true}
+  - {input: '4
+
+      00
+
+      01
+
+      10
+
+      11', output: Да, hidden: true}
+  - {input: '3
+
+      1
+
+      10
+
+      110', output: Нет, hidden: true}
+  - {input: '1
+
+      0', output: Да, hidden: true}
+  - {input: '4
+
+      010
+
+      011
+
+      10
+
+      11', output: Да, hidden: true}
+  - {input: '3
+
+      101
+
+      10
+
+      0', output: Нет, hidden: true}
+  checker: exact
+  hints:
+  - 'Две вложенные проверки: для каждой пары разных номеров i и j.'
+  - 'Нарушение: codes[j].startswith(codes[i]) (для i != j). Равные коды тоже попадают сюда.'
+  - Заведи флаг ok = True и сбрасывай его при нарушении.
+  solution: |
+    n = int(input())
+    codes = []
+    for i in range(n):
+        codes.append(input())
+    ok = True
+    for i in range(n):
+        for j in range(n):
+            if i != j and codes[j].startswith(codes[i]):
+                ok = False
+    if ok:
+        print("Да")
+    else:
+        print("Нет")
+  explanation: |
+    Вложенный цикл по парам. `startswith` покрывает и равные коды.
+- id: l16-t2
+  type: code
+  title: Длина сообщения
+  level: 1
+  required: true
+  homework: false
+  mcko:
+  - 1
+  statement: |
+    Даны буквы и их коды, затем сообщение. Выведите длину закодированного сообщения в битах.
+  input_format: Первая строка — число букв n. Затем n строк «буква код». Затем строка с сообщением.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    letters = []
+    codes = []
+    for i in range(n):
+        parts = input().split()
+        letters.append(parts[0])
+        codes.append(parts[1])
+    message = input()
+    # сложи длины кодов всех букв сообщения
+  examples:
+  - &id003 {input: '3
+
+      A 0
+
+      B 10
+
+      C 11
+
+      ABACA', output: '7'}
+  - &id004 {input: '2
+
+      X 1
+
+      Y 0
+
+      XXXX', output: '4'}
+  tests:
+  - *id003
+  - *id004
+  - {input: '3
+
+      A 0
+
+      B 10
+
+      C 11
+
+      C', output: '2', hidden: true}
+  - {input: '4
+
+      A 00
+
+      B 01
+
+      C 10
+
+      D 11
+
+      ABCD', output: '8', hidden: true}
+  - {input: '3
+
+      A 0
+
+      B 10
+
+      C 11
+
+      BBBBBB', output: '12', hidden: true}
+  - {input: '3
+
+      A 0
+
+      B 10
+
+      C 11
+
+      ABBA', output: '6', hidden: true}
+  checker: exact
+  hints:
+  - 'Для каждой буквы сообщения найди её номер: идём по letters и сравниваем.'
+  - Если letters[i] == ch, прибавь len(codes[i]) к total.
+  solution: |
+    n = int(input())
+    letters = []
+    codes = []
+    for i in range(n):
+        parts = input().split()
+        letters.append(parts[0])
+        codes.append(parts[1])
+    message = input()
+    total = 0
+    for ch in message:
+        for i in range(n):
+            if letters[i] == ch:
+                total += len(codes[i])
+    print(total)
+  explanation: |
+    Вводим таблицу в два параллельных списка (словарей мы не проходили).
+- id: l16-t3
+  type: code
+  title: Сколько кодов не длиннее k
+  level: 1
+  required: true
+  homework: false
+  mcko:
+  - 1
+  statement: |
+    Сколько различных двоичных строк длиной от 1 до k бит включительно?
+  input_format: Одна строка — целое число k (1 ≤ k ≤ 20).
+  output_format: Одно число.
+  starter: |
+    k = int(input())
+    total = 0
+    # сколько строк каждой длины?
+  examples:
+  - &id005 {input: '1', output: '2'}
+  - &id006 {input: '2', output: '6'}
+  tests:
+  - *id005
+  - *id006
+  - {input: '3', output: '14', hidden: true}
+  - {input: '10', output: '2046', hidden: true}
+  - {input: '20', output: '2097150', hidden: true}
+  - {input: '5', output: '62', hidden: true}
+  checker: exact
+  hints:
+  - Длины i бит существует 2 ** i строк.
+  - Сложи 2 ** i для i от 1 до k.
+  solution: |
+    k = int(input())
+    total = 0
+    for i in range(1, k + 1):
+        total += 2 ** i
+    print(total)
+  explanation: |
+    Сколько кодов можно придумать, если их длина ограничена. Ответ равен 2**(k+1) − 2.
+- id: l16-t4
+  type: code
+  title: Декодирование
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 1
+  statement: |
+    Даны буквы с кодами (условие Фано выполнено) и закодированная строка. Выведите исходное сообщение.
+  input_format: Первая строка — n. Затем n строк «буква код». Затем строка из 0 и 1.
+  output_format: Строка из букв.
+  starter: |
+    n = int(input())
+    letters = []
+    codes = []
+    for i in range(n):
+        parts = input().split()
+        letters.append(parts[0])
+        codes.append(parts[1])
+    bits = input()
+    # накапливай биты, пока не совпадёт с кодом
+  examples:
+  - &id007 {input: '3
+
+      A 0
+
+      B 10
+
+      C 11
+
+      0100110', output: ABACA}
+  - &id008 {input: '2
+
+      X 1
+
+      Y 0
+
+      1010', output: XYXY}
+  tests:
+  - *id007
+  - *id008
+  - {input: '3
+
+      A 0
+
+      B 10
+
+      C 11
+
+      11', output: C, hidden: true}
+  - {input: '4
+
+      A 00
+
+      B 01
+
+      C 10
+
+      D 11
+
+      00011011', output: ABCD, hidden: true}
+  - {input: '3
+
+      A 0
+
+      B 10
+
+      C 11
+
+      000', output: AAA, hidden: true}
+  - {input: '4
+
+      A 0
+
+      B 100
+
+      C 101
+
+      D 11
+
+      1011001110', output: CBD, hidden: true}
+  checker: exact
+  hints:
+  - 'Заведи пустую строку current. На каждом бите допиши его: current += bit.'
+  - Если current совпала с какой-то codes[i], допиши letters[i] в ответ и очисти current.
+  - Проверка совпадения — цикл по i.
+  solution: |
+    n = int(input())
+    letters = []
+    codes = []
+    for i in range(n):
+        parts = input().split()
+        letters.append(parts[0])
+        codes.append(parts[1])
+    bits = input()
+    result = ""
+    current = ""
+    for bit in bits:
+        current += bit
+        for i in range(n):
+            if codes[i] == current:
+                result += letters[i]
+                current = ""
+    print(result)
+  explanation: |
+    Работает именно потому, что условие Фано выполнено: первое совпадение однозначно.
+- id: l16-t5
+  type: code
+  title: Кратчайший свободный код
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 1
+  statement: |
+    Дано несколько кодов, образующих набор с условием Фано. Найдите кратчайший двоичный код, который можно добавить, не нарушив условия. Если таких несколько, выведите первый в алфавитном порядке (например, 00 раньше 01). Ответ существует длиной не больше 8.
+  input_format: Первая строка — n, затем n кодов.
+  output_format: Один код.
+  starter: |
+    def all_codes(n):
+        result = []
+        for length in range(1, n + 1):
+            for number in range(2 ** length):
+                code = bin(number)[2:]
+                while len(code) < length:
+                    code = "0" + code
+                result.append(code)
+        return result
+
+    n = int(input())
+    codes = []
+    for i in range(n):
+        codes.append(input())
+    # проверь кандидатов из all_codes(8) по порядку
+  examples:
+  - &id009 {input: '2
+
+      0
+
+      10', output: '11'}
+  - &id010 {input: '1
+
+      0', output: '1'}
+  tests:
+  - *id009
+  - *id010
+  - {input: '3
+
+      00
+
+      01
+
+      10', output: '11', hidden: true}
+  - {input: '2
+
+      00
+
+      11', output: '01', hidden: true}
+  - {input: '3
+
+      0
+
+      10
+
+      110', output: '111', hidden: true}
+  - {input: '2
+
+      010
+
+      1', output: '00', hidden: true}
+  - {input: '3
+
+      00
+
+      010
+
+      1', output: '011', hidden: true}
+  checker: exact
+  hints:
+  - 'Кандидаты идут от коротких к длинным и в алфавитном порядке: all_codes(8).'
+  - Кандидат подходит, если с каждым из codes ни одна из строк не начинается с другой.
+  - Вывести первого подходящего. Чтобы остановиться, используй флаг found.
+  solution: |
+    def all_codes(n):
+        result = []
+        for length in range(1, n + 1):
+            for number in range(2 ** length):
+                code = bin(number)[2:]
+                while len(code) < length:
+                    code = "0" + code
+                result.append(code)
+        return result
+
+    n = int(input())
+    codes = []
+    for i in range(n):
+        codes.append(input())
+    found = False
+    for candidate in all_codes(8):
+        ok = True
+        for c in codes:
+            if candidate.startswith(c) or c.startswith(candidate):
+                ok = False
+        if ok and not found:
+            print(candidate)
+            found = True
+  explanation: |
+    Перебор кандидатов из теории с флагом. Первым выводим самый короткий.
+- id: l16-t6
+  type: code
+  title: Выигрыш по сравнению с равномерным кодом
+  level: 2
+  required: true
+  homework: false
+  mcko:
+  - 1
+  statement: |
+    Даны n букв, их коды и сколько раз каждая встречается в сообщении. Сообщение закодировали неравномерным кодом. Насколько бит оно короче, чем при равномерном коде с минимально возможной длиной кода? (Если неравномерный код длиннее, ответ отрицательный.)
+  input_format: Первая строка — n. Затем n строк «буква код количество».
+  output_format: Одно целое число.
+  starter: |
+    import math
+    n = int(input())
+    total_letters = 0
+    total_bits = 0
+    # прочитай строки и посчитай
+  examples:
+  - &id011 {input: '4
+
+      A 0 10
+
+      B 10 5
+
+      C 110 3
+
+      D 111 2', output: '5'}
+  - &id012 {input: '2
+
+      A 0 1
+
+      B 1 1', output: '0'}
+  tests:
+  - *id011
+  - *id012
+  - {input: '3
+
+      A 0 100
+
+      B 10 1
+
+      C 11 1', output: '100', hidden: true}
+  - {input: '4
+
+      A 00 1
+
+      B 01 1
+
+      C 10 1
+
+      D 11 1', output: '0', hidden: true}
+  - {input: '4
+
+      A 1 7
+
+      B 01 2
+
+      C 001 1
+
+      D 000 1', output: '5', hidden: true}
+  - {input: '5
+
+      A 0 1
+
+      B 10 1
+
+      C 110 1
+
+      D 1110 20
+
+      E 1111 1', output: '-18', hidden: true}
+  checker: exact
+  hints:
+  - 'Равномерный код: бит на букву i = math.ceil(math.log2(n)).'
+  - 'Для каждой строки: число букв count и длина len(code). total_letters += count; total_bits += len(code) * count.'
+  - 'Ответ: i * total_letters - total_bits.'
+  solution: |
+    import math
+    n = int(input())
+    total_letters = 0
+    total_bits = 0
+    for k in range(n):
+        parts = input().split()
+        count = int(parts[2])
+        total_letters += count
+        total_bits += len(parts[1]) * count
+    i = math.ceil(math.log2(n))
+    print(i * total_letters - total_bits)
+  explanation: |
+    Связка уроков 6 и 16. Показывает, чем выгоден неравномерный код.
+- id: l16-t7
+  type: code
+  title: 'МЦКО-1: одна неизвестная буква'
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 1
+  statement: |
+    Для кодирования используются n букв. Для каждой дано число её вхождений в сообщение, коды известны всем буквам, кроме одной (вместо кода стоит «?»). Известные коды удовлетворяют условию Фано. Выберите для неизвестной буквы код так, чтобы условие Фано выполнялось, а длина закодированного сообщения была минимальной. Выведите эту минимальную длину. Достаточно проверить коды длиной до 6.
+  input_format: Первая строка — n. Затем n строк «буква код количество», у одной вместо кода «?».
+  output_format: Одно число.
+  starter: |
+    def all_codes(n):
+        result = []
+        for length in range(1, n + 1):
+            for number in range(2 ** length):
+                code = bin(number)[2:]
+                while len(code) < length:
+                    code = "0" + code
+                result.append(code)
+        return result
+    def conflicts(a, b):
+        return a.startswith(b) or b.startswith(a)
+
+    n = int(input())
+    known = []
+    base = 0
+    freq = 0
+    # прочитай буквы
+  examples:
+  - &id013 {input: '3
+
+      A 0 10
+
+      B 10 5
+
+      C ? 3', output: '26'}
+  - &id014 {input: '3
+
+      A 1 4
+
+      B 01 3
+
+      C ? 2', output: '14'}
+  tests:
+  - *id013
+  - *id014
+  - {input: '4
+
+      A 00 5
+
+      B 01 5
+
+      C ? 1
+
+      D 10 2', output: '26', hidden: true}
+  - {input: '2
+
+      A 0 100
+
+      B ? 1', output: '101', hidden: true}
+  - {input: '5
+
+      A 000 1
+
+      B 001 1
+
+      C 01 1
+
+      D 10 1
+
+      E ? 5', output: '20', hidden: true}
+  - {input: '4
+
+      A 0 3
+
+      B 10 3
+
+      C 110 3
+
+      D ? 7', output: '39', hidden: true}
+  checker: exact
+  hints:
+  - 'Известные коды и их вклад в длину (len(код) * количество) сложи сразу. Код буквы с «?» запомни отдельно: её количество freq.'
+  - Из all_codes(6) выбери кандидатов, которые не конфликтуют ни с одним известным кодом (функция conflicts).
+  - 'Лучший кандидат — самый короткий. Ответ: base + len(candidate) * freq.'
+  solution: |
+    def all_codes(n):
+        result = []
+        for length in range(1, n + 1):
+            for number in range(2 ** length):
+                code = bin(number)[2:]
+                while len(code) < length:
+                    code = "0" + code
+                result.append(code)
+        return result
+    def conflicts(a, b):
+        return a.startswith(b) or b.startswith(a)
+
+    n = int(input())
+    known = []
+    base = 0
+    freq = 0
+    for k in range(n):
+        parts = input().split()
+        count = int(parts[2])
+        if parts[1] == "?":
+            freq = count
+        else:
+            known.append(parts[1])
+            base += len(parts[1]) * count
+    best = 100
+    for candidate in all_codes(6):
+        ok = True
+        for c in known:
+            if conflicts(candidate, c):
+                ok = False
+        if ok and len(candidate) < best:
+            best = len(candidate)
+    print(base + best * freq)
+  explanation: |
+    Типичный МЦКО-1 с одной неизвестной буквой. Разберите пример с 35 битами из теории (там две неизвестные).
+- id: l16-t8
+  type: code
+  title: Сколько свободных кодов
+  level: 3
+  required: true
+  homework: false
+  mcko:
+  - 1
+  statement: |
+    Дан набор кодов с условием Фано и длина L. Сколько существует двоичных строк длины ровно L, которые можно добавить к набору, не нарушив условие?
+  input_format: Первая строка — n, затем n кодов, затем число L (1 ≤ L ≤ 10).
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    codes = []
+    for i in range(n):
+        codes.append(input())
+    L = int(input())
+    # перебери все строки длины L
+  examples:
+  - &id015 {input: '2
+
+      0
+
+      10
+
+      3', output: '2'}
+  - &id016 {input: '1
+
+      0
+
+      2', output: '2'}
+  tests:
+  - *id015
+  - *id016
+  - {input: '1
+
+      1
+
+      1', output: '1', hidden: true}
+  - {input: '2
+
+      00
+
+      01
+
+      2', output: '2', hidden: true}
+  - {input: '3
+
+      0
+
+      10
+
+      110
+
+      4', output: '2', hidden: true}
+  - {input: '2
+
+      000
+
+      111
+
+      3', output: '6', hidden: true}
+  - {input: '1
+
+      010
+
+      2', output: '3', hidden: true}
+  checker: exact
+  hints:
+  - 'Все строки длины L: числа от 0 до 2**L - 1, записанные в двоичной и дополненные нулями слева до L знаков.'
+  - Строка подходит, если ни с одним кодом не конфликтует (начало в обе стороны).
+  - Каждую подходящую посчитай.
+  solution: |
+    n = int(input())
+    codes = []
+    for i in range(n):
+        codes.append(input())
+    L = int(input())
+    count = 0
+    for number in range(2 ** L):
+        s = bin(number)[2:]
+        while len(s) < L:
+            s = "0" + s
+        ok = True
+        for c in codes:
+            if s.startswith(c) or c.startswith(s):
+                ok = False
+        if ok:
+            count += 1
+    print(count)
+  explanation: |
+    Нужны нули слева, иначе строки будут короче L.
+- id: l16-t9
+  type: code
+  title: 'МЦКО-1: две неизвестные буквы'
+  level: 4
+  required: false
+  homework: true
+  mcko:
+  - 1
+  statement: |
+    Условие как в предыдущей МЦКО-задаче, но «?» стоит ровно у двух букв. Выведите минимальную длину сообщения. Достаточно проверить коды длиной до 5.
+  input_format: Первая строка — n. Затем n строк «буква код количество», у двух вместо кода «?».
+  output_format: Одно число.
+  starter: |
+    def all_codes(n):
+        result = []
+        for length in range(1, n + 1):
+            for number in range(2 ** length):
+                code = bin(number)[2:]
+                while len(code) < length:
+                    code = "0" + code
+                result.append(code)
+        return result
+    def conflicts(a, b):
+        return a.startswith(b) or b.startswith(a)
+
+    n = int(input())
+    known = []
+    base = 0
+    freqs = []
+    # прочитай буквы
+  examples:
+  - &id017 {input: '4
+
+      A 0 10
+
+      B 10 5
+
+      C ? 3
+
+      D ? 2', output: '35'}
+  - &id018 {input: '4
+
+      A 00 4
+
+      B 01 3
+
+      C ? 5
+
+      D ? 1', output: '26'}
+  tests:
+  - *id017
+  - *id018
+  - {input: '3
+
+      A 1 6
+
+      B ? 2
+
+      C ? 2', output: '14', hidden: true}
+  - {input: '5
+
+      A 0 1
+
+      B 10 1
+
+      C ? 9
+
+      D ? 8
+
+      E 1100 1', output: '66', hidden: true}
+  - {input: '4
+
+      A 00 1
+
+      B 010 1
+
+      C ? 7
+
+      D ? 7', output: '33', hidden: true}
+  - {input: '4
+
+      A 11 5
+
+      B ? 4
+
+      C ? 3
+
+      D 01 2', output: '28', hidden: true}
+  checker: exact
+  hints:
+  - 'Известные и неизвестные хранишь отдельно. Для неизвестных запомни два числа: f1 и f2.'
+  - 'Два вложенных цикла по кандидатам из all_codes(5): c1 для первой буквы и c2 для второй.'
+  - Годится пара, если c1 и c2 не конфликтуют друг с другом и ни с одним известным. Минимизируй base + len(c1) * f1 + len(c2) * f2.
+  solution: |
+    def all_codes(n):
+        result = []
+        for length in range(1, n + 1):
+            for number in range(2 ** length):
+                code = bin(number)[2:]
+                while len(code) < length:
+                    code = "0" + code
+                result.append(code)
+        return result
+    def conflicts(a, b):
+        return a.startswith(b) or b.startswith(a)
+
+    n = int(input())
+    known = []
+    base = 0
+    freqs = []
+    for k in range(n):
+        parts = input().split()
+        count = int(parts[2])
+        if parts[1] == "?":
+            freqs.append(count)
+        else:
+            known.append(parts[1])
+            base += len(parts[1]) * count
+    free = []
+    for candidate in all_codes(5):
+        ok = True
+        for c in known:
+            if conflicts(candidate, c):
+                ok = False
+        if ok:
+            free.append(candidate)
+    best = 10 ** 9
+    for c1 in free:
+        for c2 in free:
+            if not conflicts(c1, c2):
+                total = base + len(c1) * freqs[0] + len(c2) * freqs[1]
+                if total < best:
+                    best = total
+    print(best)
+  explanation: |
+    Звёздочка: сначала отбираем свободные коды, затем перебираем пары. Для условия «не конфликтуют» совпадающие коды тоже конфликтуют (одинаковые строки: startswith истинно).

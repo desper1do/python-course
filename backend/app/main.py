@@ -38,13 +38,16 @@ def lesson_status(l, st, manual):
     req = [t for t in ts if t.get("required", True)]
     solved = [t for t in req if st.get(t["id"], {}).get("status") == "solved"]
     started = any(t["id"] in st for t in ts)
-    if manual.get(l["id"]) or (req and len(solved) == len(req)):
+    auto = bool(req) and len(solved) == len(req)
+    is_manual = bool(manual.get(l["id"]))
+    # «Пройден» — только если решены все required-задачи или стоит ручная отметка
+    if auto or is_manual:
         s = "done"
     elif started:
         s = "progress"
     else:
         s = "new"
-    return {"status": s, "solved": len(solved), "total": len(req)}
+    return {"status": s, "solved": len(solved), "total": len(req), "manual": is_manual, "auto_done": auto}
 
 
 @app.get("/api/curriculum")
@@ -66,6 +69,7 @@ def get_lesson(lid: str):
     data["tasks"] = [{**content.public_task(t), "status": st.get(t["id"], {}).get("status", "new"),
                       "attempts": st.get(t["id"], {}).get("attempts", 0),
                       "last_result": st.get(t["id"], {}).get("last_result")} for t in data["tasks"]]
+    data["manual"] = bool(db.lesson_manual().get(lid))
     return data
 
 
@@ -106,7 +110,7 @@ async def check(body: dict):
     results = await checker.run_tests(runner, body.get("code", ""), task, content.task_files(lid, task))
     solved = bool(results) and all(r["status"] == "ok" for r in results)
     db.record_check(task["id"], solved, results)
-    return {"solved": solved, "results": results}
+    return {"solved": solved, "checker": task.get("checker", "exact"), "results": results}
 
 
 @app.websocket("/ws/run")
