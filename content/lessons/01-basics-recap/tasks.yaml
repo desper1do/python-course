@@ -1,0 +1,328 @@
+- id: l01-t1
+  type: code
+  title: Приветствие
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Программа получает имя. Выведите приветствие: слово «Привет,» и имя.
+  input_format: Одна строка — имя.
+  output_format: Одна строка вида «Привет, <имя>».
+  starter: |
+    name = input()
+    # выведи приветствие
+  examples:
+    - {input: "Аня", output: "Привет, Аня"}
+    - {input: "Максим", output: "Привет, Максим"}
+  tests:
+    - {input: "Аня", output: "Привет, Аня"}
+    - {input: "Максим", output: "Привет, Максим"}
+    - {input: "Ян", output: "Привет, Ян", hidden: true}
+    - {input: "Анна-Мария", output: "Привет, Анна-Мария", hidden: true}
+    - {input: "Zoe", output: "Привет, Zoe", hidden: true}
+  checker: exact
+  hints:
+    - "Имя уже лежит в переменной name. Выведи её через print."
+    - "Через запятую print ставит пробел сам: print(\"Привет,\", name)."
+  solution: |
+    name = input()
+    print("Привет,", name)
+  explanation: |
+    Почти копия примера из теории. Цель — привыкнуть, что input() кладёт строку в переменную, а print выводит несколько значений через пробел.
+
+- id: l01-t2
+  type: code
+  title: Эхо
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Программа получает строку. Выведите эту строку два раза, каждый раз с новой строки.
+  input_format: Одна строка.
+  output_format: Две одинаковые строки.
+  starter: |
+    text = input()
+    # выведи text два раза
+  examples:
+    - {input: "дом", output: "дом\nдом"}
+    - {input: "Python", output: "Python\nPython"}
+  tests:
+    - {input: "дом", output: "дом\nдом"}
+    - {input: "Python", output: "Python\nPython"}
+    - {input: "я учусь", output: "я учусь\nя учусь", hidden: true}
+    - {input: "2024", output: "2024\n2024", hidden: true}
+    - {input: "a b c", output: "a b c\na b c", hidden: true}
+  checker: exact
+  hints:
+    - "Один print выводит одну строку. Нужно два print."
+    - "Значение переменной можно выводить сколько угодно раз."
+  solution: |
+    text = input()
+    print(text)
+    print(text)
+  explanation: |
+    Показывает, что переменная хранит значение и его можно использовать повторно. Даже если ввели цифры, это строка, и выводится она как есть.
+
+- id: l01-t3
+  type: code
+  title: Сумма двух чисел
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Программа получает два целых числа, каждое на своей строке. Выведите их сумму.
+  input_format: Две строки, в каждой целое число.
+  output_format: Одно число — сумма.
+  starter: |
+    a = int(input())
+    b = int(input())
+    # выведи сумму
+  examples:
+    - {input: "2\n3", output: "5"}
+    - {input: "10\n-4", output: "6"}
+  tests:
+    - {input: "2\n3", output: "5"}
+    - {input: "10\n-4", output: "6"}
+    - {input: "0\n0", output: "0", hidden: true}
+    - {input: "-5\n-7", output: "-12", hidden: true}
+    - {input: "1000000\n999999", output: "1999999", hidden: true}
+  checker: exact
+  hints:
+    - "Числа уже в переменных a и b. Их сумма: a + b."
+    - "Выведи результат: print(a + b)."
+  solution: |
+    a = int(input())
+    b = int(input())
+    print(a + b)
+  explanation: |
+    Второй пример из теории с готовым int(input()). Если ученица убрала int, получится склейка строк — повод вспомнить пример 53.
+
+- id: l01-t4
+  type: code
+  title: Прямоугольник
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны длины сторон прямоугольника a и b. Выведите его площадь, а на следующей строке периметр.
+  input_format: Две строки — целые числа a и b.
+  output_format: Две строки — площадь и периметр.
+  starter: |
+    a = int(input())
+    b = int(input())
+    # выведи площадь и периметр
+  examples:
+    - {input: "3\n5", output: "15\n16"}
+    - {input: "10\n10", output: "100\n40"}
+  tests:
+    - {input: "3\n5", output: "15\n16"}
+    - {input: "10\n10", output: "100\n40"}
+    - {input: "1\n1", output: "1\n4", hidden: true}
+    - {input: "7\n2", output: "14\n18", hidden: true}
+    - {input: "100\n250", output: "25000\n700", hidden: true}
+  checker: exact
+  hints:
+    - "Площадь — a * b. Умножение в Python — знак *."
+    - "Периметр — сумма всех сторон: 2 * (a + b)."
+    - "Нужно два print: сначала площадь, потом периметр."
+  solution: |
+    a = int(input())
+    b = int(input())
+    print(a * b)
+    print(2 * (a + b))
+  explanation: |
+    Две формулы подряд. Типичная ошибка — забыть скобки в 2 * (a + b).
+
+- id: l01-t5
+  type: code
+  title: Сдача в магазине
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Тетрадь стоит price рублей. Вы купили count тетрадей и заплатили paid рублей. Сколько рублей сдачи вам дадут?
+  input_format: Три строки — целые числа price, count, paid.
+  output_format: Одно число — сдача.
+  starter: |
+    price = int(input())
+    count = int(input())
+    paid = int(input())
+    # выведи сдачу
+  examples:
+    - {input: "45\n3\n200", output: "65"}
+    - {input: "120\n2\n250", output: "10"}
+  tests:
+    - {input: "45\n3\n200", output: "65"}
+    - {input: "120\n2\n250", output: "10"}
+    - {input: "50\n4\n200", output: "0", hidden: true}
+    - {input: "15\n1\n20", output: "5", hidden: true}
+    - {input: "80\n5\n1000", output: "600", hidden: true}
+    - {input: "30\n10\n500", output: "200", hidden: true}
+  checker: exact
+  hints:
+    - "Сначала найди, сколько стоит вся покупка: price * count."
+    - "Сдача — это paid минус стоимость покупки."
+    - "Можно сохранить стоимость в переменную: total = price * count."
+  solution: |
+    price = int(input())
+    count = int(input())
+    paid = int(input())
+    total = price * count
+    print(paid - total)
+  explanation: |
+    Две операции, удобно ввести промежуточную переменную total. Если ученица делает всё в одной строке — тоже верно.
+
+- id: l01-t6
+  type: code
+  title: Соседние числа
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Дано целое число. Выведите следующее за ним число и предыдущее. Слова выводите так, как показано в примере.
+  input_format: Одна строка — целое число n.
+  output_format: Две строки по образцу.
+  starter: |
+    n = int(input())
+    # выведи следующее и предыдущее число
+  examples:
+    - {input: "5", output: "Следующее число: 6\nПредыдущее число: 4"}
+    - {input: "100", output: "Следующее число: 101\nПредыдущее число: 99"}
+  tests:
+    - {input: "5", output: "Следующее число: 6\nПредыдущее число: 4"}
+    - {input: "100", output: "Следующее число: 101\nПредыдущее число: 99"}
+    - {input: "0", output: "Следующее число: 1\nПредыдущее число: -1", hidden: true}
+    - {input: "-1", output: "Следующее число: 0\nПредыдущее число: -2", hidden: true}
+    - {input: "-10", output: "Следующее число: -9\nПредыдущее число: -11", hidden: true}
+    - {input: "999", output: "Следующее число: 1000\nПредыдущее число: 998", hidden: true}
+  checker: exact
+  hints:
+    - "Следующее число — это n + 1, предыдущее — n - 1."
+    - "Текст и число выводятся через запятую: print(\"Следующее число:\", n + 1)."
+  solution: |
+    n = int(input())
+    print("Следующее число:", n + 1)
+    print("Предыдущее число:", n - 1)
+  explanation: |
+    Смешиваем текст и вычисление в одном print. Через запятую можно ставить и текст, и выражение.
+
+- id: l01-t7
+  type: code
+  title: Средняя оценка
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    За первую и вторую четверть у вас оценки a и b. Выведите их среднее арифметическое.
+  input_format: Две строки — целые числа a и b.
+  output_format: Одно число.
+  starter: |
+    a = int(input())
+    b = int(input())
+    # выведи среднее
+  examples:
+    - {input: "5\n4", output: "4.5"}
+    - {input: "3\n3", output: "3.0"}
+  tests:
+    - {input: "5\n4", output: "4.5"}
+    - {input: "3\n3", output: "3.0"}
+    - {input: "5\n2", output: "3.5", hidden: true}
+    - {input: "0\n0", output: "0.0", hidden: true}
+    - {input: "1\n0", output: "0.5", hidden: true}
+    - {input: "5\n5", output: "5.0", hidden: true}
+  checker: float
+  hints:
+    - "Среднее арифметическое двух чисел — их сумма, делённая на 2."
+    - "Не забудь скобки: (a + b) / 2. Без них сначала поделится только b."
+  solution: |
+    a = int(input())
+    b = int(input())
+    print((a + b) / 2)
+  explanation: |
+    Обычное деление `/` всегда даёт дробное число (float), поэтому 3.0. Главная ошибка — a + b / 2 без скобок.
+
+- id: l01-t8
+  type: code
+  title: Обмен значений
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    В переменной a хранится первое число, в b — второе. Поменяйте значения переменных местами, чтобы в a оказалось второе число, а в b первое. Затем выведите их (строки с выводом уже есть в заготовке).
+  input_format: Две строки — целые числа.
+  output_format: Две строки вида «a = ...» и «b = ...».
+  starter: |
+    a = int(input())
+    b = int(input())
+    # поменяй значения a и b местами
+    # (понадобится ещё одна переменная)
+    print("a =", a)
+    print("b =", b)
+  examples:
+    - {input: "3\n7", output: "a = 7\nb = 3"}
+    - {input: "10\n20", output: "a = 20\nb = 10"}
+  tests:
+    - {input: "3\n7", output: "a = 7\nb = 3"}
+    - {input: "10\n20", output: "a = 20\nb = 10"}
+    - {input: "5\n5", output: "a = 5\nb = 5", hidden: true}
+    - {input: "-1\n1", output: "a = 1\nb = -1", hidden: true}
+    - {input: "0\n9", output: "a = 9\nb = 0", hidden: true}
+  checker: exact
+  hints:
+    - "Если написать a = b, старое значение a потеряется. Сначала сохрани его в третью переменную."
+    - "Порядок: temp = a, потом a = b, потом b = temp."
+  solution: |
+    a = int(input())
+    b = int(input())
+    temp = a
+    a = b
+    b = temp
+    print("a =", a)
+    print("b =", b)
+  explanation: |
+    Классическая задача на понимание, что = кладёт значение, а не «равно». Нарисуйте две коробки с числами и третью пустую.
+
+- id: l01-t9
+  type: code
+  title: Цена со скидкой
+  level: 4
+  required: false
+  homework: true
+  mcko: []
+  statement: |
+    Куртка стоит price рублей, на неё действует скидка percent процентов. Выведите цену со скидкой.
+  input_format: Две строки — целые числа price и percent.
+  output_format: Одно число — цена после скидки.
+  starter: |
+    price = int(input())
+    percent = int(input())
+    # выведи цену со скидкой
+  examples:
+    - {input: "1000\n10", output: "900.0"}
+    - {input: "250\n20", output: "200.0"}
+  tests:
+    - {input: "1000\n10", output: "900.0"}
+    - {input: "250\n20", output: "200.0"}
+    - {input: "99\n0", output: "99.0", hidden: true}
+    - {input: "500\n50", output: "250.0", hidden: true}
+    - {input: "80\n15", output: "68.0", hidden: true}
+    - {input: "1200\n25", output: "900.0", hidden: true}
+  checker: float
+  hints:
+    - "Сначала найди размер скидки в рублях: price * percent / 100."
+    - "Цена со скидкой — это price минус размер скидки."
+  solution: |
+    price = int(input())
+    percent = int(input())
+    discount = price * percent / 100
+    print(price - discount)
+  explanation: |
+    Звёздочка: два шага и дробное число. Допустимо и price * (100 - percent) / 100.

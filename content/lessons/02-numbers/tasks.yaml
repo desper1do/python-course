@@ -1,0 +1,327 @@
+- id: l02-t1
+  type: code
+  title: Целая часть и остаток
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны два целых числа: делимое a и делитель b (b больше 0). Выведите целую часть от деления a на b, а на следующей строке остаток.
+  input_format: Две строки — целые числа a и b.
+  output_format: Две строки — целая часть и остаток.
+  starter: |
+    a = int(input())
+    b = int(input())
+    # выведи целую часть и остаток
+  examples:
+    - {input: "17\n5", output: "3\n2"}
+    - {input: "20\n4", output: "5\n0"}
+  tests:
+    - {input: "17\n5", output: "3\n2"}
+    - {input: "20\n4", output: "5\n0"}
+    - {input: "3\n10", output: "0\n3", hidden: true}
+    - {input: "0\n7", output: "0\n0", hidden: true}
+    - {input: "100\n7", output: "14\n2", hidden: true}
+    - {input: "1000000\n999", output: "1001\n1", hidden: true}
+  checker: exact
+  hints:
+    - "Целая часть — это a // b."
+    - "Остаток — это a % b. Нужны два print."
+  solution: |
+    a = int(input())
+    b = int(input())
+    print(a // b)
+    print(a % b)
+  explanation: |
+    Прямое применение операций из таблицы. Если ученица путает, вернитесь к яблокам и коробкам.
+
+- id: l02-t2
+  type: code
+  title: Квадрат и куб
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Дано целое число n. Выведите его квадрат, а на следующей строке куб.
+  input_format: Одна строка — целое число n.
+  output_format: Две строки — n в квадрате и n в кубе.
+  starter: |
+    n = int(input())
+    # выведи квадрат и куб
+  examples:
+    - {input: "3", output: "9\n27"}
+    - {input: "10", output: "100\n1000"}
+  tests:
+    - {input: "3", output: "9\n27"}
+    - {input: "10", output: "100\n1000"}
+    - {input: "0", output: "0\n0", hidden: true}
+    - {input: "1", output: "1\n1", hidden: true}
+    - {input: "7", output: "49\n343", hidden: true}
+    - {input: "25", output: "625\n15625", hidden: true}
+  checker: exact
+  hints:
+    - "Степень в Python — два знака звёздочки: 3 ** 2."
+    - "Квадрат — n ** 2, куб — n ** 3."
+  solution: |
+    n = int(input())
+    print(n ** 2)
+    print(n ** 3)
+  explanation: |
+    Знакомство с `**`. Типичная ошибка — написать `n ^ 2` (это другая операция).
+
+- id: l02-t3
+  type: code
+  title: Последняя цифра
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Дано целое неотрицательное число. Выведите его последнюю цифру.
+  input_format: Одна строка — целое число n.
+  output_format: Одна цифра.
+  starter: |
+    n = int(input())
+    # выведи последнюю цифру
+  examples:
+    - {input: "482", output: "2"}
+    - {input: "9", output: "9"}
+  tests:
+    - {input: "482", output: "2"}
+    - {input: "9", output: "9"}
+    - {input: "10", output: "0", hidden: true}
+    - {input: "0", output: "0", hidden: true}
+    - {input: "123456", output: "6", hidden: true}
+    - {input: "99999", output: "9", hidden: true}
+  checker: exact
+  hints:
+    - "Последняя цифра — это остаток от деления на 10."
+    - "print(n % 10)"
+  solution: |
+    n = int(input())
+    print(n % 10)
+  explanation: |
+    Одна строка, но главная идея всего урока: n % 10 — последняя цифра.
+
+- id: l02-t4
+  type: code
+  title: Часы и минуты
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Фильм длится m минут. Выведите длительность в виде «<часы> ч <минуты> мин».
+  input_format: Одна строка — целое число m.
+  output_format: Одна строка вида «2 ч 10 мин».
+  starter: |
+    m = int(input())
+    # выведи часы и минуты
+  examples:
+    - {input: "130", output: "2 ч 10 мин"}
+    - {input: "45", output: "0 ч 45 мин"}
+  tests:
+    - {input: "130", output: "2 ч 10 мин"}
+    - {input: "45", output: "0 ч 45 мин"}
+    - {input: "60", output: "1 ч 0 мин", hidden: true}
+    - {input: "1440", output: "24 ч 0 мин", hidden: true}
+    - {input: "719", output: "11 ч 59 мин", hidden: true}
+    - {input: "1000", output: "16 ч 40 мин", hidden: true}
+  checker: exact
+  hints:
+    - "Часы — это целая часть от деления на 60."
+    - "Минуты — остаток от деления на 60."
+    - "print(m // 60, \"ч\", m % 60, \"мин\")"
+  solution: |
+    m = int(input())
+    print(m // 60, "ч", m % 60, "мин")
+  explanation: |
+    Почти копия примера из теории, но с готовой формой вывода. Часы — //, минуты — %.
+
+- id: l02-t5
+  type: code
+  title: Сумма цифр двузначного числа
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Дано двузначное число. Выведите сумму его цифр.
+  input_format: Одна строка — двузначное число.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    # выведи сумму цифр
+  examples:
+    - {input: "47", output: "11"}
+    - {input: "10", output: "1"}
+  tests:
+    - {input: "47", output: "11"}
+    - {input: "10", output: "1"}
+    - {input: "99", output: "18", hidden: true}
+    - {input: "20", output: "2", hidden: true}
+    - {input: "55", output: "10", hidden: true}
+    - {input: "38", output: "11", hidden: true}
+  checker: exact
+  hints:
+    - "Последняя цифра — n % 10."
+    - "Первая цифра двузначного числа — n // 10."
+    - "Сложи две цифры: n // 10 + n % 10."
+  solution: |
+    n = int(input())
+    print(n // 10 + n % 10)
+  explanation: |
+    Две цифры двумя операциями. Порядок действий: // и % выполнятся раньше сложения, скобки не нужны.
+
+- id: l02-t6
+  type: code
+  title: Который будет час
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Сейчас на часах h часов (от 0 до 23). Сколько часов будет через k часов? Ответ — число от 0 до 23.
+  input_format: Две строки — целые числа h и k.
+  output_format: Одно число.
+  starter: |
+    h = int(input())
+    k = int(input())
+    # выведи, сколько часов будет через k часов
+  examples:
+    - {input: "20\n7", output: "3"}
+    - {input: "10\n5", output: "15"}
+  tests:
+    - {input: "20\n7", output: "3"}
+    - {input: "10\n5", output: "15"}
+    - {input: "0\n0", output: "0", hidden: true}
+    - {input: "23\n1", output: "0", hidden: true}
+    - {input: "12\n48", output: "12", hidden: true}
+    - {input: "5\n100", output: "9", hidden: true}
+    - {input: "23\n23", output: "22", hidden: true}
+  checker: exact
+  hints:
+    - "Сначала сложи: h + k. Это число может получиться больше 23."
+    - "Сутки — круг из 24 часов. Остаток от деления на 24 вернёт нас на круг."
+    - "print((h + k) % 24)"
+  solution: |
+    h = int(input())
+    k = int(input())
+    print((h + k) % 24)
+  explanation: |
+    Первый пример «по кругу»: остаток как циклическая арифметика. То же будет в модульной арифметике (МЦКО 8).
+
+- id: l02-t7
+  type: code
+  title: Число наоборот
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Дано трёхзначное число. Выведите число, записанное теми же цифрами в обратном порядке. Если в начале получаются нули, их выводить не нужно (например, из 450 получится 54).
+  input_format: Одна строка — трёхзначное число.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    # выведи число наоборот
+  examples:
+    - {input: "123", output: "321"}
+    - {input: "450", output: "54"}
+  tests:
+    - {input: "123", output: "321"}
+    - {input: "450", output: "54"}
+    - {input: "405", output: "504", hidden: true}
+    - {input: "100", output: "1", hidden: true}
+    - {input: "999", output: "999", hidden: true}
+    - {input: "280", output: "82", hidden: true}
+  checker: exact
+  hints:
+    - "Достань три цифры отдельно: сотни n // 100, десятки n // 10 % 10, единицы n % 10."
+    - "Собери число обратно: бывшие единицы теперь сотни. Умножь цифры на 100, 10 и 1."
+    - "print(c * 100 + b * 10 + a), где a, b, c — цифры."
+  solution: |
+    n = int(input())
+    a = n // 100
+    b = n // 10 % 10
+    c = n % 10
+    print(c * 100 + b * 10 + a)
+  explanation: |
+    Разобрать цифры, собрать обратно. Нули в начале пропадают сами, потому что это число, а не строка.
+
+- id: l02-t8
+  type: code
+  title: Автобусы
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    В экскурсию едут n человек. В одном автобусе k мест. Сколько автобусов нужно заказать, чтобы поехали все?
+  input_format: Две строки — целые числа n и k.
+  output_format: Одно число.
+  starter: |
+    n = int(input())
+    k = int(input())
+    # выведи число автобусов
+  examples:
+    - {input: "100\n30", output: "4"}
+    - {input: "60\n30", output: "2"}
+  tests:
+    - {input: "100\n30", output: "4"}
+    - {input: "60\n30", output: "2"}
+    - {input: "1\n30", output: "1", hidden: true}
+    - {input: "0\n30", output: "0", hidden: true}
+    - {input: "31\n30", output: "2", hidden: true}
+    - {input: "7\n7", output: "1", hidden: true}
+    - {input: "1000\n33", output: "31", hidden: true}
+  checker: exact
+  hints:
+    - "n // k даёт только полные автобусы. Те, кто не поместился, остаются."
+    - "Если остаток n % k больше нуля, нужен ещё один автобус."
+    - "Хитрый способ без условий: (n + k - 1) // k."
+  solution: |
+    n = int(input())
+    k = int(input())
+    print((n + k - 1) // k)
+  explanation: |
+    Округление вверх через целочисленное деление. Объясните на примере 31 человек и 30 мест: 31 + 29 = 60, 60 // 30 = 2. Это пригодится в уроке 6 вместо math.ceil.
+
+- id: l02-t9
+  type: code
+  title: Счастливый билет, часть 1
+  level: 4
+  required: false
+  homework: true
+  mcko: []
+  statement: |
+    Номер билета — шестизначное число. Выведите сумму первых трёх цифр, а на следующей строке сумму последних трёх.
+  input_format: Одна строка — шестизначное число.
+  output_format: Две строки — две суммы.
+  starter: |
+    n = int(input())
+    # выведи две суммы
+  examples:
+    - {input: "123456", output: "6\n15"}
+    - {input: "100001", output: "1\n1"}
+  tests:
+    - {input: "123456", output: "6\n15"}
+    - {input: "100001", output: "1\n1"}
+    - {input: "999999", output: "27\n27", hidden: true}
+    - {input: "345012", output: "12\n3", hidden: true}
+    - {input: "500009", output: "5\n9", hidden: true}
+    - {input: "210120", output: "3\n3", hidden: true}
+  checker: exact
+  hints:
+    - "Разрежь число на две половины: n // 1000 и n % 1000."
+    - "Теперь в каждой половине трёхзначное число. Сумму цифр ты уже умеешь искать."
+    - "Для половины x: x // 100 + x // 10 % 10 + x % 10."
+  solution: |
+    n = int(input())
+    left = n // 1000
+    right = n % 1000
+    print(left // 100 + left // 10 % 10 + left % 10)
+    print(right // 100 + right // 10 % 10 + right % 10)
+  explanation: |
+    Звёздочка: две подзадачи. Разрезать число // и %, потом посчитать сумму цифр. В уроке 7 то же будет в цикле.

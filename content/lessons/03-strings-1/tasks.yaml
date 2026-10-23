@@ -1,0 +1,323 @@
+- id: l03-t1
+  type: code
+  title: Имя и фамилия
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Программа получает имя и фамилию, каждое на своей строке. Выведите их в одной строке через пробел, используя склейку через `+`.
+  input_format: Две строки — имя и фамилия.
+  output_format: Одна строка «имя фамилия».
+  starter: |
+    first = input()
+    last = input()
+    # склей через + и выведи
+  examples:
+    - {input: "Аня\nИванова", output: "Аня Иванова"}
+    - {input: "Максим\nПетров", output: "Максим Петров"}
+  tests:
+    - {input: "Аня\nИванова", output: "Аня Иванова"}
+    - {input: "Максим\nПетров", output: "Максим Петров"}
+    - {input: "Ян\nЛи", output: "Ян Ли", hidden: true}
+    - {input: "Анна-Мария\nСидорова", output: "Анна-Мария Сидорова", hidden: true}
+    - {input: "Zoe\nBrown", output: "Zoe Brown", hidden: true}
+  checker: exact
+  hints:
+    - "Пробел между словами — это тоже строка: \" \"."
+    - "print(first + \" \" + last)"
+  solution: |
+    first = input()
+    last = input()
+    print(first + " " + last)
+  explanation: |
+    Склейка через `+`. Важно, что пробел приходится ставить самой (в отличие от запятой в print).
+
+- id: l03-t2
+  type: code
+  title: Линия
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Дано целое число n. Выведите линию из n знаков «=».
+  input_format: Одна строка — целое число n (от 1 до 100).
+  output_format: Одна строка из n знаков «=».
+  starter: |
+    n = int(input())
+    # выведи линию
+  examples:
+    - {input: "5", output: "====="}
+    - {input: "10", output: "=========="}
+  tests:
+    - {input: "5", output: "====="}
+    - {input: "10", output: "=========="}
+    - {input: "1", output: "=", hidden: true}
+    - {input: "3", output: "===", hidden: true}
+    - {input: "20", output: "====================", hidden: true}
+    - {input: "30", output: "==============================", hidden: true}
+  checker: exact
+  hints:
+    - "Строку можно умножить на число: \"-\" * 3 даёт \"---\"."
+    - "print(\"=\" * n)"
+  solution: |
+    n = int(input())
+    print("=" * n)
+  explanation: |
+    Умножение строки на число. Важно, что n должно быть int, иначе TypeError.
+
+- id: l03-t3
+  type: code
+  title: Длина строки
+  level: 1
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Программа получает строку. Выведите, сколько в ней символов (пробелы тоже считаются).
+  input_format: Одна строка.
+  output_format: Одно число.
+  starter: |
+    text = input()
+    # выведи длину
+  examples:
+    - {input: "Привет", output: "6"}
+    - {input: "hello world", output: "11"}
+  tests:
+    - {input: "Привет", output: "6"}
+    - {input: "hello world", output: "11"}
+    - {input: "a", output: "1", hidden: true}
+    - {input: "Я учусь в 10 классе", output: "19", hidden: true}
+    - {input: "Python3", output: "7", hidden: true}
+    - {input: "12345", output: "5", hidden: true}
+  checker: exact
+  hints:
+    - "Для длины строки есть функция len."
+    - "print(len(text))"
+  solution: |
+    text = input()
+    print(len(text))
+  explanation: |
+    Прямое применение len. Заметьте, что цифры на вводе остаются строкой, поэтому len("12345") = 5.
+
+- id: l03-t4
+  type: code
+  title: Визитка
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Программа получает имя и возраст. Выведите строку по образцу: «Меня зовут Аня, мне 15 лет.» Используйте f-строку.
+  input_format: Две строки — имя и возраст (целое число).
+  output_format: Одна строка по образцу.
+  starter: |
+    name = input()
+    age = int(input())
+    # выведи визитку через f-строку
+  examples:
+    - {input: "Аня\n15", output: "Меня зовут Аня, мне 15 лет."}
+    - {input: "Максим\n16", output: "Меня зовут Максим, мне 16 лет."}
+  tests:
+    - {input: "Аня\n15", output: "Меня зовут Аня, мне 15 лет."}
+    - {input: "Максим\n16", output: "Меня зовут Максим, мне 16 лет."}
+    - {input: "Ян\n9", output: "Меня зовут Ян, мне 9 лет.", hidden: true}
+    - {input: "Анна-Мария\n100", output: "Меня зовут Анна-Мария, мне 100 лет.", hidden: true}
+    - {input: "Zoe\n0", output: "Меня зовут Zoe, мне 0 лет.", hidden: true}
+  checker: exact
+  hints:
+    - "Перед кавычкой нужна буква f: f\"...\"."
+    - "Переменные пиши в фигурных скобках: {name} и {age}."
+    - "print(f\"Меня зовут {name}, мне {age} лет.\")"
+  solution: |
+    name = input()
+    age = int(input())
+    print(f"Меня зовут {name}, мне {age} лет.")
+  explanation: |
+    Первое самостоятельное применение f-строки по образцу из теории. Следите за запятой и точкой в выводе.
+
+- id: l03-t5
+  type: code
+  title: Произведение в f-строке
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны два целых числа a и b. Выведите их произведение в виде «3 * 5 = 15». Выражение считайте прямо внутри f-строки.
+  input_format: Две строки — целые числа a и b.
+  output_format: Одна строка вида «a * b = результат».
+  starter: |
+    a = int(input())
+    b = int(input())
+    # выведи по образцу
+  examples:
+    - {input: "3\n5", output: "3 * 5 = 15"}
+    - {input: "12\n12", output: "12 * 12 = 144"}
+  tests:
+    - {input: "3\n5", output: "3 * 5 = 15"}
+    - {input: "12\n12", output: "12 * 12 = 144"}
+    - {input: "0\n7", output: "0 * 7 = 0", hidden: true}
+    - {input: "1\n1", output: "1 * 1 = 1", hidden: true}
+    - {input: "100\n50", output: "100 * 50 = 5000", hidden: true}
+    - {input: "9\n8", output: "9 * 8 = 72", hidden: true}
+  checker: exact
+  hints:
+    - "Внутри {} можно писать вычисление: {a * b}."
+    - "print(f\"{a} * {b} = {a * b}\")"
+  solution: |
+    a = int(input())
+    b = int(input())
+    print(f"{a} * {b} = {a * b}")
+  explanation: |
+    Показываем, что в фигурных скобках бывает не только имя переменной, но и выражение. Знак * вне скобок — просто символ в тексте.
+
+- id: l03-t6
+  type: code
+  title: Большая строка пять раз
+  level: 2
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны две строки. Выберите ту, что стоит позже по алфавиту, и выведите её пять раз подряд без пробелов.
+  input_format: Две строки (из строчных букв).
+  output_format: Одна строка.
+  starter: |
+    a = input()
+    b = input()
+    # выведи большую строку пять раз
+  examples:
+    - {input: "арбуз\nбанан", output: "бананбананбананбананбанан"}
+    - {input: "кот\nкит", output: "коткоткоткоткот"}
+  tests:
+    - {input: "арбуз\nбанан", output: "бананбананбананбананбанан"}
+    - {input: "кот\nкит", output: "коткоткоткоткот"}
+    - {input: "a\nb", output: "bbbbb", hidden: true}
+    - {input: "abc\nabd", output: "abdabdabdabdabd", hidden: true}
+    - {input: "яблоко\nяблоко", output: "яблокояблокояблокояблокояблоко", hidden: true}
+    - {input: "да\nдом", output: "домдомдомдомдом", hidden: true}
+  checker: exact
+  hints:
+    - "Большую из двух строк выбирает функция max(a, b)."
+    - "Пять раз — это умножение на 5."
+    - "print(max(a, b) * 5)"
+  solution: |
+    a = input()
+    b = input()
+    print(max(a, b) * 5)
+  explanation: |
+    Это формулировка из школьного Яндекс.Учебника. Здесь впервые max для строк. Если строки равны, всё равно выводится она же.
+
+- id: l03-t7
+  type: code
+  title: Рамка вокруг слова
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Дана строка. Выведите её в рамке из звёздочек: сверху и снизу линия из «*», слева и справа от текста по звёздочке и пробелу. Длина линии на 4 больше длины текста.
+  input_format: Одна строка.
+  output_format: Три строки.
+  starter: |
+    text = input()
+    # выведи рамку из трёх строк
+  examples:
+    - {input: "Hi", output: "******\n* Hi *\n******"}
+    - {input: "Привет", output: "**********\n* Привет *\n**********"}
+  tests:
+    - {input: "Hi", output: "******\n* Hi *\n******"}
+    - {input: "Привет", output: "**********\n* Привет *\n**********"}
+    - {input: "Аня", output: "*******\n* Аня *\n*******", hidden: true}
+    - {input: "Я учусь", output: "***********\n* Я учусь *\n***********", hidden: true}
+    - {input: "x", output: "*****\n* x *\n*****", hidden: true}
+    - {input: "Python 3.12", output: "***************\n* Python 3.12 *\n***************", hidden: true}
+  checker: exact
+  hints:
+    - "Линия — это \"*\" * (len(text) + 4)."
+    - "Хорошо бы сохранить линию в переменную: line = ..."
+    - "Средняя строка: \"* \" + text + \" *\"."
+  solution: |
+    text = input()
+    line = "*" * (len(text) + 4)
+    print(line)
+    print("* " + text + " *")
+    print(line)
+  explanation: |
+    Собирает len, умножение и склейку. Хорошая задача, чтобы нарисовать на бумаге: сколько символов в средней строке (текст + 4).
+
+- id: l03-t8
+  type: code
+  title: Склей и удвой
+  level: 3
+  required: true
+  homework: false
+  mcko: []
+  statement: |
+    Даны два целых неотрицательных числа a и b. Запишите их одно за другим (получится новое число) и выведите это число, умноженное на 2. Например, из 12 и 34 получится 1234, а ответ 2468.
+  input_format: Две строки — целые числа a и b.
+  output_format: Одно число.
+  starter: |
+    a = int(input())
+    b = int(input())
+    # склей числа и умножь на 2
+  examples:
+    - {input: "12\n34", output: "2468"}
+    - {input: "1\n2", output: "24"}
+  tests:
+    - {input: "12\n34", output: "2468"}
+    - {input: "1\n2", output: "24"}
+    - {input: "10\n5", output: "210", hidden: true}
+    - {input: "0\n7", output: "14", hidden: true}
+    - {input: "100\n200", output: "200400", hidden: true}
+    - {input: "9\n99", output: "1998", hidden: true}
+  checker: exact
+  hints:
+    - "Сложение a + b тут не подойдёт: нужно записать числа рядом. Для этого превратим их в строки."
+    - "str(a) + str(b) даёт склейку, но это строка. Её надо снова сделать числом."
+    - "print(int(str(a) + str(b)) * 2)"
+  solution: |
+    a = int(input())
+    b = int(input())
+    print(int(str(a) + str(b)) * 2)
+  explanation: |
+    Пример из теории с другими числами. Цепочка int → str → склейка → int. Если ученица забыла внешний int, получится повтор строки («12»+«34» умножится на 2 как строка и даст 12341234) — хороший повод показать разницу.
+
+- id: l03-t9
+  type: code
+  title: Сколько цифр в произведении
+  level: 4
+  required: false
+  homework: true
+  mcko: []
+  statement: |
+    Даны два целых неотрицательных числа a и b. Выведите, сколько цифр в записи их произведения.
+  input_format: Две строки — целые числа a и b.
+  output_format: Одно число.
+  starter: |
+    a = int(input())
+    b = int(input())
+    # выведи число цифр в произведении
+  examples:
+    - {input: "100\n100", output: "5"}
+    - {input: "9\n9", output: "2"}
+  tests:
+    - {input: "100\n100", output: "5"}
+    - {input: "9\n9", output: "2"}
+    - {input: "1\n1", output: "1", hidden: true}
+    - {input: "0\n5", output: "1", hidden: true}
+    - {input: "999\n999", output: "6", hidden: true}
+    - {input: "12345\n67890", output: "9", hidden: true}
+  checker: exact
+  hints:
+    - "Сначала найди произведение a * b."
+    - "Число цифр — это длина его записи. len умеет считать только строки."
+    - "print(len(str(a * b)))"
+  solution: |
+    a = int(input())
+    b = int(input())
+    print(len(str(a * b)))
+  explanation: |
+    Звёздочка: len(str(число)) — способ узнать количество цифр. Пригодится в уроке 6 (информационный объём).

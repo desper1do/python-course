@@ -1,0 +1,22 @@
+blocks:
+  - id: basics
+    title: Основы Python
+lessons:
+  - id: 01-basics-recap
+    block: basics
+    title: "Повторение: print, переменные, input"
+    minutes: 50
+    mcko: []
+    allowed_imports: []
+  - id: 02-numbers
+    block: basics
+    title: "Числа: деление с остатком и цифры"
+    minutes: 50
+    mcko: []
+    allowed_imports: []
+  - id: 03-strings-1
+    block: basics
+    title: "Строки I: склейка, повтор, длина, f-строки"
+    minutes: 50
+    mcko: []
+    allowed_imports: []
